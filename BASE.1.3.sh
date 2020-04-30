@@ -99,14 +99,14 @@ List of optional argument:
 	-r	number of replicates to be performed (default is 1).
 	-d	allow missing data in the .aln files in respect to the comprensive species tree
 
-Several kind of ananlyeses can be carried out, with the general model specified with the flag -ma and the alternative model specified with the flag -mb. Here are some examples:
+Several kind of ananlyeses can be carried out, with the general model specified with the flag -ma and the alternative model specified with the flag -mb:
 
-	a)	model 0 vs model 1 	---> 	model 0 and model 1 have to be specified in the codeml .ctl files.
-	b)	model 0 vs model 2 	---> 	model 0 and model 2 have to be specified in the codeml .ctl files, along with one file containing the branch labels.
-	c)	model 2 vs model 2 	---> 	model 2 and model 2 have to be specified in the codeml .ctl files, along with two file containing the branch labels.
-	d)	NSsites X vs NSsites Y 	---> 	model 0 and two codeml NSsites models have to be specified in the codeml .ctl files.
+	a)	model 0 vs model 1 ---> model 0 and model 1 have to be specified in the codeml .ctl file.
+	b)	model 0 vs model 2 ---> model 0 and model 2 have to be specified in the codeml .ctl file, along with one file containing the branch labels.
+	c)	model 2 vs model 2 ---> model 2 and model 2 have to be specified in the codeml .ctl file, along with two file containing the branch labels.
+	d)	NSsites X vs NSsites Y ---> model 0 and two codeml NSsites models have to be specified in the codeml .ctl files.
 
-Along these modifications of the .ctl file, all the other parameters of the codeml analyisis can be modified.
+Aside these modifications of the .ctl file, all the other parameters of codeml can be modified.
 "
 
 ################################################################################################################################################################################################################### ANNOTATE HELP
@@ -512,16 +512,16 @@ for W in {1..10}; do
 
         tree_end=$(awk -F ")" '{print $NF}' "RAxML_result."$f"."$lab".tre")
         good_tree_end=";"
-       	echo -e "\n tree end = $tree_end"
-       	echo -e "\n good end = $good_tree_end \n"
+#echo -e "\n tree end = $tree_end"
+#echo -e "\n good end = $good_tree_end \n"
 
         if [[ $tree_end == $good_tree_end ]]; then break; else
 
-        root=$(shuf -n 1 ../sp.lst); if grep $root  $j"missing_otus.lst"; then break; fi
-	echo $root
+        root=$(shuf -n 1 ../sp.lst); if grep $root  $j"missing_otus.lst" &> /dev/null ; then break; fi
+#echo $root
         phyutility -rr -names $root -in r_input.tre -out r_input.tre
 		
-	cat RAxML_result.$f".tre"
+#cat RAxML_result.$f".tre"
 
 	fi;
 
@@ -969,7 +969,7 @@ for q in `seq $((sp_number))`; do echo -e $q "\t" - - - - - "\t" $q >> $i".termi
 
 # echo -e "\n (deep branches) \n" >> $i".deep.branches.tmp"
 
-for m in `seq $((sp_number +2)) $((2*sp_number-2))`;
+for m in `seq $((sp_number +2)) $((2*sp_number-1))`;
 
 do one=$(cat codeml_tre.tmp | sed s"/$m:/\n /" | head -1 | grep -zPo '(\(([^()]++|(?1))*\))' | tail -1 |  tr -d '\000' | grep -o "[0-9]*\:" | sed "s/://g" | sort -n); 
 
