@@ -24,7 +24,7 @@ BASE leverages the following pieces of software:
 
 
 Each software can be either placed in the PATH or installed with conda, with the exception of phyutility, whose java executable should be placed shoud be placed in ```~/bin/```.
-A .yaml is available to configure a conda environiment with all the dependencies required by BASE. The correct installation and versions of the requirements can be checked 
+A [```.json```](https://github.com/for-giobbe/BASE/blob/master/BASE_env.json) is available to configure a conda environiment with all the dependencies required by BASE. The correct installation and versions of the requirements can be checked 
 using the ```--requirements``` option.
 
 You can test the program on a [toy dataset](https://github.com/for-giobbe/BASE/tree/master/example) and follow the relative [tutorial]().
