@@ -99,14 +99,14 @@ List of optional argument:
 	-r	number of replicates to be performed (default is 1).
 	-d	allow missing data in the .aln files in respect to the comprensive species tree
 
-Several kind of ananlyeses can be carried out, with the general model specified with the flag -ma and the alternative model specified with the flag -mb:
+Several kind of ananlyeses can be carried out, with the general model specified with the flag -ma and the alternative model specified with the flag -mb. Here are some examples:
 
-	a)	model 0 vs model 1 ---> model 0 and model 1 have to be specified in the codeml .ctl file.
-	b)	model 0 vs model 2 ---> model 0 and model 2 have to be specified in the codeml .ctl file, along with one file containing the branch labels.
-	c)	model 2 vs model 2 ---> model 2 and model 2 have to be specified in the codeml .ctl file, along with two file containing the branch labels.
-	d)	NSsites X vs NSsites Y ---> model 0 and two codeml NSsites models have to be specified in the codeml .ctl files.
+	a)	model 0 vs model 1 	---> 	model 0 and model 1 have to be specified in the codeml .ctl files.
+	b)	model 0 vs model 2 	---> 	model 0 and model 2 have to be specified in the codeml .ctl files, along with one file containing the branch labels.
+	c)	model 2 vs model 2 	---> 	model 2 and model 2 have to be specified in the codeml .ctl files, along with two file containing the branch labels.
+	d)	NSsites X vs NSsites Y 	---> 	model 0 and two codeml NSsites models have to be specified in the codeml .ctl files.
 
-Aside these modifications of the .ctl file, all the other parameters of codeml can be modified.
+Along these modifications of the .ctl file, all the other parameters of the codeml analyisis can be modified.
 "
 
 ################################################################################################################################################################################################################### ANNOTATE HELP
