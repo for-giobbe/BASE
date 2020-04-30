@@ -8,22 +8,23 @@ This front-end tool has been made to:
 3.   extract	extract biologically equivalent branch(es), independently from any missing taxa.
 
 
-More information on each mode usage and options can be accessed by typing ```--analize```, ```--annotate```, ```--extract``` followed by ```-h```.
+More information on each mode can be accessed by typing ```--analize```, ```--annotate```, ```--extract``` followed by ```-h```.
 
 
-BASE relies on the following pieces of software:
+BASE leverages the following pieces of software:
 
-. Phyutility
-. RAxML
-. PAML
-. R
-. getopt
-. EMBOSS (transeq)
+* Phyutility
+* RAxML
+* PAML
+* R
+* getopt
+* EMBOSS (transeq)
 
 
 Each software can be either  placed in the PATH or installed with conda, with the exception of phyutility, whose java executable should be placed shoud be placed in ~/bin/.
 A .yaml is available to configure a conda environiment with all the dependencies required by BASE. The correct installation and versions of the requirements can be checked 
 using the --requirements option.
 
+You can test the program on a toy dataset [example](https://github.com/for-giobbe/BASE/tree/master/example) and follow the relative [tutorial]().
 
 For troubleshooting or any explanation on its functioning and usage write to forni.giobbe@gmail.com.
