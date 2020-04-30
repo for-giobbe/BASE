@@ -1,6 +1,6 @@
 BASE - pronunced  /'baze/ - is a tool to test Branch And Site Evolution.
 
----
+
 
 This front-end tool has been made to: 
 
@@ -10,7 +10,6 @@ This front-end tool has been made to:
 
 More information on each mode usage and options can be accessed by typing --analize --annotate --extract followed by -h.
 
----
 
 BASE relies on the following pieces of software:
 
