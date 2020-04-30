@@ -1,4 +1,4 @@
-*BASE* - pronunced  /'baze/ - is a tool to test *B*ranch *A*nd *S*ite *E*volution.
+**BASE** - pronunced  /'baze/ - is a tool to test **B**ranch **A**nd **S**ite **E**volution.
 
 
 This front-end tool has been desinged to: 
