@@ -3,9 +3,9 @@ BASE - pronunced  /'baze/ - is a tool to test Branch And Site Evolution.
 
 This front-end tool has been made to: 
 
-2.   analyze	test which out of two dN/dS models fits best to each ortholog group(s), by parallel processing.
-1.   annotate	annotate codeml output(s) to
-3.   extract	extract biologically equivalent branch(es), independently from any missing taxa.
+1.   analyze		test which out of two dN/dS models fits best to each ortholog group(s), by parallel processing.
+2.   annotate		annotate codeml output(s) to
+3.   extract		extract biologically equivalent branch(es), independently from any missing taxa.
 
 
 More information on each mode can be accessed by typing ```--analize```, ```--annotate```, ```--extract``` followed by ```-h```.
