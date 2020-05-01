@@ -33,6 +33,6 @@ A [```.yml```](https://github.com/for-giobbe/BASE/blob/master/BASE_env.yml) is a
 You can create the enivironiment using ```conda env create -f BASE_env.yml``` and it can be then recalled using ```conda activate BASE_env```.
 The correct installation and versions of the requirements can be checked using the ```--requirements``` option.
 
-You can test the program on a [toy dataset](https://github.com/for-giobbe/BASE/tree/master/example) and follow the relative [tutorial]().
+You can test the program on a [toy dataset](https://github.com/for-giobbe/BASE/tree/master/example) and follow the relative [tutorial](https://github.com/for-giobbe/BASE/blob/master/tutorial.md).
 
 For troubleshooting or any explanation on its functioning and usage write to forni.giobbe@gmail.com.
