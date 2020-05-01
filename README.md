@@ -23,9 +23,10 @@ BASE leverages the following pieces of software:
 * EMBOSS (transeq)
 
 
-Each software can be either placed in the PATH or installed with conda, with the exception of phyutility, whose java executable should be placed shoud be placed in ```~/bin/```.
-A [```.json```](https://github.com/for-giobbe/BASE/blob/master/BASE_env.json) is available to configure a conda environiment with all the dependencies required by BASE. The correct installation and versions of the requirements can be checked 
-using the ```--requirements``` option.
+Each software can be either placed in the PATH or installed with conda, with the exception of phyutility, which can be installed using ```sudo apt-get install phyutility```.
+A [```.yml```](https://github.com/for-giobbe/BASE/blob/master/BASE_env.yml) is available to configure a conda environiment with all the dependencies required by BASE. 
+You can create the enivironiment using ```conda env create -f BASE_env.yml``` and it can be then recalled using ```conda activate BASE_env```.
+The correct installation and versions of the requirements can be checked using the ```--requirements``` option.
 
 You can test the program on a [toy dataset](https://github.com/for-giobbe/BASE/tree/master/example) and follow the relative [tutorial]().
 
