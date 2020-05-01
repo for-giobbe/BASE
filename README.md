@@ -15,7 +15,7 @@ not taking into consideration clusters with missing data. Two approaches are pos
 
 * the user do not want to allow uncomplete clusters in the group(s) of interest but is willing to integrate the clusters which present missing data for the species which are not part of the group(s) of interest
 
-* the user wants to allow a specific degree of missing data also for the group of interest, which can be applicable when analyzing big and ancient phylogeneies where the orthologs present across all  species are few.
+* the user wants to allow a specific degree of missing data also for the group of interest, which can be applicable when analyzing big and ancient phylogenies where the orthologs present across all  species are few.
 
 More information on each mode can be accessed by typing ```--analize```, ```--annotate```, ```--extract``` followed by ```-h```.
 
