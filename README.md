@@ -21,8 +21,11 @@ Two approaches are possible, which both can be carried out with BASE:
 
 * the user wants to allow a specific degree of missing data also for the group of interest, which can be applicable when analyzing big and ancient phylogenies where the orthologs present across all  species are few.
 
+![Image description](https://github.com/for-giobbe/BASE/blob/master/figures/Fig.2.jpg)
+
 More information on each mode can be accessed by typing ```--analize```, ```--annotate```, ```--extract``` followed by ```-h```.
 
+![Image description](https://github.com/for-giobbe/BASE/blob/master/figures/Fig.3.png)
 
 BASE is substantially a wrapper which leverages the following pieces of software:
 
