@@ -11,7 +11,11 @@ It has been desinged to function in three indipendent steps:
 
 The focal poin of BASE is to allow analyses on selection regimes / molecular evolution to integrate ortholog clusters which present missing data (*i.e.* ortholog clusters which do not 
 contain the full set of species considered). The vast majority of the litterature on the topic restricts analyses on the subset of genes which are found across all the species considered,
-not taking into consideration clusters with missing data. Two approaches are possible, which both can be carried out with BASE:
+not taking into consideration clusters with missing data. 
+
+![Image description](https://github.com/for-giobbe/BASE/blob/master/figures/Fig.0.jpeg)
+
+Two approaches are possible, which both can be carried out with BASE:
 
 * the user do not want to allow uncomplete clusters in the group(s) of interest but is willing to integrate the clusters which present missing data for the species which are not part of the group(s) of interest
 
