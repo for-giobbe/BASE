@@ -1,4 +1,4 @@
-|---|---|---|---|
+| --- | --- | --- | --- |
 |-i|path to the input folder containing .aln files (aligned oneliner fasta-formatted files, including a minimum of four OTUs) (write ./ to launch the script in the current folder).	| non-optional | analyze |
 |-o|output folder.																					| non-optional | analyze |
 |-t|comprensive species tree, including all OTU and without branch length.														| non-optional | analyze |
