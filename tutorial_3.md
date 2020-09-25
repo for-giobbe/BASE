@@ -35,8 +35,8 @@ which specifies that a minimun of 2 tips must be subtended for the branch to be 
 
 ```sh BASE.1.9.sh --extract -i partial_OGs_annotate/ -l branch.lst -n 2```
 
-If we take a look of the ouptut, by typing ```column -t partial_OGs_annotate/branch.clade_of_interest.min.otu.2.dNdS.summary```,
-we'll se that it clearly states where the cirteria was not met for certain OGs, as we can observe from the ```no_branch``` labels.
+The ouptut will be named with the clade name and the treshold of missing data as well.
+We can see that it clearly states where the cirteria was not met for certain OGs, as we can observe from the ```no_branch``` labels.
 
 ```
 clade              gene    OTUs_n  dNdS       t      dN      dS
