@@ -1,4 +1,4 @@
-|List of non-optional arguments:| 																				 |
+| List of non-optional arguments: | ciao																				 |
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 |	-i	|path to the input folder containing .aln files (aligned oneliner fasta-formatted files, including a minimum of four OTUs) (write ./ to launch the script in the current folder).|
 |	-o	|output folder.																					 |
