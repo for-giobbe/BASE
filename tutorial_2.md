@@ -1,4 +1,4 @@
-_retrive omega values of specific branches in ubiquitous genes clusters_
+**retrive omega values of specific branches in ubiquitous genes clusters**
 
 ---
 
