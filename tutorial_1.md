@@ -14,17 +14,15 @@ A [```.yml```](https://github.com/for-giobbe/BASE/blob/master/BASE_env.yml) is a
 You can create the enivironiment using ```conda env create -f BASE_env.yml``` and it can be then recalled using ```conda activate BASE_env```.
 The correct installation and versions of the requirements can be checked using the ```--requirements``` option.
 
-During the tutorial we are gonna leverage two toy datasets:
+---
 
-- the [first](https://github.com/for-giobbe/BASE/tree/master/example/example/_complete_OGs) includes OGs of (single-copy) genens which are ubiquitous 
-to the species considered,
+During the tutorial we are gonna leverage a toy datasets which can be found [here](https://github.com/for-giobbe/BASE/tree/master/example/):
 
-- the [second](https://github.com/for-giobbe/BASE/tree/master/example/_partials_OGs) consists of (single-copy) non-ubiquitous OGs,
-where some OTUs are missing.
+We are going to use some [ubiquitous](https://github.com/for-giobbe/BASE/tree/master/example/example/_complete_OGs) and [non-ubiquitous](https://github.com/for-giobbe/BASE/tree/master/example/_partials_OGs)
+OGs: in the first case each OG is made up by single copy genes present in all the tips of our phylogenetic trees, while in the second case
+a certain number of tips is missing in some OGs.
 
 These kind of data can readily be obtained using tools as [OrthoFinder2](https://github.com/davidemms/OrthoFinder), subsequently retrotranslating and aligning each OG.
-
-All the other input files can be found [here](https://github.com/for-giobbe/BASE/tree/master/example/).
 
 ---
 
