@@ -1,25 +1,27 @@
-## retrive omega values of specific branches in ubiquitous genes clusters
+# retrive omega values of specific branches in ubiquitous genes clusters
+
+---
 
 In this tutorial we will compare through a Likelihood Ratio Test (LRT from now on)
 a model with a single omega values across all the branch of our phylogeny versus a model in which all the branches have different omegas, for each OG; subsequently 
 we will extract omega (along with dN dS and substitution rate) for specific branches. This analysis will focus only on OGs of ubiquitus genes,
 in which a single copy gene is present for each species. 
-  
 After moving to the [example folder](https://github.com/for-giobbe/BASE/tree/master/example) we can quickly revise what's needed to start our analysis:
 
 * a species tree - in the newick format - which present all the species considered;
 no branchlengths are needed as they will be optimized for each gene through our analysis.
 
 * two codeml ```.ctl``` files, which describe the model we want to use / compare in our analysis. As stated before, in this analysis we will compare 
-a (model)[] where there is one omega shared by all branches and (codeml model 1) and
-a (model)[] where each branch has it's own omega (codeml model 1);
+a [model](https://github.com/for-giobbe/BASE/blob/master/example/m0.ctl) where there is one omega shared by all branches and (codeml model 1) and
+a (model)[https://github.com/for-giobbe/BASE/blob/master/example/m1.ctl] where each branch has it's own omega (codeml model 1);
 every parameter of the ```.ctl``` files can still be modified
 
 * a folder of aligned OGs. These alignment shouldn't have any STOP codon, yet BASE will check for them, discard and report the OGs wehre they are found.
+Cosider that alignment quality will substantially impact the quality of downstraeam analysis.
 
 ---
 
-To start the first step use the line:
+To start the first step just use the line:
 ```BASE.1.9.sh --analyze -i complete_OGs/ -o complete_OGs_analyze -t sp.tre -ma m0.ctl -mb m1.ctl -c 4```
 
 Among the many information which are printed to the standard output, the last line should be:
