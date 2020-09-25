@@ -16,11 +16,11 @@ The correct installation and versions of the requirements can be checked using t
 
 During the tutorial we are gonna leverage two toy datasets:
 
-- the [first](https://github.com/for-giobbe/BASE/tree/master/example/example_data/complete_OGs) includes OGs of (single-copy) genens which are ubiquitous 
+- the [first](https://github.com/for-giobbe/BASE/tree/master/example/example/_complete_OGs) includes OGs of (single-copy) genens which are ubiquitous 
 to the species considered,
 
-- the [second](https://github.com/for-giobbe/BASE/tree/master/example/example_data/partials_OGs) consists of (single-copy) "incomplete" OGs 
-where some species are missing.
+- the [second](https://github.com/for-giobbe/BASE/tree/master/example/_partials_OGs) consists of (single-copy) "incomplete" OGs,
+where some OTUs are missing.
 
 All the other input files can be found [here](https://github.com/for-giobbe/BASE/tree/master/example/).
 

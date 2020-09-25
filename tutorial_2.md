@@ -1,11 +1,11 @@
-**retrive omega values of specific branches in ubiquitous genes clusters**
+**Retrive omega values of specific branches in ubiquitous genes clusters**
 
 ---
 
 In this tutorial we will compare through a Likelihood Ratio Test (LRT from now on)
 a model with a single omega values across all the branch of our phylogeny versus a model in which all the branches have different omegas, for each OG; subsequently 
-we will extract omega (along with dN dS and substitution rate) for specific branches. This analysis will focus only on OGs of ubiquitus genes,
-in which a single copy gene is present for each species. 
+we will extract omega (along with dN dS and substitution rate) for specific branches. This analysis will focus only on orthogroups (OGs from now on) of ubiquitus genes,
+in which a single copy gene is present for each species.
 After moving to the [example folder](https://github.com/for-giobbe/BASE/tree/master/example) we can quickly revise what's needed to start our analysis:
 
 * a species tree - in the newick format - which present all the species considered;
@@ -112,10 +112,24 @@ dmag dmag
 ``` 
 
 We also need to specify the minimum number of species to consider a clade: the latter can be expressed with an
-absolute number - such as 3 - or via a proportion - such as 0.9. When we are not considering missing data we can just specify ```-n 0```. 
+absolute number - such as 3 - or via a proportion - such as 0.9. When we are not considering missing data we can just specify ```-n 1```. 
 Let's extract the values of the branch leading to the two species dmag and dpul, using the line:
 
 ```sh BASE.1.9.sh --extract -i complete_OGs_annotate -l branch.lst -n 2```.
+
+Which will print to the screen:
+
+```
+  analysis started on Fri Sep 25 15:12:50 CEST 2020
+
+  extracting 2 branches from 20 codeml output 
+  
+  extract clade_1..	 10/100
+
+  extract dmag..	 10/100
+ 
+  analysis finished on Fri Sep 25 15:14:11 CEST 2020 
+```
 
 We can then see the output by typing```column -t complete_OGs_annotate/branch.clade_1.min.otu.2.dNdS.summary ```; ss you can see
 each line of the label file generates an output, named with the name of their clade /tip and the treshold of missing data. This is an ouput for a clade:
