@@ -1,12 +1,21 @@
 # Tutorial
 
-This tutorial has been designed to illustrate several possible use of BASE, which reflect real scenarios ofa analysis.
+This tutorial has been designed to illustrate several possible use of BASE, which reflect real scenarios of analysis.
 
 ---
 
 ## Installation and download of the toy dataset:
 
-The toy dataset must be divided into two folders: complete clusters and clusters with missing data
+BASE consists of a single shell script. To install its dependencies, it is possible to create a conda 
+environiment using the relative [yaml](https://github.com/for-giobbe/BASE/blob/master/BASE_env.yml) configuration file.
+
+Additionally, the phyutility needs to be added to the path.
+
+We are gonna leverage two toy datasets:
+
+- the first includes OG of genens which are ubiquitous to the species considered
+
+- the second consists of incomplete OGs where some species are missing
 
 ---
 
