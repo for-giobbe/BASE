@@ -2,8 +2,8 @@
 
 
 
-The focal poin of BASE is to allow analyses on selection regimes / molecular evolution to integrate ortholog groups (*i.e.* ortholog clusters which do not 
-contain the full set of species considered). The vast majority of the litterature on the topic restricts analyses on the subset of genes which are found across all the species considered,
+The focal poin of BASE is to allow analyses on selection regimes / molecular evolution to integrate ortholog groups of non-ubiquitous genes (*i.e.* OGs which do not 
+contain the full set of tips considered). The vast majority of the litterature on the topic restricts analyses on the subset of genes which are found across all the species considered,
 not taking into consideration clusters with missing data. 
 
 ![Image description](https://github.com/for-giobbe/BASE/blob/master/figures/Fig.0.jpeg)
@@ -32,6 +32,7 @@ Here is a schematic of BASE steps and functioning.
 ![Image description](https://github.com/for-giobbe/BASE/blob/master/figures/Fig.3.png)
 
 You can find informations on installation and usge following the relative [tutorial](https://github.com/for-giobbe/BASE/blob/master/tutorial_0.md).
+
 A comprehensive list of commands is present [here](https://github.com/for-giobbe/BASE/blob/master/command_list.md).
 
 For troubleshooting or any explanation on BASE functioning and usage write to forni.giobbe@gmail.com.
