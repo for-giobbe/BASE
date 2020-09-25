@@ -2,15 +2,16 @@
 
 ---
 
-This tutorial is rather similar to the previous one, with a big exception: we are going to implement in our analyses non-ubiquitous gene OGs - _i.e._ OGs where some of the species considered are lacking).
-What's need to carry out this analysis is a) a folder of aligned OGs b) a species tree c) two codeml .ctl files to set up the analysis. Here is the 
-[folder](https://github.com/for-giobbe/BASE/tree/master/example/_partials_OGs) with the toy-dastaset; if 
+This tutorial is rather similar to the previous one, with a big exception: 
+we are going to implement in our analyses **non-ubiquitous gene OGs** - _i.e._ OGs where some of the species considered are lacking.
+What's need to carry out this analysis is a folder of aligned OGs, a species tree and two codeml .ctl files. Here is the 
+[folder](https://github.com/for-giobbe/BASE/tree/master/example/_partials_OGs) with a toy-dastaset which includes non-ubiquitous genes OGs; if 
 you type ``` grep -c ">" *``` you can see how each fasta-formatted file has a different number of genes in it, yet never exceeding the total number of tips of our species tree.
 Consider that too small OGs (<3 OTUs) won't be processed by BASE, so you can exclude them before the analysis or make BASE discard them.
 
 ---
 
-To execute analysis levereaging also non ubiquitous genes clusters we need to specify the ```-d``` flag; I have also included ```-v``` so that BASE will prduce a verbose output
+To execute analysis levereaging also non ubiquitous genes clusters we need to specify the ```-d``` flag; we can also include ```-v``` so that BASE will prduce a verbose output
 and won't erase its temporary folder and files. Here's the line:
 
 ```sh BASE.1.9.sh --analyze -i complete_OGs/ -o complete_OGs_analyze -t sp.tre -ma m0.ctl -mb m1.ctl -c 4 -d -v```
@@ -67,8 +68,8 @@ which specifies that a minimun of 2 tips must be subtended for the branch to be 
   analysis finished on Fri Sep 25 15:57:38 CEST 2020 
 ```
 
-If we take a look of the ouptut - by typing ```column -t partial_OGs_annotate/branch.clade_1.min.otu.2.dNdS.summary```
-we'll se that it clearly states where the cirteria was not met.
+If we take a look of the ouptut, by typing ```column -t partial_OGs_annotate/branch.clade_1.min.otu.2.dNdS.summary```,
+we'll se that it clearly states where the cirteria was not met as it states ```no_branch```.
 
 ```
 clade    gene            OTUs_n  dNdS       t      dN      dS
@@ -95,7 +96,13 @@ clade_1  OG3682.mafft.n  2       0.1405     0.276  0.0378  0.2693
 clade_1  OG3683.mafft.n  0       no_branch
 ```
 
-```sh BASE.1.9.sh --extract -i partial_OGs_annotate -l branch_alt.lst -n 2 -v```
+If we want instead to obtain the information of the branch leading to our group(s) of interest even when some of its OTUs are missing
+we can specify either an absulute number equal to the clade size or a proportion. For example let's extract the information
+for a second clade using a trashold of 80%. 
+
+```sh BASE.1.9.sh --extract -i partial_OGs_annotate -l branch_alt.lst -n 0.8 -v```
+
+This will print to the screen:
 
 ```
   analysis started on Fri Sep 25 16:20:49 CEST 2020
@@ -106,6 +113,11 @@ clade_1  OG3683.mafft.n  0       no_branch
 
   analysis finished on Fri Sep 25 16:21:31 CEST 2020 
 ```
+
+
+
+If we take a look at the output by ```column -t partial_OGs_annotate/branch.second_clade.min.otu.0.6.dNdS.summary```
+we can notice that the our criteria have been met in a larger number of cases (all of the OGs actually).
 
 ```
 clade         gene            model        OTUs_n  dNdS    t      dN      dS      branch  OTUs
@@ -131,3 +143,8 @@ second_clade  OG3648.mafft.n  general      4       0.1708  0.651  0.1002  0.5867
 second_clade  OG3682.mafft.n  alternative  3       0.1649  0.341  0.0519  0.3148  8..9    lart  lubb  tusa
 second_clade  OG3683.mafft.n  alternative  4       0.1670  0.255  0.0403  0.2410  7..8    lart  lubb  tcan  tusa
 ```
+
+Nonetheless these results should be handeled carefully: if we allow too much missing data, both in the clade(s) of interes and in the whole tree,
+the analyses start to become less meaningfull. If we want to consider the branch leading to a clade of 50 species, one thing is to allow 5-6 of them
+to go missing, but when more than half are not present the analysis start to become miningless. A good way is to be conservative and try to explore
+the tradeoff between the number of OGs considered and the missing data treshold. 
