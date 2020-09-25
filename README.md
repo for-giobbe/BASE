@@ -31,21 +31,7 @@ Here is a schematic of BASE steps and functioning.
 
 ![Image description](https://github.com/for-giobbe/BASE/blob/master/figures/Fig.3.png)
 
-BASE is substantially a wrapper which leverages the following pieces of software:
+You can find informations on installation and usge following the relative [tutorial](https://github.com/for-giobbe/BASE/blob/master/tutorial.md).
+A comprehensive list of commands is present here.
 
-* Phyutility
-* RAxML
-* PAML
-* R
-* getopt
-* EMBOSS (transeq)
-
-
-Each software can be either placed in the PATH or installed with conda, with the exception of phyutility, which can be installed using ```sudo apt-get install phyutility```.
-A [```.yml```](https://github.com/for-giobbe/BASE/blob/master/BASE_env.yml) is available to configure a conda environiment with all the dependencies required by BASE. 
-You can create the enivironiment using ```conda env create -f BASE_env.yml``` and it can be then recalled using ```conda activate BASE_env```.
-The correct installation and versions of the requirements can be checked using the ```--requirements``` option.
-
-You can test the program on a [toy dataset](https://github.com/for-giobbe/BASE/tree/master/example) and follow the relative [tutorial](https://github.com/for-giobbe/BASE/blob/master/tutorial.md).
-
-For troubleshooting or any explanation on its functioning and usage write to forni.giobbe@gmail.com.
+For troubleshooting or any explanation on BASE functioning and usage write to forni.giobbe@gmail.com.
