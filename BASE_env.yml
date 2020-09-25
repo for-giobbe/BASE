@@ -1,11 +1,14 @@
 name: BASE_env
 channels:
-  - bioconda
+- bioconda
+- defaults
+- conda-forge
+- anaconda
 dependencies:
- - RAxML
- - PAML
- - R
- - getopt
- - EMBOSS (transeq)
- - phangorn
+- R
+- raxml
+- r-phangorn
+- paml
+- util-linux
+- emboss=6.6.0
 
