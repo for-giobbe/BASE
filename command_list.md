@@ -18,7 +18,7 @@
 |-o|the path to an output folder (write ./ to launch the script in the current folder).								| non-optional |
 
 
-|\-\-extract|---|---|
+| \- \- `extract`|---|---|
 |---|---|---|
 
 |-i|the path to an input folder containing codeml output(s) (.out extension is required) and codeml annotation(s) produced by BASE (.result extension is required).| non-optional |
