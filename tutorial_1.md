@@ -1,6 +1,6 @@
 ## Installation and download of the toy dataset:
 
-BASE substantially consists in a wrapper which leverages the following pieces of software:
+BASE substantially is a wrapper which leverages the following pieces of software:
 
 * Phyutility
 * RAxML
@@ -19,8 +19,14 @@ During the tutorial we are gonna leverage two toy datasets:
 - the [first](https://github.com/for-giobbe/BASE/tree/master/example/example/_complete_OGs) includes OGs of (single-copy) genens which are ubiquitous 
 to the species considered,
 
-- the [second](https://github.com/for-giobbe/BASE/tree/master/example/_partials_OGs) consists of (single-copy) "incomplete" OGs,
+- the [second](https://github.com/for-giobbe/BASE/tree/master/example/_partials_OGs) consists of (single-copy) non-ubiquitous OGs,
 where some OTUs are missing.
 
+These kind of data can readily be obtained using tools as [OrthoFinder2](https://github.com/davidemms/OrthoFinder), subsequently retrotranslating and aligning each OG.
+
 All the other input files can be found [here](https://github.com/for-giobbe/BASE/tree/master/example/).
+
+---
+
+[Back](https://github.com/for-giobbe/BASE/blob/master/tutorial_0.md) to the tutorials list.
 

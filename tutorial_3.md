@@ -1,22 +1,22 @@
-**Retrive omega values of a branch allowing for missing data**
+**Implementing non-ubiquitous genes OGs in the analysis**
 
 ---
 
 This tutorial is rather similar to the previous one, with a big exception: 
 we are going to implement in our analyses **non-ubiquitous gene OGs** - _i.e._ OGs where some of the species considered are lacking.
-As before, what's need to carry out this analysis is 
+As before, what's need to carry out this analysis is:
 
 * a folder of aligned OGs
 * a species tree
 * two codeml .ctl files
 
-Here is the [folder](https://github.com/for-giobbe/BASE/tree/master/example/_partials_OGs) with a toy-dastaset which includes non-ubiquitous genes OGs; if 
+Here is the [folder](https://github.com/for-giobbe/BASE/tree/master/example/_partials_OGs) with a toy-dastaset which includes non-ubiquitous genes OGs as well; if 
 you type ``` grep -c ">" *``` you can see how each fasta-formatted file has a different number of genes in it, yet never exceeding the total number of tips of our species tree.
 Consider that too small OGs (<3 OTUs) won't be processed by BASE, so you can exclude them before the analysis or make BASE discard them.
 
 ---
 
-To carry out the ```analyze```step leveraging also non ubiquitous genes OGs we need to specify the ```-d``` flag; we can also include ```-v``` so that BASE will prduce a verbose output
+To carry out the ```--analyze```step leveraging also non ubiquitous genes OGs we need to specify the ```-d``` flag; we can also include ```-v``` so that BASE will produce a verbose output
 and won't erase its temporary folder and files. Here's the line:
 
 ```sh BASE.1.9.sh --analyze -i _partials_OGs/ -o partial_OGs_analyze -t sp.tre -ma m0.ctl -mb m1.ctl -c 4 -d -v```
@@ -25,18 +25,18 @@ Here's the standard output:
 
 The files generated are exactly the same as an analysis which doesn't allow missing data.
 Due to the ```-v``` flag we also get a ```tmp.full.out folder``` which contains all the intermediate and temporary file of the analyses. 
-We can then proceed straight to the annotation step by typing:
+We can then proceed straight to the ```--annotate``` step by typing:
 
 ```sh BASE.1.9.sh --annotate -i partial_OGs_analyze/ -o partial_OGs_annotate```
 
 In a first scenario, we want to extract the values of a branch without allowing any missing data in the relative clade. To do so we
-can jusr specify a number of tips equal to the clade size: as our clade of interest consists of just two tips we can use the flag ```-n 2```,
+can just specify a number of tips equal to the clade size: as our clade of interest consists of just two tips we can use the flag ```-n 2```,
 which specifies that a minimun of 2 tips must be subtended for the branch to be considered. Let's type:
 
 ```sh BASE.1.9.sh --extract -i partial_OGs_annotate/ -l branch.lst -n 2```
 
-If we take a look of the ouptut, by typing ```column -t partial_OGs_annotate/branch.clade_of_interest.min.otu.2.dNdS.summary ```,
-we'll se that it clearly states where the cirteria was not met for certain OGs, as it states ```no_branch```.
+If we take a look of the ouptut, by typing ```column -t partial_OGs_annotate/branch.clade_of_interest.min.otu.2.dNdS.summary```,
+we'll se that it clearly states where the cirteria was not met for certain OGs, as we can observe from the ```no_branch``` labels.
 
 ```
 clade              gene    OTUs_n  dNdS       t      dN      dS
@@ -128,5 +128,9 @@ second_clade  OG3683  alternative  4       0.1670  0.255  0.0403  0.2410  7..8  
 
 Nonetheless these results should be **handeled carefully**: if we allow too much missing data, both in the clade(s) of interest and in the whole tree,
 the analyses start to become meaningless. For example: if we want to consider the branch leading to a clade of 50 species, one thing is to allow 5-6 of them
-to go missing, but when more than half are not present the analysis doesn't make sense anymore. A good approach is to allways be conservative and try to explore
-the tradeoff between the number of OGs considered and the missing data treshold. 
+to go missing, but when more than half are not present the analysis doesn't make sense anymore. 
+A good approach is to stay conservative and try to explore the tradeoff between the number of OGs considered and the missing data treshold. 
+
+---
+
+[Back](https://github.com/for-giobbe/BASE/blob/master/tutorial_0.md) to the tutorials list.

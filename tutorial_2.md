@@ -188,4 +188,5 @@ These tables are rather self explanatory as well, and represent the final output
 
 ---
 
-Click [here](https://github.com/for-giobbe/BASE/blob/master/tutorial_0.md) to go back to the tutorials list.
+[Back](https://github.com/for-giobbe/BASE/blob/master/tutorial_0.md) to the tutorials list.
+
