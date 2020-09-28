@@ -5,7 +5,7 @@
 
 In the first part of this tutorial we will leverage the clade / branch tagging functionalty.
 
-```sh BASE.1.9.sh --analyze -i _complete_OGs/ -o complete_OGs_analyze_clades -t sp.tre -ma m0.ctl -mb m2.ctl -c 4 -d -l tag_same.lst -l2 tag_diff.lst```
+```sh BASE.sh --analyze -i _complete_OGs/ -o complete_OGs_analyze_clades -t sp.tre -ma m0.ctl -mb m2.ctl -c 4 -d -l tag_same.lst -l2 tag_diff.lst```
 
 ```
 column -t complete_OGs_analyze_clades/likelihood_summary.txt
@@ -36,9 +36,65 @@ OG3682            0       NA         2         -3703.868866   1     2       NA  
 OG3683            0       NA         2         -2791.481942   1     2       NA           4         -2789.801519   1     3.3608   2   0.1863   n/s
 ```
 
-```sh BASE.1.9.sh --annotate -i complete_OGs_analyze_clades -o complete_OGs_analyze_clades_annotate```
+```sh BASE.sh --annotate -i complete_OGs_analyze_clades -o complete_OGs_analyze_clades_annotate```
 
-```sh BASE.1.9.sh --extract -i complete_OGs_analyze_clades_annotate/ -l branch_clades.lst -n 2```
+```sh BASE.sh --extract -i complete_OGs_analyze_clades_annotate/ -l branch_clades.lst -n 2```
+
+```column -t complete_OGs_annotate_clades/branch.clade_one.min.otu.2.dNdS.summary```
+
+```
+clade      gene    OTUs_n  dNdS    t      dN      dS
+clade_one  OG3105  2       0.1030  0.270  0.0289  0.2809
+clade_one  OG3126  2       0.0349  0.107  0.0049  0.1402
+clade_one  OG3158  2       0.2049  0.018  0.0032  0.0157
+clade_one  OG3164  2       0.0648  0.112  0.0100  0.1551
+clade_one  OG3196  2       0.1828  0.722  0.1137  0.6216
+clade_one  OG3197  2       0.0734  0.290  0.0231  0.3143
+clade_one  OG3302  2       0.0845  0.209  0.0210  0.2484
+clade_one  OG3342  2       0.0442  0.222  0.0128  0.2906
+clade_one  OG3347  2       0.0745  0.227  0.0206  0.2768
+clade_one  OG3359  2       0.0069  0.149  0.0014  0.1955
+clade_one  OG3362  2       0.0739  0.189  0.0157  0.2131
+clade_one  OG3372  2       0.0141  0.143  0.0030  0.2153
+clade_one  OG3387  2       0.0672  0.125  0.0088  0.1306
+clade_one  OG3395  2       0.1922  0.109  0.0185  0.0962
+clade_one  OG3399  2       0.0668  0.136  0.0108  0.1618
+clade_one  OG3600  2       0.0184  0.108  0.0028  0.1509
+clade_one  OG3622  2       0.0383  0.207  0.0103  0.2692
+clade_one  OG3640  2       0.0505  0.112  0.0071  0.1397
+clade_one  OG3648  2       0.1340  0.197  0.0258  0.1923
+clade_one  OG3682  2       0.1325  0.135  0.0178  0.1345
+clade_one  OG3683  2       0.0553  0.073  0.0050  0.0913
+```
+
+```column -t complete_OGs_annotate_clades/branch.clade_two.min.otu.2.dNdS.summary```
+
+```
+clade      gene    OTUs_n  dNdS       t      dN      dS
+clade_two  OG3105  0       no_branch
+clade_two  OG3126  2       0.0349     0.204  0.0093  0.2675
+clade_two  OG3158  2       0.0356     0.212  0.0099  0.2790
+clade_two  OG3164  2       0.0648     0.142  0.0127  0.1968
+clade_two  OG3196  2       0.1828     0.510  0.0802  0.4386
+clade_two  OG3197  2       0.0734     0.331  0.0264  0.3589
+clade_two  OG3302  2       0.0845     0.225  0.0225  0.2667
+clade_two  OG3342  2       0.0442     0.140  0.0081  0.1828
+clade_two  OG3347  2       0.0425     0.228  0.0130  0.3056
+clade_two  OG3359  2       0.0069     0.167  0.0015  0.2193
+clade_two  OG3362  2       0.0739     0.306  0.0254  0.3439
+clade_two  OG3372  2       0.0141     0.153  0.0032  0.2304
+clade_two  OG3387  2       0.0672     0.238  0.0167  0.2480
+clade_two  OG3395  2       0.0294     0.165  0.0064  0.2168
+clade_two  OG3399  2       0.0668     0.222  0.0177  0.2642
+clade_two  OG3600  2       0.2032     0.102  0.0182  0.0895
+clade_two  OG3622  2       0.0383     0.214  0.0107  0.2780
+clade_two  OG3640  2       0.0505     0.153  0.0097  0.1913
+clade_two  OG3648  2       0.1340     0.220  0.0288  0.2149
+clade_two  OG3682  2       0.1325     0.101  0.0133  0.1004
+clade_two  OG3683  2       0.0553     0.243  0.0168  0.3042
+```
+
+dNdS values are the same when the general model won.
 
 ---
 
