@@ -3,7 +3,9 @@
 ---
 
 
-In the first part of this tutorial we will leverage the clade (#) / branch ($) tagging functionalty.
+In the first part of this tutorial we will leverage the clade (#) / branch ($) tagging functionalty. 
+As a general model we will use the .ctl previously used, which assumes a model with a single omega class for all the branches of the phylogeny
+and as an alternative model on which allows different omega classes for specific branches, such as the .ctl which can be found [here]()
 
 ```sh BASE.sh --analyze -i _complete_OGs/ -o complete_OGs_analyze_clades -t sp.tre -ma m0.ctl -mb m2.ctl -c 4 -d -l tag_same.lst -l2 tag_diff.lst```
 
@@ -155,7 +157,7 @@ Lastly we will carry out a branch-site model, which consists in a mix between br
 general and alternative models respectively [here](https://github.com/for-giobbe/BASE/blob/master/example/m_branch_site_gen.ctl) 
 and [here](https://github.com/for-giobbe/BASE/blob/master/example/m_branch_site_alt.ctl), 
 along the file to tag our branch of interest [here](https://github.com/for-giobbe/BASE/blob/master/example/tag_branch_site.lst). 
-
+We will also carry out 5 different replicates - using the ```-r``` flag - so that the one wi the besy -lnL is chosen, resulting in a more precise analysis. 
 This is the line to launch the analysis:
 
 ```
@@ -163,7 +165,13 @@ This is the line to launch the analysis:
     -ma m_branch_site_gen.ctl -mb m_branch_site_alt.ctl -l tag_branch_site.lst -l2 tag_branch_site.lst -r 3 -c 4 -v
 ```
 
-We can then inspect the 
+We can then inspect the output of the likelihood summary:
+
+```
+
+```
+
+It's then possible to proceed further with the ```--annotate``` and ```--extract``` steps.
 
 ---
 
