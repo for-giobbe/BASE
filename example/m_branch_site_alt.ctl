@@ -1,0 +1,13 @@
+seqfile = alignment.phy
+outfile = output.txt
+treefile = tre.tre
+noisy = 0
+verbose = 0
+runmode = 0
+seqtype = 1
+CodonFreq = 3
+model = 2
+NSsites = 2
+icode = 4
+getSE = 1
+fix_blength = 2
