@@ -3,7 +3,7 @@
 ---
 
 
-In the first part of this tutorial we will leverage the clade (#) / branch ($) tagging functionalty.
+In the first part of this tutorial we will leverage the clade / branch tagging functionalty.
 
 ```sh BASE.sh --analyze -i _complete_OGs/ -o complete_OGs_analyze_clades -t sp.tre -ma m0.ctl -mb m2.ctl -c 4 -d -l tag_same.lst -l2 tag_diff.lst```
 
@@ -98,66 +98,8 @@ dNdS values are the same when the general model won.
 
 ---
 
-BASE also allows models which allow different dN/dS values among different alignement sites. 
-Let's use the ubiquitous OGs and ```.ctl```  which has one omega class across all branches and all sites as the general model,
-and one with NSsites=3 , such as the one provided here - as an alternative model
-
-```
-seqfile = alignment.phy
-outfile = output.txt
-treefile = tre.tre
-noisy = 0
-verbose = 0
-runmode = 0
-seqtype = 1
-CodonFreq = 3
-model = 0
-NSsites = 3
-icode = 4
-getSE = 0
-fix_blength = 2
-```
-
-Let's use the line:
-
-```sh BASE.1.9.sh --analyze -i _complete_OGs/ -o complete_OGs_analyze_NSsites -t sp.tre -ma m0.ctl -mb m0_NS3.ctl -c 4```
-
-The likelihood summary which has been generated in the output folder shows that all genes passed the LRT and 
-
-```
-Ortholog_Cluster  Model1  NSsites_a  Model1np  Model1LnL      Rep1  Model2  NSsites_a.1  Model2np  Model2LnL      Rep2  LRT       df  p.value  significance
-OG3126            0       NA         2         -4132.017209   1     0       NA           8         -4086.882015   1     90.2704   6   0        ***
-OG3158            0       NA         2         -3818.030135   1     0       NA           8         -3772.584619   1     90.891    6   0        ***
-OG3164            0       NA         2         -5374.980383   1     0       NA           8         -5304.139456   1     141.6819  6   0        ***
-OG3196            0       NA         2         -3365.98055    1     0       NA           8         -3279.872989   1     172.2151  6   0        ***
-OG3197            0       NA         2         -3680.783168   1     0       NA           8         -3611.208846   1     139.1486  6   0        ***
-OG3302            0       NA         2         -9054.676043   1     0       NA           8         -8884.092991   1     341.1661  6   0        ***
-OG3342            0       NA         2         -3444.803353   1     0       NA           8         -3379.341607   1     130.9235  6   0        ***
-OG3347            0       NA         2         -9597.616313   1     0       NA           8         -9443.970478   1     307.2917  6   0        ***
-OG3359            0       NA         2         -3147.226951   1     0       NA           8         -3119.670872   1     55.1122   6   0        ***
-OG3362            0       NA         2         -5722.861684   1     0       NA           8         -5640.13579    1     165.4518  6   0        ***
-OG3372            0       NA         2         -3710.675722   1     0       NA           8         -3691.491562   1     38.3683   6   0        ***
-OG3387            0       NA         2         -4067.125785   1     0       NA           8         -4024.065264   1     86.121    6   0        ***
-OG3395            0       NA         2         -3901.33739    1     0       NA           8         -3889.142938   1     24.3889   6   4e-04    ***
-OG3399            0       NA         2         -3003.011552   1     0       NA           8         -2959.338795   1     87.3455   6   0        ***
-OG3600            0       NA         2         -2867.120583   1     0       NA           8         -2835.05711    1     64.1269   6   0        ***
-OG3622            0       NA         2         -3407.557493   1     0       NA           8         -3379.421493   1     56.272    6   0        ***
-OG3640            0       NA         2         -3342.883393   1     0       NA           8         -3317.365453   1     51.0359   6   0        ***
-OG3648            0       NA         2         -10491.352418  1     0       NA           8         -10362.379639  1     257.9456  6   0        ***
-OG3682            0       NA         2         -3703.868866   1     0       NA           8         -3662.590623   1     82.5565   6   0        ***
-OG3683            0       NA         2         -2791.481942   1     0       NA           8         -2775.466035   1     32.0318   6   0        ***
-```
-
+Here we use NSsites models
 
 ---
 
-Lastly we will carry out a branch-site model, which consists in a mix between branch-specific and site-specific models. you will finde the ```.ctl``` files for the
-general and alternative models respectively [here]() and [here](), along the file to tag our branch of interest here(). This is the line to launch the analysis:
-
-```
-sh BASE.1.9.sh --analyze -i _complete_OGs/ -o complete_OGs_analyze_branch_site -t sp.tre -ma m_branch_site_gen.ctl -mb m_branch_site_alt.ctl -l tag_branch_site.lst -l2 tag_branch_site.lst -r 3 -c 4 -v
-```
-
----
-
-[Back](https://github.com/for-giobbe/BASE/blob/master/tutorial_0.md) to the tutorials list.
+replicates + branch-site
