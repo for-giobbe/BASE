@@ -152,11 +152,18 @@ OG3683            0       NA         2         -2791.481942   1     0       NA  
 ---
 
 Lastly we will carry out a branch-site model, which consists in a mix between branch-specific and site-specific models. you will finde the ```.ctl``` files for the
-general and alternative models respectively [here]() and [here](), along the file to tag our branch of interest here(). This is the line to launch the analysis:
+general and alternative models respectively [here](https://github.com/for-giobbe/BASE/blob/master/example/m_branch_site_gen.ctl) 
+and [here](https://github.com/for-giobbe/BASE/blob/master/example/m_branch_site_alt.ctl), 
+along the file to tag our branch of interest [here](https://github.com/for-giobbe/BASE/blob/master/example/tag_branch_site.lst). 
+
+This is the line to launch the analysis:
 
 ```
-sh BASE.1.9.sh --analyze -i _complete_OGs/ -o complete_OGs_analyze_branch_site -t sp.tre -ma m_branch_site_gen.ctl -mb m_branch_site_alt.ctl -l tag_branch_site.lst -l2 tag_branch_site.lst -r 3 -c 4 -v
+    sh BASE.1.9.sh --analyze -i _complete_OGs/ -o complete_OGs_analyze_branch_site -t sp.tre 
+    -ma m_branch_site_gen.ctl -mb m_branch_site_alt.ctl -l tag_branch_site.lst -l2 tag_branch_site.lst -r 3 -c 4 -v
 ```
+
+We can then inspect the 
 
 ---
 
