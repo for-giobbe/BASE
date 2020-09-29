@@ -13,7 +13,7 @@ no branchlengths are needed as they will be optimized for each gene through our 
 
 * two codeml ```.ctl``` files, which describe the model we want to use / compare in our analysis. As stated before, in this analysis we will compare 
 a [model](https://github.com/for-giobbe/BASE/blob/master/example/m0.ctl) where there is one omega shared by all branches and (codeml model 1) and
-a (model)[https://github.com/for-giobbe/BASE/blob/master/example/m1.ctl] where each branch has it's own omega (codeml model 1);
+a (model)[https://github.com/for-giobbe/BASE/blob/master/example/m1.ctl] where each branch has it's own omega (codeml model 1); remember to properly set the genetic code of your sequences.
 every parameter of the ```.ctl``` files can still be modified
 
 * a folder of aligned OGs. These alignment shouldn't have any STOP codon, yet BASE will check for them, discard and report the OGs wehre they are found.
