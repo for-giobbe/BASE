@@ -1,14 +1,14 @@
-**Complex models & analyses replicates usage**
+**Complex models & analyses replicates**
 
 ---
 
 
-In tHIS part of thE tutorial we will leverage the clade (#) / branch ($) tagging functionalty .
-
-```sh BASE.sh --analyze -i _complete_OGs/ -o complete_OGs_analyze_clades -t sp.tre -ma m0.ctl -mb m2.ctl -c 4 -d -l tag_same.lst -l2 tag_diff.lst```
+In this part of the tutorial we will leverage the clade (#) / branch ($) tagging functionalty .
 
 ```
-column -t complete_OGs_analyze_clades/likelihood_summary.txt
+    sh BASE.sh --analyze -i _complete_OGs/ -o complete_OGs_analyze_clades 
+    -t sp.tre -ma m0.ctl -mb m2.ctl -c 4 -d 
+    -l tag_same.lst -l2 tag_diff.lst```
 ```
 
 ```
@@ -40,8 +40,6 @@ OG3683            0       NA         2         -2791.481942   1     2       NA  
 
 ```sh BASE.sh --extract -i complete_OGs_analyze_clades_annotate/ -l branch_clades.lst -n 2```
 
-```column -t complete_OGs_annotate_clades/branch.clade_one.min.otu.2.dNdS.summary```
-
 ```
 clade      gene    OTUs_n  dNdS    t      dN      dS
 clade_one  OG3105  2       0.1030  0.270  0.0289  0.2809
@@ -66,8 +64,6 @@ clade_one  OG3648  2       0.1340  0.197  0.0258  0.1923
 clade_one  OG3682  2       0.1325  0.135  0.0178  0.1345
 clade_one  OG3683  2       0.0553  0.073  0.0050  0.0913
 ```
-
-```column -t complete_OGs_annotate_clades/branch.clade_two.min.otu.2.dNdS.summary```
 
 ```
 clade      gene    OTUs_n  dNdS       t      dN      dS
@@ -120,9 +116,12 @@ fix_blength = 2
 
 Let's use the line:
 
-```sh BASE.1.9.sh --analyze -i _complete_OGs/ -o complete_OGs_analyze_NSsites -t sp.tre -ma m0.ctl -mb m0_NS3.ctl -c 4```
+```
+    sh BASE.sh --analyze -i _complete_OGs/ -o complete_OGs_analyze_NSsites 
+    -t sp.tre -ma m0.ctl -mb m0_NS3.ctl -c 4
+```
 
-The likelihood summary which has been generated in the output folder shows that all genes passed the LRT and 
+The likelihood summary which has been generated in the output folder shows that all genes passed the LRT.
 
 ```
 Ortholog_Cluster  Model1  NSsites_a  Model1np  Model1LnL      Rep1  Model2  NSsites_a.1  Model2np  Model2LnL      Rep2  LRT       df  p.value  significance
@@ -148,13 +147,14 @@ OG3682            0       NA         2         -3703.868866   1     0       NA  
 OG3683            0       NA         2         -2791.481942   1     0       NA           8         -2775.466035   1     32.0318   6   0        ***
 ```
 
-
 ---
 
-Lastly we will carry out a branch-site model, which t's mix between branch-specific and site-specific models.
+Lastly we will carry out a branch-site model, which is a mix between branch-specific and site-specific models.
 
 ```
-sh BASE.1.9.sh --analyze -i _complete_OGs/ -o complete_OGs_analyze_branch_site -t sp.tre -ma m_branch_site_gen.ctl -mb m_branch_site_alt.ctl -l tag_branch_site.lst -l2 tag_branch_site.lst -c 4
+sh BASE.sh --analyze -i _complete_OGs/ -o complete_OGs_analyze_branch_site 
+-t sp.tre -ma m_branch_site_gen.ctl -mb m_branch_site_alt.ctl 
+-l tag_branch_site.lst -l2 tag_branch_site.lst -c 4
 ```
 
 ---

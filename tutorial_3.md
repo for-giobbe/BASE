@@ -3,12 +3,8 @@
 ---
 
 This tutorial is rather similar to the previous one, with a big exception: 
-we are going to implement in our analyses **non-ubiquitous gene OGs** - _i.e._ OGs where some of the species considered are lacking.
-As before, what's need to carry out this analysis is:
-
-* a folder of aligned OGs
-* a species tree
-* two codeml .ctl files
+we are going to implement in our analyses **non-ubiquitous gene OGs** - _i.e._ OGs where some of the tips (species?)  considered are lacking.
+As before, what's need to carry out this analysis is a folder of aligned OGs, a species tree and two codeml .ctl files.
 
 Here is the [folder](https://github.com/for-giobbe/BASE/tree/master/example/_partials_OGs) with a toy-dastaset which includes non-ubiquitous genes OGs as well; if 
 you type ``` grep -c ">" *``` you can see how each fasta-formatted file has a different number of genes in it, yet never exceeding the total number of tips of our species tree.
@@ -16,7 +12,7 @@ Consider that too small OGs (<3 OTUs) won't be processed by BASE, so you can exc
 
 ---
 
-To carry out the ```--analyze```step leveraging also non ubiquitous genes OGs we need to specify the ```-d``` flag; we can also include ```-v``` so that BASE will produce a verbose output
+To carry out the ```--analyze``` step leveraging also non ubiquitous genes OGs we need to specify the ```-d``` flag; we can also include ```-v``` so that BASE will produce a verbose output
 and won't erase its temporary folder and files. Here's the line:
 
 ```sh BASE.sh --analyze -i _partials_OGs/ -o partial_OGs_analyze -t sp.tre -ma m0.ctl -mb m1.ctl -c 4 -d -v```
@@ -24,7 +20,7 @@ and won't erase its temporary folder and files. Here's the line:
 Here's the standard output:
 
 The files generated are exactly the same as an analysis which doesn't allow missing data.
-Due to the ```-v``` flag we also get a ```tmp.full.out folder``` which contains all the intermediate and temporary file of the analyses. 
+Due to the ```-v``` flag we also get a ```...tmp.full.out folder``` which contains all the intermediate and temporary file of the analyses. 
 We can then proceed straight to the ```--annotate``` step by typing:
 
 ```sh BASE.sh --annotate -i partial_OGs_analyze/ -o partial_OGs_annotate```

@@ -2,7 +2,7 @@
 
 
 
-The focal poin of BASE is to allow analyses on selection regimes / molecular evolution to integrate ortholog groups of non-ubiquitous genes (*i.e.* OGs which do not 
+The focal poin of BASE is to allow analyses on selection regimes / molecular evolution to integrate ortholog groups (OGs from now on) of non-ubiquitous genes (*i.e.* OGs which do not 
 contain the full set of tips considered). The vast majority of the litterature on the topic restricts analyses on the subset of genes which are found across all the species considered.
 
 ![Image description](https://github.com/for-giobbe/BASE/blob/master/figures/Fig.0.jpeg)
@@ -21,9 +21,9 @@ It has been desinged to function in three indipendent steps:
 
 1.   **analyze**        compare which out of two dN/dS models fits best to each ortholog group(s), by parallel processing.
 
-2.   **annotate**	reconstruct & reformat the internal edges along with the associated leafs in codeml output(s).
+2.   **annotate**	reformat the internal nodes annotation along with the associated tips in codeml output(s).
 
-3.   **extract**        find biologically equivalent branch(es), independently from any missing taxa.
+3.   **extract**        retrive metrics of equivalent branch(es), allowing a treshold for missing tips.
 
 More information on each mode can be accessed by typing ```--analize```, ```--annotate```, ```--extract``` followed by ```-h```.
 
