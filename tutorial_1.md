@@ -4,7 +4,7 @@ BASE substantially is a wrapper which leverages the following pieces of software
 
 * Phyutility
 * RAxML
-* PAML
+* PAML (codeml)
 * R
 * getopt
 * EMBOSS (transeq)
@@ -23,6 +23,8 @@ OGs: in the first case each OG is made up by single copy genes present in all th
 a certain number of tips is missing in some OGs.
 
 These kind of data can readily be obtained using tools as [OrthoFinder2](https://github.com/davidemms/OrthoFinder), subsequently retrotranslating and aligning each OG.
+
+BASE is built around codeml, so that a general knowledge of its usage is necessary to use it (here is the [manual](http://abacus.gene.ucl.ac.uk/software/pamlDOC.pdf)).
 
 ---
 

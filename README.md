@@ -3,8 +3,7 @@
 
 
 The focal poin of BASE is to allow analyses on selection regimes / molecular evolution to integrate ortholog groups of non-ubiquitous genes (*i.e.* OGs which do not 
-contain the full set of tips considered). The vast majority of the litterature on the topic restricts analyses on the subset of genes which are found across all the species considered,
-not taking into consideration clusters with missing data. 
+contain the full set of tips considered). The vast majority of the litterature on the topic restricts analyses on the subset of genes which are found across all the species considered.
 
 ![Image description](https://github.com/for-giobbe/BASE/blob/master/figures/Fig.0.jpeg)
 
@@ -27,6 +26,7 @@ It has been desinged to function in three indipendent steps:
 3.   **extract**        find biologically equivalent branch(es), independently from any missing taxa.
 
 More information on each mode can be accessed by typing ```--analize```, ```--annotate```, ```--extract``` followed by ```-h```.
+
 Here is a schematic of BASE steps and functioning.
 
 ![Image description](https://github.com/for-giobbe/BASE/blob/master/figures/Fig.3.png)
