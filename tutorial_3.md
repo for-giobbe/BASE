@@ -3,7 +3,7 @@
 ---
 
 This tutorial is rather similar to the previous one, with a big exception: 
-we are going to implement in our analyses **non-ubiquitous gene OGs** - _i.e._ OGs where some of the tips - species? - considered are lacking.
+we are going to implement in our analyses *OGs of non-ubiquitous genes** - _i.e._ OGs where some single-copy genes are lacking for some of the tips - species? - considered.
 As before, what's need to carry out this analysis is a folder of ```.aln``` aligned OGs, a ```.nwk``` species tree and two codeml ```.ctl``` files.
 
 Here is the [folder](https://github.com/for-giobbe/BASE/tree/master/example/_partials_OGs) with a toy-dastaset which includes non-ubiquitous genes OGs as well; if 
@@ -16,7 +16,7 @@ To carry out the ```--analyze``` step leveraging also non ubiquitous genes OGs w
 and won't erase its temporary folder and files. Here's the line:
 
 ```
-    sh BASE.sh --analyze -i _partials_OGs/ -o partial_OGs_analyze 
+    sh BASE.sh --analyze -i _non-ubiquitous_OGs/ -o _non-ubiquitous_OGs_analyze 
     -t sp.tre -ma m0.ctl -mb m1.ctl -c 4 
     -d -v
 ```
@@ -25,13 +25,13 @@ The files generated are exactly the same as an analysis which includes ubiquitou
 Due to the ```-v``` flag we also get a ```...tmp.full.out folder``` which contains all the intermediate and temporary file of the analyses. 
 We can then proceed straight to the ```--annotate``` step by typing:
 
-```sh BASE.sh --annotate -i partial_OGs_analyze/ -o partial_OGs_annotate```
+```sh BASE.sh --annotate -i _non-ubiquitous_OGs_analyze/ -o _non-ubiquitous_OGs_annotate```
 
 In a first scenario, we want to extract the values of a branch without allowing any missing data in the relative clade. To do so we
 can just specify a number of tips equal to the clade size: as our clade of interest consists of just two tips we can use the flag ```-n 2```,
 which specifies that a minimun of 2 tips must be subtended for the branch to be considered. Let's type:
 
-```sh BASE.sh --extract -i partial_OGs_annotate/ -l branch.lst -n 2```
+```sh BASE.sh --extract -i _non-ubiquitous_OGs_annotate/ -l branch.lst -n 2```
 
 The ouptut will be named with the clade name and the treshold of missing data as well.
 We can see that it clearly states where the cirteria was not met for certain OGs, as we can observe from the ```no_branch``` labels.
@@ -65,7 +65,7 @@ In a second scenario, we want instead to obtain the information of the branch le
 With the ```-n``` flag we can specify either an absulute number or a proportion. For example let's extract the information
 for a second clade using a trashold of 0.8:
 
-```sh BASE.sh --extract -i partial_OGs_annotate -l branch_alt.lst -n 0.8 -v```
+```sh BASE.sh --extract -i _non-ubiquitous_OGs_annotate -l branch_alt.lst -n 0.8 -v```
 
 This analysis will consider more OGs than the one only considering ubiquitous genes; due to the ```-v``` flag we can visualize each OGs OTUs and the specific branch in the tree:
 
@@ -95,7 +95,7 @@ second_clade  OG3683  alternative  4       0.1670     0.255  0.0403  0.2410  7..
 
 But let's try to use a different treshold of 0.6:
 
-```sh BASE.sh --extract -i partial_OGs_annotate -l branch_alt.lst -n 0.6 -v```
+```sh BASE.sh --extract -i _non-ubiquitous_OGs_annotate -l branch_alt.lst -n 0.6 -v```
 
 We can notice that the our criteria have been met in a larger number of cases (all of the OGs actually):
 
