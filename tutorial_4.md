@@ -187,6 +187,15 @@ sh BASE.sh --analyze -i _ubiquitous_OGs/ -o _ubiquitous_OGs_analyze_branch_site
 -l tag_branch_site.lst -l2 tag_branch_site.lst -r 10
 ```
 
+```
+```
+
+We can select the files for which the alternative model was the best-fit and explore the number of sites which have been found to be under
+positive selection through the BEB test. Notably, all the 10 replicates have the same likelihood values for each OG (replicate 1 is selected 
+when they are all equal). This is quite common in small trees, but replicates can play a key role in certain datasets, especially the ones which
+contain a large number of species.  
+
+
 ---
 
 [Back](https://github.com/for-giobbe/BASE/blob/master/tutorial_0.md) to the tutorials list.
