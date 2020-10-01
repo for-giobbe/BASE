@@ -25,10 +25,10 @@ When using your own data, remember to properly set the genetic code in the ```.c
 
 ---
 
-To start the analysis just use the line:
+We can start the analysis using 4 cores (```-c``` 4) using the line:
 
 ```
-    BASE.sh --analyze -i _ubiquitous_OGs/ -o _ubiquitous_OGs_analyze 
+    sh BASE.sh --analyze -i _ubiquitous_OGs/ -o _ubiquitous_OGs_analyze 
     -t sp.tre -ma m0.ctl -mb m1.ctl -c 4
 ```
 
@@ -174,30 +174,31 @@ clade_of_interest  OG3682  2       0.1398  0.277  0.0378  0.2705
 clade_of_interest  OG3683  2       0.1825  0.407  0.0679  0.3720
 ```
 
-Typing ```column -t _ubiquitous_OGs_annotate/branch.single_species.min.otu.1.dNdS.summary``` you can see how an output for a terminal branche should look like:
+Typing ```column -t _ubiquitous_OGs_annotate/branch.species_of_interest.dNdS.summary``` 
+you can see how an output for a terminal branche should look like:
 
 ```
-clade           gene    dNdS    t      dN      dS
-single_species  OG3126  0.0201  0.085  0.0023  0.1171
-single_species  OG3158  0.0603  0.109  0.0081  0.1336
-single_species  OG3164  0.0424  0.155  0.0098  0.2321
-single_species  OG3196  0.0571  0.269  0.0174  0.3055
-single_species  OG3197  0.0705  0.286  0.0220  0.3122
-single_species  OG3302  0.0476  0.144  0.0091  0.1906
-single_species  OG3342  0.0844  0.118  0.0116  0.1371
-single_species  OG3347  0.0618  0.223  0.0174  0.2820
-single_species  OG3359  0.0001  0.020  0.0000  0.0272
-single_species  OG3362  0.0981  0.141  0.0147  0.1497
-single_species  OG3372  0.0036  0.095  0.0005  0.1492
-single_species  OG3387  0.0749  0.102  0.0078  0.1047
-single_species  OG3395  0.0001  0.104  0.0000  0.1499
-single_species  OG3399  0.0530  0.148  0.0097  0.1832
-single_species  OG3600  0.1323  0.064  0.0087  0.0658
-single_species  OG3622  0.0198  0.187  0.0051  0.2584
-single_species  OG3640  0.0613  0.159  0.0118  0.1930
-single_species  OG3648  0.1708  0.125  0.0193  0.1127
-single_species  OG3682  0.0294  0.094  0.0036  0.1219
-single_species  OG3683  0.0290  0.090  0.0035  0.1220
+clade                gene    dNdS    t      dN      dS
+species_of_interest  OG3126  0.0201  0.085  0.0023  0.1171
+species_of_interest  OG3158  0.0603  0.109  0.0081  0.1336
+species_of_interest  OG3164  0.0424  0.155  0.0098  0.2321
+species_of_interest  OG3196  0.0571  0.269  0.0174  0.3055
+species_of_interest  OG3197  0.0705  0.286  0.0220  0.3122
+species_of_interest  OG3302  0.0476  0.144  0.0091  0.1906
+species_of_interest  OG3342  0.0844  0.118  0.0116  0.1371
+species_of_interest  OG3347  0.0618  0.223  0.0174  0.2820
+species_of_interest  OG3359  0.0001  0.020  0.0000  0.0272
+species_of_interest  OG3362  0.0981  0.141  0.0147  0.1497
+species_of_interest  OG3372  0.0036  0.095  0.0005  0.1492
+species_of_interest  OG3387  0.0749  0.102  0.0078  0.1047
+species_of_interest  OG3395  0.0001  0.104  0.0000  0.1499
+species_of_interest  OG3399  0.0530  0.148  0.0097  0.1832
+species_of_interest  OG3600  0.1323  0.064  0.0087  0.0658
+species_of_interest  OG3622  0.0198  0.187  0.0051  0.2584
+species_of_interest  OG3640  0.0613  0.159  0.0118  0.1930
+species_of_interest  OG3648  0.1708  0.125  0.0193  0.1127
+species_of_interest  OG3682  0.0294  0.094  0.0036  0.1219
+species_of_interest  OG3683  0.0290  0.090  0.0035  0.1220
 ```
 
 These tables are rather self explanatory as well, and represent the final output of our analysis.
