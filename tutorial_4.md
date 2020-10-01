@@ -48,7 +48,8 @@ We can then proceed to the ```--annotate``` step:
 
 ```sh BASE.sh --annotate -i _ubiquitous_OGs_analyze_clades -o _ubiquitous_OGs_analyze_clades_annotate```
 
-To retrive the metrics relative to our clade of interst we can just specify all of its species in the relative files and carry out the ```--analyze``` step.
+To retrive metrics relative to our clade of interst we must specify all its species in the relative [file](https://github.com/for-giobbe/BASE/blob/master/example/branch_clades.lst) 
+and carry out the ```--analyze``` step.
 
 ```sh BASE.sh --extract -i _ubiquitous_OGs_analyze_clades_annotate/ -l branch_clades.lst -n 1```
 
