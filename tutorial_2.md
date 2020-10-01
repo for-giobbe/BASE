@@ -9,17 +9,19 @@ in which a single copy gene is present for each species.
 After moving to the [toy-dataset folder](https://github.com/for-giobbe/BASE/tree/master/example) we can quickly revise what's needed to start our analysis:
 
 * a folder of aligned OGs. These alignment shouldn't have any STOP codon, yet BASE will check for them, discard and report the OGs wehre they are found.
-Cosider that alignment quality will substantially impact the quality of downstraeam analysis.
 
 * a species tree - in the newick format - which present all the species considered;
 no branchlengths are needed as they will be optimized for each gene through our analysis.
 
-* two codeml ```.ctl``` files, which describe the models we want to leverage in our analysis. As stated before, in this analysis we will compare
-a [model](https://github.com/for-giobbe/BASE/blob/master/example/m0.ctl) where there is one omega shared by all branches and (codeml model 1) and
-a (model)[https://github.com/for-giobbe/BASE/blob/master/example/m1.ctl] where each branch has it's own omega (codeml model 1); remember to properly set the genetic code of your sequences.
-every parameter of the ```.ctl``` files can still be modified
+* two codeml ```.ctl``` files, which describe the models we want to leverage in our analysis. 
 
+In the latter ```.ctl``` files, every parameter can still be modified but the ```seqfile =```, ```outfile =``` , ```treefile =``` fields should	be left	empty.
+As stated before, in this analysis we will compare two branch models:
+a [model](https://github.com/for-giobbe/BASE/blob/master/example/m0.ctl) where there is one omega shared by all branches and (codeml model 0) and
+a (model)[https://github.com/for-giobbe/BASE/blob/master/example/m1.ctl] where each branch has it's own omega (codeml model 1). 
 
+When using your own data, 
+cosider that alignment quality will substantially impact downstraeam analysis and remember to properly set the genetic code in the ```.ctl``` files.
 
 ---
 
