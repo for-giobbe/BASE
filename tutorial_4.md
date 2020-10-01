@@ -7,8 +7,8 @@ In this part of the tutorial we will leverage the clade (#) tagging functionalty
 to find the genes where two clades of our phylogeny have differential selection regimes. 
 We can leverage the same [```.ctl```](https://github.com/for-giobbe/BASE/blob/master/example/m2.ctl) file - which specifies for the branch model 2 
 and assumes different omega classes for the "foreground" and "background" branches - but implement different labeling using the ```-l``` and ```-l2``` flags.
-The first label files [```tag_same.lst```](https://github.com/for-giobbe/BASE/blob/master/example/tag_same.lst) assumes that our clades of interst share the same omega class, 
-wile the second one [```tag_diff.lst```](https://github.com/for-giobbe/BASE/blob/master/example/tag_diff.lst) makes them have two different omega classes.
+The first [label](https://github.com/for-giobbe/BASE/blob/master/example/tag_same.lst) assume that our clades of interst share the same omega class, 
+wile the second [```tag_diff.lst```](https://github.com/for-giobbe/BASE/blob/master/example/tag_diff.lst) makes them have two different omega classes.
 Lets' find which of the two models fits best each OG:
 
 ```
