@@ -1,14 +1,14 @@
-**Complex models & analyses replicates**
+**Additional models & analyses replicates**
 
 ---
 
 
 In this part of the tutorial we will leverage the clade (#) tagging functionalty. Let's assume that we are willing
 to find the genes where two clades of our phylogeny have differential selection regimes. 
-We can leverage the same ```.ctl``` file - which specifies for the branch model 2 
-and assumes different omega classes for the "foreground" and "background" branches - but specify a different labelling using the ```-l``` and ```-l2``` flags.
+We can leverage the same [```.ctl```](https://github.com/for-giobbe/BASE/blob/master/example/m2.ctl) file - which specifies for the branch model 2 
+and assumes different omega classes for the "foreground" and "background" branches - but implement different labeling using the ```-l``` and ```-l2``` flags.
 The first label files [```tag_same.lst```](https://github.com/for-giobbe/BASE/blob/master/example/tag_same.lst) assumes that our clades of interst share the same omega class, 
-wile the second one [```tag_diff.lst```](https://github.com/for-giobbe/BASE/blob/master/example/tag_diff.lst)makes them have two different omega classes.
+wile the second one [```tag_diff.lst```](https://github.com/for-giobbe/BASE/blob/master/example/tag_diff.lst) makes them have two different omega classes.
 Lets' find which of the two models fits best each OG:
 
 ```
@@ -44,13 +44,13 @@ OG3682            0       NA         2         -3703.868866   1     2       NA  
 OG3683            0       NA         2         -2791.481942   1     2       NA           4         -2789.801519   1     3.3608   2   0.1863   n/s
 ```
 
-We can then proceed to the --annotate step:
+We can then proceed to the ```--annotate``` step:
 
-```sh BASE.sh --annotate -i complete_OGs_analyze_clades -o complete_OGs_analyze_clades_annotate```
+```sh BASE.sh --annotate -i _ubiquitous_OGs_analyze_clades -o _ubiquitous_OGs_analyze_clades_annotate```
 
-To extract the metrics relative to our clade of interst we can just specify all of its species in the relative files.
+To retrive the metrics relative to our clade of interst we can just specify all of its species in the relative files and carry out the ```--analyze``` step.
 
-```sh BASE.sh --extract -i complete_OGs_analyze_clades_annotate/ -l branch_clades.lst -n 1```
+```sh BASE.sh --extract -i _ubiquitous_OGs_analyze_clades_annotate/ -l branch_clades.lst -n 1```
 
 This will generate the two output relative to each branch:
 
@@ -104,21 +104,21 @@ clade_two  OG3683  2       0.0553     0.243  0.0168  0.3042
 
 dNdS values are the same for the two branches when the general model was the best fit,
 reflecting similar selective regimes across the two clades for that OG.
-On the contrary some genes have the alternative model as a better fit and thus they
+On the contrary, some genes have the alternative model as a better fit and thus they
 have differential selective regimes across the two clades. This can be seen from the result of the LRT, 
 but to understand the actual difference between the two one has to extract the metrics relative to the two
 branches and compare them.
 
 All this example has been carried out using the clade tagging functionality, but all this can be done using the  branch tagging:
 we just need to substitute the symbol for tagging clades (#) with the one for tagging branches ($) in the ```.ctl``` files.
+
 ---
 
-BASE also allows models which allow different dN/dS values among different alignement sites. 
-Let's use the ubiquitous OGs and ```.ctl```  which has one omega class across all branches and all sites as the general model,
-and one with NSsites=3 , such as the one provided here - as an alternative model
-
-Until now we have seen just branch model but BASE can be used to carry out sites model as well. For example we can compare a model
-which doesn't assume any variability among sites with one which does - such as NSsites 3 - by editing the file like this one:
+BASE also implement models which allow different dN/dS values among different alignement sites. 
+Let's use one [```.ctl```](https://github.com/for-giobbe/BASE/blob/master/example/m0.ctl) 
+which has one omega class across all branches and all sites as the general model,
+and one [```.ctl```](https://github.com/for-giobbe/BASE/blob/master/example/m0_NS3.ctl) with NSsites=3 as the alternative model,
+like this:
 
 ```
 seqfile = 
@@ -173,12 +173,18 @@ OG3683            0       NA         2         -2791.481942   1     0       NA  
 
 ---
 
-Lastly we will carry out a branch-site model, which is a mix between branch-specific and site-specific models.
+Lastly we will carry out a branch-site model, which consists of a mixture between branch-specific and site-specific models.
+Here are the general model [```.ctl```](https://github.com/for-giobbe/BASE/blob/master/example/m_branch_site_gen.ctl)
+and the alternative model [```.ctl```](https://github.com/for-giobbe/BASE/blob/master/example/m_branch_site_alt.ctl), along
+with the [file](https://github.com/for-giobbe/BASE/blob/master/example/tag_branch_site.lst) specifiying the branch to test.
+While doing so we will also carry out 10 replicates of each codeml analysis, which can be specified using the ```-r``` flag.
+This features makes BASE carry out a certain number of replicate analysis and select the one which has the best likelihood values,
+substantially strengthening our confidence in the results.
 
 ```
-sh BASE.sh --analyze -i _complete_OGs/ -o complete_OGs_analyze_branch_site 
--t sp.tre -ma m_branch_site_gen.ctl -mb m_branch_site_alt.ctl 
--l tag_branch_site.lst -l2 tag_branch_site.lst -c 4
+sh BASE.sh --analyze -i _ubiquitous_OGs/ -o _ubiquitous_OGs_analyze_branch_site 
+-t sp.tre -c 4 -ma m_branch_site_gen.ctl -mb m_branch_site_alt.ctl 
+-l tag_branch_site.lst -l2 tag_branch_site.lst -r 10
 ```
 
 ---

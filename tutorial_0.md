@@ -10,4 +10,4 @@ It's subdivided into four different parts:
 
 * [implementing non-ubiquitous genes OGs in the analysis](https://github.com/for-giobbe/BASE/blob/master/tutorial_3.md)
 
-* [complex models & analyses replicates](https://github.com/for-giobbe/BASE/blob/master/tutorial_4.md)
+* [additional models & analyses replicates](https://github.com/for-giobbe/BASE/blob/master/tutorial_4.md)
