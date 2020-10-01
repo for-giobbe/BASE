@@ -1,6 +1,6 @@
-seqfile = alignment.phy
-outfile = output.txt
-treefile = tre.tre
+seqfile =
+outfile =
+treefile =
 noisy = 0
 verbose = 0
 runmode = 0

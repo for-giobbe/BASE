@@ -1,4 +1,4 @@
-**BASE** - pronunced  /'baze/ - is a tool to test **B**ranch **A**nd **S**ite **E**volution.
+**BASE** - pronunced  /'baze/ - is a tool to test **B**ranch **A**nd **S**ite **E**volution, which is built around [codeml](http://abacus.gene.ucl.ac.uk/software/pamlDOC.pdf).
 
 
 
