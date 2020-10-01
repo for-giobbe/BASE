@@ -4,7 +4,7 @@
 
 In this tutorial we will compare through a Likelihood Ratio Test (LRT from now on)
 a model with a single omega values across all the branch of our phylogeny versus a model in which all the branches have different omegas, for each OG; subsequently 
-we will extract omega (along with dN dS and substitution rate) for specific branches. This analysis will focus only on OGs of ubiquitus genes,
+we will extract omega (along with dN dS and substitution rate) for specific branches. This analysis will focus only on [OGs of ubiquitus genes](https://github.com/for-giobbe/BASE/tree/master/example/_ubiquitous_OGs),
 in which a single-copy gene is present for each species.
 After moving to the [toy-dataset folder](https://github.com/for-giobbe/BASE/tree/master/example) we can quickly revise what's needed to start our analysis:
 

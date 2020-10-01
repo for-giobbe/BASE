@@ -3,10 +3,10 @@
 ---
 
 This tutorial is rather similar to the previous one, with a big exception: 
-we are going to implement in our analyses *OGs of non-ubiquitous genes** - _i.e._ OGs where some single-copy genes are lacking for some of the tips - species? - considered.
+we are going to implement in our analyses **OGs of non-ubiquitous genes** - _i.e._ OGs where some single-copy genes are lacking for some of the tips - species? - considered.
 As before, what's need to carry out this analysis is a folder of ```.aln``` aligned OGs, a ```.nwk``` species tree and two codeml ```.ctl``` files.
 
-Here is the [folder](https://github.com/for-giobbe/BASE/tree/master/example/_partials_OGs) with a toy-dastaset which includes non-ubiquitous genes OGs as well; if 
+[Here](https://github.com/for-giobbe/BASE/tree/master/example/_non-ubiquitous_OGs) is the folder of the toy-dastaset which includes non-ubiquitous genes OGs as well; if 
 you type ``` grep -c ">" *``` you can see how each fasta-formatted file has a different number of genes in it, yet never exceeding the total number of tips of our species tree.
 Consider that too small OGs (<3 OTUs) won't be processed by BASE, so you can exclude them before the analysis or make BASE discard them.
 

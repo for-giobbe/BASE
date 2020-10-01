@@ -18,7 +18,9 @@ The correct installation and versions of the requirements can be checked using t
 
 During the tutorial we are gonna leverage a toy datasets which can be found [here](https://github.com/for-giobbe/BASE/tree/master/example/):
 
-We are going to use some [ubiquitous](https://github.com/for-giobbe/BASE/tree/master/example/example/_complete_OGs) and [non-ubiquitous](https://github.com/for-giobbe/BASE/tree/master/example/_partials_OGs)
+We are going to use some 
+[ubiquitous](https://github.com/for-giobbe/BASE/tree/master/example/example/_ubiquitous_OGs) and 
+[non-ubiquitous](https://github.com/for-giobbe/BASE/tree/master/example/_non-ubiquitous_OGs)
 genes OGs: in the first case each OG is made up by single copy genes present in all the tips of our phylogenetic trees, while in the second case
 a certain number of tips is missing in each OG.
 
