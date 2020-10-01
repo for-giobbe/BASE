@@ -14,7 +14,7 @@ Lets' find which of the two models fits best each OG:
 ```
     sh BASE.sh --analyze -i _ubiquitous_OGs/ -o _ubiquitous_OGs_analyze_clades 
     -t sp.tre -ma m2.ctl -mb m2.ctl -c 4 
-    -l tag_same.lst -l2 tag_diff.lst```
+    -l tag_same.lst -l2 tag_diff.lst
 ```
 
 Here is the summary for the LRTs:
@@ -103,12 +103,11 @@ clade_two  OG3682  2       0.1325     0.101  0.0133  0.1004
 clade_two  OG3683  2       0.0553     0.243  0.0168  0.3042
 ```
 
-dNdS values are the same for the two branches when the general model was the best fit,
-reflecting similar selective regimes across the two clades for that OG.
-On the contrary, some genes have the alternative model as a better fit and thus they
-have differential selective regimes across the two clades. This can be seen from the result of the LRT, 
-but to understand the actual difference between the two one has to extract the metrics relative to the two
-branches and compare them.
+dNdS values are identical across the two branches when the general model was the best fit for that OG,
+reflecting similar selective regimes across the two clades.
+On the contrary, some OGs have the alternative model as the betst-fit and thus theyr genes
+have undergone differential selective regimes across the two clades. This outcome can allready be observed from the LRT results, 
+but to understand the actual difference between branches, one has to extract and compare the relative metrics.
 
 All this example has been carried out using the clade tagging functionality, but all this can be done using the  branch tagging:
 we just need to substitute the symbol for tagging clades (#) with the one for tagging branches ($) in the ```.ctl``` files.
@@ -174,7 +173,7 @@ OG3683            0       NA         2         -2791.481942   1     0       NA  
 
 ---
 
-Lastly we will carry out a branch-site model, which consists of a mixture between branch-specific and site-specific models.
+Now we will carry out a branch-site model, which consists of a mixture between branch-specific and site-specific models.
 Here are the general model [```.ctl```](https://github.com/for-giobbe/BASE/blob/master/example/m_branch_site_gen.ctl)
 and the alternative model [```.ctl```](https://github.com/for-giobbe/BASE/blob/master/example/m_branch_site_alt.ctl), along
 with the [file](https://github.com/for-giobbe/BASE/blob/master/example/tag_branch_site.lst) specifiying the branch to test.

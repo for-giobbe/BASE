@@ -8,18 +8,19 @@ we will extract omega (along with dN dS and substitution rate) for specific bran
 in which a single-copy gene is present for each species.
 After moving to the [toy-dataset folder](https://github.com/for-giobbe/BASE/tree/master/example) we can quickly revise what's needed to start our analysis:
 
-* a folder containing aligned OGs ```.aln```. These alignment shouldn't have any STOP codon, 
+* a [folder](https://github.com/for-giobbe/BASE/tree/master/example/_ubiquitous_OGs) containing aligned OGs ```.aln```. These alignment shouldn't have any STOP codon, 
 yet BASE will report the OGs wehre they are found.
 
-* a species tree - in the newick format ```.nwk```. It has to include all the species considered;
+* a [species tree](https://github.com/for-giobbe/BASE/blob/master/example/sp.tre) 
+- in the newick format ```.nwk```. It has to include all the species considered;
 no branchlengths are needed as they will be optimized for each gene through our analysis.
 
 * two codeml ```.ctl``` files, which describe the models we want to leverage in our analysis. 
 
-In the latter ```.ctl``` files, every parameter can still be modified, but the ```seqfile =```, ```outfile =``` , ```treefile =``` fields should	be left	empty.
+In the latter ```.ctl``` files, every parameter can still be modified, but the ```seqfile =```, ```outfile =``` , ```treefile =``` fields should be left empty.
 As stated before, in this analysis we will compare two branch models:
 a [model](https://github.com/for-giobbe/BASE/blob/master/example/m0.ctl) where there is one omega shared by all branches and (codeml model 0) and
-a (model)[https://github.com/for-giobbe/BASE/blob/master/example/m1.ctl] where each branch has it's own omega (codeml model 1). 
+a [model](https://github.com/for-giobbe/BASE/blob/master/example/m1.ctl) where each branch has it's own omega (codeml model 1). 
 When using your own data, remember to properly set the genetic code in the ```.ctl``` files.
 
 ---
