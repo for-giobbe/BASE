@@ -3,21 +3,13 @@
 ---
 
 
-In this part of the tutorial we will leverage the clade (#) tagging functionalty. Let's assume that we are willing
-to find the genes where two clades of our phylogeny have differential selection regimes. 
-We can leverage the same ```.ctl``` file - which specifies for the branch model 2 
-and assumes different omega classes for the "foreground" and "background" branches - but specify a different labelling using the ```-l``` and ```-l2``` flags.
-The first label files [```tag_same.lst```](https://github.com/for-giobbe/BASE/blob/master/example/tag_same.lst) assumes that our clades of interst share the same omega class, 
-wile the second one [```tag_diff.lst```](https://github.com/for-giobbe/BASE/blob/master/example/tag_diff.lst)makes them have two different omega classes.
-Lets' find which of the two models fits best each OG:
+In this part of the tutorial we will leverage the clade (#) / branch ($) tagging functionalty .
 
 ```
-    sh BASE.sh --analyze -i _ubiquitous_OGs/ -o _ubiquitous_OGs_analyze_clades 
-    -t sp.tre -ma m2.ctl -mb m2.ctl -c 4 
+    sh BASE.sh --analyze -i _complete_OGs/ -o complete_OGs_analyze_clades 
+    -t sp.tre -ma m0.ctl -mb m2.ctl -c 4 -d 
     -l tag_same.lst -l2 tag_diff.lst```
 ```
-
-Here is the summary for the LRTs:
 
 ```
 Ortholog_Cluster  Model1  NSsites_a  Model1np  Model1LnL      Rep1  Model2  NSsites_a.1  Model2np  Model2LnL      Rep2  LRT      df  p.value  significance
@@ -44,18 +36,13 @@ OG3682            0       NA         2         -3703.868866   1     2       NA  
 OG3683            0       NA         2         -2791.481942   1     2       NA           4         -2789.801519   1     3.3608   2   0.1863   n/s
 ```
 
-We can then proceed to the --annotate step:
-
 ```sh BASE.sh --annotate -i complete_OGs_analyze_clades -o complete_OGs_analyze_clades_annotate```
 
-To extract the metrics relative to our clade of interst we can just specify all of its species in the relative files.
-
-```sh BASE.sh --extract -i complete_OGs_analyze_clades_annotate/ -l branch_clades.lst -n 1```
-
-This will generate the two output relative to each branch:
+```sh BASE.sh --extract -i complete_OGs_analyze_clades_annotate/ -l branch_clades.lst -n 2```
 
 ```
 clade      gene    OTUs_n  dNdS    t      dN      dS
+clade_one  OG3105  2       0.1030  0.270  0.0289  0.2809
 clade_one  OG3126  2       0.0349  0.107  0.0049  0.1402
 clade_one  OG3158  2       0.2049  0.018  0.0032  0.0157
 clade_one  OG3164  2       0.0648  0.112  0.0100  0.1551
@@ -80,6 +67,7 @@ clade_one  OG3683  2       0.0553  0.073  0.0050  0.0913
 
 ```
 clade      gene    OTUs_n  dNdS       t      dN      dS
+clade_two  OG3105  0       no_branch
 clade_two  OG3126  2       0.0349     0.204  0.0093  0.2675
 clade_two  OG3158  2       0.0356     0.212  0.0099  0.2790
 clade_two  OG3164  2       0.0648     0.142  0.0127  0.1968
@@ -102,28 +90,18 @@ clade_two  OG3682  2       0.1325     0.101  0.0133  0.1004
 clade_two  OG3683  2       0.0553     0.243  0.0168  0.3042
 ```
 
-dNdS values are the same for the two branches when the general model was the best fit,
-reflecting similar selective regimes across the two clades for that OG.
-On the contrary some genes have the alternative model as a better fit and thus they
-have differential selective regimes across the two clades. This can be seen from the result of the LRT, 
-but to understand the actual difference between the two one has to extract the metrics relative to the two
-branches and compare them.
+dNdS values are the same when the general model won.
 
-All this example has been carried out using the clade tagging functionality, but all this can be done using the  branch tagging:
-we just need to substitute the symbol for tagging clades (#) with the one for tagging branches ($) in the ```.ctl``` files.
 ---
 
 BASE also allows models which allow different dN/dS values among different alignement sites. 
 Let's use the ubiquitous OGs and ```.ctl```  which has one omega class across all branches and all sites as the general model,
 and one with NSsites=3 , such as the one provided here - as an alternative model
 
-Until now we have seen just branch model but BASE can be used to carry out sites model as well. For example we can compare a model
-which doesn't assume any variability among sites with one which does - such as NSsites 3 - by editing the file like this one:
-
 ```
-seqfile = 
-outfile = 
-treefile =
+seqfile = alignment.phy
+outfile = output.txt
+treefile = tre.tre
 noisy = 0
 verbose = 0
 runmode = 0
@@ -139,13 +117,11 @@ fix_blength = 2
 Let's use the line:
 
 ```
-    sh BASE.sh --analyze -i _ubiquitous_OGs/ -o _ubiquitous_OGs_analyze_NSsites 
-    -t sp.tre -c 4 
-    -ma m0.ctl -mb m0_NS3.ctl
+    sh BASE.sh --analyze -i _complete_OGs/ -o complete_OGs_analyze_NSsites 
+    -t sp.tre -ma m0.ctl -mb m0_NS3.ctl -c 4
 ```
 
-The likelihood summary which has been generated in the output folder shows that all genes passed the LRT, and 
-thus that a certain omega variability among the different sites of our allignments can be observed:
+The likelihood summary which has been generated in the output folder shows that all genes passed the LRT.
 
 ```
 Ortholog_Cluster  Model1  NSsites_a  Model1np  Model1LnL      Rep1  Model2  NSsites_a.1  Model2np  Model2LnL      Rep2  LRT       df  p.value  significance
