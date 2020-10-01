@@ -186,15 +186,33 @@ sh BASE.sh --analyze -i _ubiquitous_OGs/ -o _ubiquitous_OGs_analyze_branch_site
 -t sp.tre -c 4 -ma m_branch_site_gen.ctl -mb m_branch_site_alt.ctl 
 -l tag_branch_site.lst -l2 tag_branch_site.lst -r 10
 ```
+Here is the likelihood summary:
 
 ```
+Ortholog_Cluster  Model1  NSsites_a  Model1np  Model1LnL     Rep1  Model2  NSsites_a.1  Model2np  Model2LnL     Rep2  LRT     df  p.value  significance
+OG3126            2       NA         4         -4108.905187  1     2       NA           5         -4107.471035  1     2.8683  1   0.0903   n/s
+OG3158            2       NA         4         -3795.537032  1     2       NA           5         -3795.537032  1     0       1   1        n/s
+OG3164            2       NA         4         -5326.864502  1     2       NA           5         -5326.864503  1     0       1   1        n/s
+OG3196            2       NA         4         -3287.050015  1     2       NA           5         -3286.841551  1     0.4169  1   0.5185   n/s
+OG3197            2       NA         4         -3623.298938  1     2       NA           5         -3623.298938  1     0       1   1        n/s
+OG3302            2       NA         4         -8911.697147  1     2       NA           5         -8911.697147  1     0       1   1        n/s
+OG3342            2       NA         4         -3404.532625  1     2       NA           5         -3404.532625  1     0       1   1        n/s
+OG3347            2       NA         4         -9499.288353  1     2       NA           5         -9497.793637  1     2.9894  1   0.0838   n/s
+OG3359            2       NA         4         -3131.472756  1     2       NA           5         -3131.472756  1     0       1   1        n/s
+OG3362            2       NA         4         -5667.803294  1     2       NA           5         -5666.883737  1     1.8391  1   0.1751   n/s
+OG3372            2       NA         4         -3701.094933  1     2       NA           5         -3701.094933  1     0       1   1        n/s
+OG3395            2       NA         4         -3898.643714  1     2       NA           5         -3897.257103  1     2.7732  1   0.0959   n/s
+OG3399            2       NA         4         -2983.357611  1     2       NA           5         -2983.357611  1     0       1   1        n/s
+OG3600            2       NA         4         -2843.435359  1     2       NA           5         -2843.435359  1     0       1   1        n/s
+OG3622            2       NA         4         -3403.301033  1     2       NA           5         -3403.244384  1     0.1133  1   0.7364   n/s
+OG3640            2       NA         4         -3328.867214  1     2       NA           5         -3328.867214  1     0       1   1        n/s
+OG3682            2       NA         4         -3667.782582  1     2       NA           5         -3667.782583  1     0       1   1        n/s
+OG3683            2       NA         4         -2780.761592  1     2       NA           5         -2778.824226  1     3.8747  1   0.049    *
 ```
 
-We can select the files for which the alternative model was the best-fit and explore the number of sites which have been found to be under
+We can select the codeml outputs for which the alternative model was the best-fit and explore the sites which have been found to be under
 positive selection through the BEB test. Notably, all the 10 replicates have the same likelihood values for each OG (replicate 1 is selected 
-when they are all equal). This is quite common in small trees, but replicates can play a key role in certain datasets, especially the ones which
-contain a large number of species.  
-
+when they are all equal). This is quite common in small trees, but replicates can play a key role in datasets which contain a large number of species.  
 
 ---
 
