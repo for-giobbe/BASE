@@ -1,6 +1,6 @@
 ## Installation and download of the toy dataset:
 
-BASE substantially is a wrapper which leverages the following pieces of software:
+BASE is based on GNU utilities and thus will function just on linux machines; it is substantially a wrapper which leverages the following pieces of software:
 
 * Phyutility
 * RAxML
@@ -8,6 +8,7 @@ BASE substantially is a wrapper which leverages the following pieces of software
 * R
 * getopt
 * EMBOSS (transeq)
+* phangorn
 
 Each software can be either placed in the PATH or installed with conda, with the exception of phyutility, which can be installed using ```sudo apt-get install phyutility```.
 A [```.yml```](https://github.com/for-giobbe/BASE/blob/master/BASE_env.yml) is available to configure a conda environiment with all the dependencies required by BASE. 

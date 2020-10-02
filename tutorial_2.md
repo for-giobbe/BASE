@@ -11,8 +11,7 @@ After moving to the [toy-dataset folder](https://github.com/for-giobbe/BASE/tree
 * a [folder](https://github.com/for-giobbe/BASE/tree/master/example/_ubiquitous_OGs) containing aligned OGs ```.aln```. These alignment shouldn't have any STOP codon, 
 yet BASE will report the OGs wehre they are found.
 
-* a [species tree](https://github.com/for-giobbe/BASE/blob/master/example/sp.tre) 
-- in the newick format ```.nwk```. It has to include all the species considered;
+* a [species tree](https://github.com/for-giobbe/BASE/blob/master/example/sp.tre) - in the newick format ```.nwk```. It has to include all the species considered;
 no branchlengths are needed as they will be optimized for each gene through our analysis.
 
 * two codeml ```.ctl``` files, which describe the models we want to leverage in our analysis. 
