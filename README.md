@@ -20,7 +20,7 @@ It has been desinged to function in three indipendent steps:
 
 1.   **analyze**        compare which model (out of two) fits best to each OG.
 
-2.   **annotate**	reformat from codeml output(s) the internal nodes/branches annotation along with the associated tips.
+2.   **annotate**	reformat internal nodes/branches annotation along with the associated tips from codeml output(s).
 
 3.   **extract**        retrive metrics of equivalent branches and/or clades, allowing a treshold for missing species.
 
