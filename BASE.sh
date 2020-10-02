@@ -159,20 +159,20 @@ BASE - pronunced  /'baze/ - is a tool to test Branch And Site Evolution.
 This front-end tool has been made to: 
 
 	a)	analyze		test which out of two dN/dS models fits best to each ortholog group(s), by parallel processing.
-	b)	annotate	annotate codeml output(s), including the annotation of internal nodes and the OTUs which are included by each branch. 
-	c)	extract		extract target branch(es), retriving biologically equivalent branches, independently from any missing data.
+	b)	annotate	reformat internal nodes/branches annotation along with the associated tips from codeml output(s).
+        c)	extract         retrive metrics of equivalent branches and/or clades, allowing a treshold for missing species.
 
 More information on each mode usage and options can be accessed by typing "--analize" "--annotate" "--extract" followed by "-h".
 
 BASE relies on the following softwares:
 
-	RAxML 8.1.21
-	PAML 4.3
-	R 3.2.2
-	getopt 2.23.2
-	EMBOSS 6.6.0 (transeq)
-	ape 5.4
-	phangorn 2.4.0
+	RAxML 		8.1.21
+	PAML 		4.3
+	R 		3.2.2
+	getopt 		2.23.2
+	EMBOSS 		6.6.0
+	ape 		5.4
+	phangorn	2.4.0
 
 Each software can be either 
 

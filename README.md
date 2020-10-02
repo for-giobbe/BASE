@@ -18,11 +18,11 @@ but is willing to implement OGs which contain non-ubiquitous in genes in the spe
 
 It has been desinged to function in three indipendent steps:
 
-1.   **analyze**        compare which model (out of two) fits best to each OG.
+1.   **analyze**	compare which model (out of two) fits best to each OG.
 
 2.   **annotate**	reformat internal nodes/branches annotation along with the associated tips from codeml output(s).
 
-3.   **extract**        retrive metrics of equivalent branches and/or clades, allowing a treshold for missing species.
+3.   **extract**	retrive metrics of equivalent branches and/or clades, allowing a treshold for missing species.
 
 More information on each mode can be accessed by typing ```--analize```, ```--annotate```, ```--extract``` followed by ```-h```.
 
