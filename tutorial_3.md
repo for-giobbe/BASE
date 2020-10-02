@@ -7,7 +7,7 @@ we are going to implement in our analyses **OGs of non-ubiquitous genes** - _i.e
 As before, what's need to carry out this analysis is a folder of ```.aln``` aligned OGs, a ```.nwk``` species tree and two codeml ```.ctl``` files.
 
 [Here](https://github.com/for-giobbe/BASE/tree/master/example/_non-ubiquitous_OGs) is the folder of the toy-dastaset which includes non-ubiquitous genes OGs as well; if 
-you type ``` grep -c ">" *``` you can see how each fasta-formatted file has a different number of genes in it, yet never exceeding the total number of tips of our species tree.
+you type ``` grep -c ">" *``` you can see how each fasta-formatted file has a different number of genes in it, yet never exceeding the total number of species in our phylogeny.
 Consider that too small OGs (<3 OTUs) won't be processed by BASE, so you can exclude them before the analysis or make BASE discard them.
 
 ---
@@ -28,8 +28,8 @@ We can then proceed straight to the ```--annotate``` step by typing:
 ```sh BASE.sh --annotate -i _non-ubiquitous_OGs_analyze/ -o _non-ubiquitous_OGs_annotate```
 
 In a first scenario, we want to extract the values of a branch without allowing any missing data in the relative clade. To do so we
-can just specify a number of tips equal to the clade size: as our clade of interest consists of just two tips we can use the flag ```-n 2```,
-which specifies that a minimun of 2 tips must be subtended for the branch to be considered. Let's type:
+can just specify a treshold equal to the number of species in the clade: as our clade of interest consists of just two species we can use the flag ```-n 2```,
+which specifies that a minimun of 2 species must be subtended for the branch to be considered. Let's type:
 
 ```sh BASE.sh --extract -i _non-ubiquitous_OGs_annotate/ -l branch.lst -n 2```
 
@@ -61,7 +61,7 @@ clade_of_interest  OG3682  2       0.1405     0.276  0.0378  0.2693
 clade_of_interest  OG3683  0       no_branch
 ```
 
-In a second scenario, we want instead to obtain the information of the branch leading to our group(s) of interest even when some of its tips are missing.
+In a second scenario, we want instead to obtain the information of the branch leading to our group(s) of interest even when some of its species are missing.
 With the ```-n``` flag we can specify either an absulute number or a proportion. For example let's extract the information
 for a second clade using a trashold of 0.8:
 
