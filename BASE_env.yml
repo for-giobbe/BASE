@@ -8,6 +8,7 @@ dependencies:
 - R
 - raxml
 - r-phangorn
+- r-ape
 - paml
 - util-linux
 - emboss=6.6.0

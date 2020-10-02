@@ -2,15 +2,15 @@
 
 BASE is based on GNU utilities and thus will function just on linux machines; it is substantially a wrapper which leverages the following pieces of software:
 
-* Phyutility
 * RAxML
 * PAML (codeml)
 * R
 * getopt
 * EMBOSS (transeq)
 * phangorn
+*ape
 
-Each software can be either placed in the PATH or installed with conda, with the exception of phyutility, which can be installed using ```sudo apt-get install phyutility```.
+Each software can be either placed in the PATH or installed with conda;
 A [```.yml```](https://github.com/for-giobbe/BASE/blob/master/BASE_env.yml) is available to configure a conda environiment with all the dependencies required by BASE. 
 You can create the enivironiment using ```conda env create -f BASE_env.yml``` and it can be then recalled using ```conda activate BASE_env```.
 The correct installation and versions of the requirements can be checked using the ```--requirements``` option.

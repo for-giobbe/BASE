@@ -1,6 +1,4 @@
 #!/bin/bash
-shopt -s expand_aliases
-#alias phyutility="java -jar phyutility.jar"
 
 for arg in "$@"; do
 
@@ -168,19 +166,18 @@ More information on each mode usage and options can be accessed by typing "--ana
 
 BASE relies on the following softwares:
 
-	Phyutility 2.2.6
 	RAxML 8.1.21
 	PAML 4.3
 	R 3.2.2
 	getopt 2.23.2
 	EMBOSS 6.6.0 (transeq)
+	ape 5.4
+	phangorn 2.4.0
 
 Each software can be either 
 
 	1)	placed in the PATH
 	2)	installed with conda
-
-with the exception of phyutility, whose java executable should be placed shoud be placed in ~/bin/.
 
 The correct installation and versions of the requirements can be checked using the --requirements option.
 
@@ -221,7 +218,6 @@ if [ "$g" == 1 ] ;
 
 then
 echo -e "List of requirements:"
-phyutility > phyutility.tmp.chk 2>&1 ; if grep -q "fyoo" phyutility.tmp.chk ; then echo -e "Phyutility was found!"; rm phyutility.log &>/dev/null; else echo -e "Phyutility not found"; fi
 raxmlHPC-PTHREADS -v > raxml.tmp.chk 2>&1 ; if grep -q "This is RAxML version" raxml.tmp.chk ; then echo -e "RAxML was found!";  else echo -e "RAxML not found"; fi
 Rscript > rscript.tmp.chk 2>&1 ; if grep -q "Rscript" rscript.tmp.chk ; then echo -e "Rscript 3.2.2 was found!";  else echo -e "Rscript 3.2.2 not found"; fi
 codeml . > codeml.tmp.chk 2>&1 ; if grep -q "Error: file name empty" codeml.tmp.chk ; then echo -e "codeml was found!"; rm rst* rub &>/dev/null;  else echo -e "codeml not found"; fi
@@ -396,13 +392,6 @@ codeml_threads=$(jobs | wc -l); raxml_threads=$(( $n_threads - $codeml_threads )
 
 		perc=$(( ((prog) * 100)/ aln_tot ))
 
-                #bar="■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■"
-
-                #barlength=${#bar}
-
-                #n=$((perc*barlength/100))
-
-                #printf "\r  analyze: \t \t %d%% \t %-${barlength}s" "$perc" "${bar:0:n}"
                 printf "\r  analyze:\t"$perc"/100"
 
 #  echo "analyzing gene $prog of $aln_tot - replicate $rep"
@@ -447,7 +436,13 @@ echo "DNA, rd=3-$n\3" >> $f.prt;
 
  if [[ -e $j"missing_otus.lst" ]] && [[ "$missing_data" = 1 ]]; then
 
-phyutility -pr -names $(cat $j"missing_otus.lst") -in ../species_tree -out species_tree_cor;
+		printf 'library(ape) \n' >> prune.R
+		printf 'tre<-read.tree("../species_tree") \n' >> prune.R
+		printf 'tip<-scan(dir(pattern="_otus.lst$")[1], character()) \n' >> prune.R
+		printf 'tre <- drop.tip(tre, tip) \n' >> prune.R
+		printf 'write.tree(tre, file = "species_tree_cor") \n' >> prune.R
+
+	        Rscript prune.R &> /dev/null;
 
 raxmlHPC-PTHREADS -T $raxml_threads -m GTRGAMMA -s ../$j -f e -t species_tree_cor -q $f.prt -n $f".tre"  &> $j'_RAxML.log';
 
@@ -548,9 +543,16 @@ for W in {1..10}; do
         		root=$(shuf -n 1 ../sp.lst); if grep $root $j"missing_otus.lst" &> /dev/null ; then continue; fi;
 			fi;
 
-		phyutility -rr -names $root -in r_input.tre -out r_input.tre
+		printf 'library(ape) \n' >> root.R
+		printf 'tre<-read.tree("r_input.tre") \n' >> root.R
+		printf 'tip<-scan("root.tmp", character(), quote = " ") \n' >> root.R
+		printf 'tre <- root(tre, tip) \n' >> root.R
+		printf 'write.tree(tre, file = "r_input.tre") \n' >> root.R
+
+		echo $root > root.tmp
+
+		Rscript root.R &> /dev/null;
 		
-#		cat phyutility.log
 #		echo -e "\n \n radice $root $j \n \n"
 #		cat r_input.tre
 
@@ -1234,10 +1236,6 @@ echo -e "\n  extracting $ttot branches from $ltot codeml output \n"
 
   perc=$(( ((prog) * 100)/ ltot ))
 
-          #bar="■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■"
-          #barlength=${#bar}
-	  #n=$((perc*barlength/100))
-          #printf "\r  extraction: ${tag_name:0:10}... \t \t \t %d%% \t %-${barlength}s" "$perc" "${bar:0:n}"
            printf "\r  extract ${tag_name:0:8}..\t "$perc"/100"
                  done
 
@@ -1389,10 +1387,6 @@ export branch_hits=$(echo $content | eval grep -o $grep_argument)
 
           perc=$(( ((prog) * 100)/ ltot ))
 
-                       #bar="■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■"
-                       #barlength=${#bar}
-                       #n=$((perc*barlength/100))
-                       #printf "\r  extraction: ${tag_name:0:10}... \t \t \t %d%% \t %-${barlength}s" "$perc" "${bar:0:n}"
 	               printf "\r  extract ${tag_name:0:8}..\t "$perc"/100"
 
   done
