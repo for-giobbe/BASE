@@ -12,4 +12,4 @@ dependencies:
 - paml
 - util-linux
 - emboss=6.6.0
-
+- libiconv
