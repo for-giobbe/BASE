@@ -392,7 +392,7 @@ codeml_threads=$(jobs | wc -l); raxml_threads=$(( $n_threads - $codeml_threads )
 
 		perc=$(( ((prog) * 100)/ aln_tot ))
 
-                printf "\r  analyze:\t"$perc"/100"
+                printf "\r  analyze:\t"$perc"%"
 
 #  echo "analyzing gene $prog of $aln_tot - replicate $rep"
 
@@ -732,7 +732,7 @@ echo -e "\n  performing LRT \n"
 
 done
 
-printf 'likelihood.summary <- read.table(file="./likelihood_summary.txt",sep="\t",header=FALSE,col.names=c("Ortholog_Cluster","Model1","NSsites_a","Model1np","Model1LnL","Rep1","Model2","NSsites_a","Model2np","Model2LnL","Rep2"),as.is=c(1:2,5)) \n' > LRT.R
+printf 'likelihood.summary <- read.table(file="./likelihood_summary.txt",sep="\t",header=FALSE,col.names=c("OG","branch_model_A","site_model_A","model_A_np","model_A_LnL","rep_A","branch_model_B","site_model_B","model_B_np","model_B_LnL","rep_B"),as.is=c(1:2,5)) \n' > LRT.R
 
 printf 'LRT <- -2*(likelihood.summary$Model1LnL-likelihood.summary$Model2LnL) \n' >> LRT.R
 
@@ -830,58 +830,6 @@ if [[ -a warnings_summary.txt ]]; then echo -e "  \nthe analysis has produced so
 
 cd ../$output_folder
 
-######################################################################################## builds files for branches when there are no missing data
-
-if  [ "$missing_data" != 1 ]; then
-
-pattern="*.out";
-
-files=( $pattern );
-
-base=$(echo "${files[0]}")
-
-lines_number=$(awk '/dN & dS for each branch/,/tree length/' $base | wc -l)
-
-awk '/dN & dS for each branch/,/tree length/' $base | head -$((lines_number -4)) | tail -$((lines_number -8)) | awk '{print $1}' > branches.tmp
-
-cat $base | grep -w "TREE #  1:" | awk -F ":" '{print $2}' |  awk -F ";" '{print $1}' | sed 's/ //g' >> codeml.tre
-
-while read line;
-
-         do
-
- grep_arg=$(echo $line | sed 's/\./\\./g')
-
-                 for j in *.out;
-
-                                do
-
-                                a=$(echo $j | sed 's/\.aln//' | awk -F "_" '{print $1}')
-
-                                b=$(echo $j | sed 's/\.aln//' | awk -F "_" '{print $3}' | sed 's/\.out//')
-
-                                c=$(cat $j | grep -w $grep_arg | awk -F " " '{print $2"\t"$3"\t"$4"\t"$5"\t"$6"\t"$7"\t"$8"\t"$9}')
-
-                                echo -e $a"\t"$b"\t"$c >> $line"_branch.tmp";
-
-                                done;
-
-        done < branches.tmp
-
-        for i in *_branch.tmp; do export branch=$(echo $i | sed 's/_branch.tmp//');
-
-        echo -e "gene \t model \t t \t n \t S \t dN/dS \t dN \t dS \t N*dN \t S*dS" | cat - $i >> temp && mv temp $branch"_branch.out"
-
-        done;
-
-        mkdir $output_folder"_branches"
-
-mv *_branch.out $output_folder"_branches"
-
-rm *.tmp
-
-fi
-
 ########################################################################################
 
 cd ..
@@ -921,7 +869,7 @@ for i in *.out;
 do
 
 perc=$(( ((prog) * 100)/ ltot ))
-printf "\r  annotate:\t"$perc"/100"
+printf "\r  annotate:\t"$perc"%"
 
         let prog=prog+1
 
@@ -1188,7 +1136,7 @@ echo -e "\n  extracting $ttot branches from $ltot codeml output \n"
 
                         let prog=prog+1
 
-#    echo -e "extracting $codeml_file tag $tag_name"
+#  echo -e "extracting $codeml_file tag $tag_name"
 
    name=$(echo $codeml_file | awk -F "_replicate_" '{print $1}');
 
@@ -1236,7 +1184,7 @@ echo -e "\n  extracting $ttot branches from $ltot codeml output \n"
 
   perc=$(( ((prog) * 100)/ ltot ))
 
-           printf "\r  extract ${tag_name:0:8}..\t "$perc"/100"
+           printf "\r  extract ${tag_name:0:8}..\t "$perc"%"
                  done
 
                         echo  " "
@@ -1291,7 +1239,7 @@ fi
 
                 beginning=$(echo $tag | awk '{$NF=""; print $0}' | sed 's/ /" -e "/g');
 
-                corrected_beginning=$(echo ${beginning::-4});
+		corrected_beginning=${beginning:0:${#begininnig}-4};
 
                 grep_argument=$(echo "-e \"$corrected_beginning")
 
@@ -1387,7 +1335,7 @@ export branch_hits=$(echo $content | eval grep -o $grep_argument)
 
           perc=$(( ((prog) * 100)/ ltot ))
 
-	               printf "\r  extract ${tag_name:0:8}..\t "$perc"/100"
+	               printf "\r  extract ${tag_name:0:8}..\t "$perc"%"
 
   done
 
