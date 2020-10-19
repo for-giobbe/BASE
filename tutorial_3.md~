@@ -28,13 +28,13 @@ We can then proceed straight to the ```--annotate``` step by typing:
 ```sh BASE.sh --annotate -i _non-ubiquitous_OGs_analyze/ -o _non-ubiquitous_OGs_annotate```
 
 In a first scenario, we want to extract the values of a branch without allowing any missing data in the relative clade. To do so we
-can just specify a treshold equal to the number of species in our clade of interest: in our case it consists of just two species, so that we can use the flag ```-n 2```,
+can just specify a treshold equal to the number of species in the clade: as our clade of interest consists of just two species we can use the flag ```-n 2```,
 which specifies that a minimun of 2 species must be subtended for the branch to be considered. Let's type:
 
 ```sh BASE.sh --extract -i _non-ubiquitous_OGs_annotate/ -l branch.lst -n 2```
 
 The ouptut will be named with the clade name and the treshold of missing data as well.
-We can see that it clearly states where the criteria was not met for certain OGs, as we can observe from the ```no_branch``` labels.
+We can see that it clearly states where the cirteria was not met for certain OGs, as we can observe from the ```no_branch``` labels.
 
 ```
 clade              gene    OTUs_n  dNdS       t      dN      dS
@@ -62,8 +62,8 @@ clade_of_interest  OG3683  0       no_branch
 ```
 
 In a second scenario, we want instead to obtain the information of the branch leading to our group(s) of interest even when some of its species are missing.
-With the ```-n``` flag we can specify either an absolute number or a proportion. For example let's extract the information
-for a second clade using a treshold of 0.8 - which means that at leas 80% of the species of a clade are necessary for the clade to be considered:
+With the ```-n``` flag we can specify either an absulute number or a proportion. For example let's extract the information
+for a second clade using a trashold of 0.8:
 
 ```sh BASE.sh --extract -i _non-ubiquitous_OGs_annotate -l branch_alt.lst -n 0.8 -v```
 
@@ -93,7 +93,7 @@ second_clade  OG3682  alternative  3       0.1649     0.341  0.0519  0.3148  8..
 second_clade  OG3683  alternative  4       0.1670     0.255  0.0403  0.2410  7..8    lart  lubb  tcan  tusa
 ```
 
-But let's try to use a different treshold of 0.6 - which means that at leas 60% of the species of a clade are necessary for the clade to be considered:
+But let's try to use a different treshold of 0.6:
 
 ```sh BASE.sh --extract -i _non-ubiquitous_OGs_annotate -l branch_alt.lst -n 0.6 -v```
 
@@ -123,9 +123,6 @@ second_clade  OG3648  general      4       0.1708  0.651  0.1002  0.5867  9..10 
 second_clade  OG3682  alternative  3       0.1649  0.341  0.0519  0.3148  8..9    lart  lubb  tusa
 second_clade  OG3683  alternative  4       0.1670  0.255  0.0403  0.2410  7..8    lart  lubb  tcan  tusa
 ```
-
-The ```-n``` flag - wether in combination with an explicit number of species or a proporiton - will be applayed to all the clades considered
-in a single analysis. To apply different tresholds across different clades separate analyses have to be carried out. 
 
 Nonetheless these results should be **handeled carefully**: if we allow too much missing data, both in the clade(s) of interest and in the whole tree,
 the analyses start to become meaningless. For example: if we want to consider the branch leading to a clade of 50 species, one thing is to allow 5-6 of them

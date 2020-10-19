@@ -9,11 +9,10 @@ in which a single-copy gene is present for each species.
 After moving to the [toy-dataset folder](https://github.com/for-giobbe/BASE/tree/master/example) we can quickly revise what's needed to start our analysis:
 
 * a [folder](https://github.com/for-giobbe/BASE/tree/master/example/_ubiquitous_OGs) containing aligned OGs ```.aln```. These alignment shouldn't have any STOP codon, 
-yet BASE will report the OGs wehre they are found. The alignment headers have to be identical to the species names in the phylogenetic tree.
+yet BASE will report the OGs wehre they are found.
 
 * a [species tree](https://github.com/for-giobbe/BASE/blob/master/example/sp.tre) - in the newick format ```.nwk```. It has to include all the species considered;
-no branchlengths are needed as they will be optimized for each gene through our analysis. The species names in the phylogenetic tree
-have to be identical to the name of the species in the alignements.
+no branchlengths are needed as they will be optimized for each gene through our analysis.
 
 * two codeml ```.ctl``` files, which describe the models we want to leverage in our analysis. 
 
@@ -115,8 +114,7 @@ and here goes the standard output:
 
 In the last step we proceed to extract the values relative to the branch(es) which we are interested in. 
 We will specify each internal branch using a file like [this](https://github.com/for-giobbe/BASE/blob/master/example/branch.lst) which contains on each line all the species which
-form the clade relative to our branch of interested - separated by single spaces - followed by an identifier. Here clade_of_interest and species_of_interest are used as identifiers
-for a clade and a species, but of course they can be changed to actual clades/species names.
+form the clade relative to our branch of interested - separated by single spaces - followed by an identifier.
 If we are interested in a terminal branch relative to a single species, just specify the species name in the tree and an identifier.
 let's take a look to such file:
 
