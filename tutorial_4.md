@@ -106,7 +106,7 @@ clade_two  OG3683  2       0.0553     0.243  0.0168  0.3042
 dNdS values are identical across the two branches when the general model was the best fit for that OG,
 reflecting similar selective regimes across the two clades.
 On the contrary, some OGs have the alternative model as the betst-fit and thus theyr genes
-have undergone differential selective regimes across the two clades. This outcome can allready be observed from the LRT results, 
+have undergone differential selective regimes across the two clades. This outcome can already be observed from the LRT results, 
 but to understand the actual difference between branches, one has to extract and compare the relative metrics.
 
 All this example has been carried out using the clade tagging functionality, but all this can be done using the  branch tagging:
@@ -145,7 +145,7 @@ Let's use the line:
 ```
 
 The likelihood summary which has been generated in the output folder shows that all genes passed the LRT, and 
-thus that a certain omega variability among the different sites of our allignments can be observed:
+thus that a certain omega variability among the different sites of our alignments can be observed:
 
 ```
 Ortholog_Cluster  Model1  NSsites_a  Model1np  Model1LnL      Rep1  Model2  NSsites_a.1  Model2np  Model2LnL      Rep2  LRT       df  p.value  significance
