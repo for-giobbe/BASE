@@ -79,13 +79,13 @@ k) outgroups=${OPTARG}
 h)  if [ "$x" == 1 ]
 
 then echo "
-This mode tests which out of two dN/dS models fits best to each ortholog group(s), by carrying out branchlength optimization, two alternative codml analyses and a LRT
-to decide wether the general or the alternative model fits best to the data. Missing data are allowed, as long as the species tree provided by the user contains
+This mode tests which out of two dN/dS models fits best to each ortholog group(s), by carrying out branchlength optimization, two alternative codml analyses and comparing them 
+thourgh a LRT to decide wether the general or the alternative model fits best to the data. Missing data are allowed, as long as the species tree provided by the user contains
 all of the OTUs which may be included in each ortholog group.
 
 List of non-optional arguments:
 
-	-i	path to the input folder containing .aln files (aligned oneliner fasta-formatted files, including a minimum of four OTUs) (write ./ to launch the script in the current folder).
+	-i	path to the input folder containing alignment files (aligned oneliner fasta-formatted files, including a minimum of four OTUs) (write ./ to launch the script in the current folder).
 	-o	output folder.
 	-t	comprensive species tree, including all OTU and without branch length.
 	-ma	codeml .ctl file of the generaly hypothesis, configured for the analysis (i.e. with the fields seqfile oufile and treefile left empty).
@@ -98,7 +98,7 @@ List of optional argument:
 	-l2	a second file with the labelled branch(es), used to test two model 2 versus each other.
 	-v	verbose mode keeps the temporary folder wich contains all the intermediate files of the analyses, including trees and codeml outputs for both general and alternative models.
 	-r	number of replicates to be performed (default is 1).
-	-d	allow missing data in the .aln files in respect to the comprensive species tree
+	-d	allow missing data in the alignments.
 
 Several kind of ananlyeses can be carried out, with the general model specified with the flag -ma and the alternative model specified with the flag -mb:
 
@@ -300,19 +300,21 @@ if [[ -d $output_folder ]] ; then echo -e " \n WARNING! an output folder with th
 
 if [[ -d $output_folder".tmp.full.out" ]] ; then echo -e " \n WARNING! a temporary folder with the same name you specified is allready present. \n "; exit ; fi
 
-if [[ $(ls -l $input_folder/*aln | wc -l) -eq 0 ]]; then echo -e " \n WARNING! no .aln file(s) (one liner fasta-formatted alignment files) is present in the input folder. \n "; exit; fi
+if [[ $(ls -l $input_folder/*.fa | wc -l) -eq 0 ]]; then echo -e " \n WARNING! no alignment file(s) (one liner fasta-formatted alignment files) is present in the input folder. \n "; exit; fi
 
-for i in $input_folder/*aln; do a=$(cat $i | head -2); if ( echo $a | grep -v ">") ; then echo -e " \n WARNING! something is wrong with the .aln file(s) (they should be one liner fasta-formatted alignment files, but you may have used phylip-formatted files). \n "; exit; fi; done
+for i in $input_folder/*.fa; do a=$(cat $i | head -2); if ( echo $a | grep -v ">") ; then echo -e " \n WARNING! something is wrong with the alnignment file(s) (they have to be one liner fasta-formatted files with the .fa extension). \n "; exit; fi; done
 
 if grep -q ":[0-9]" $species_tree; then echo -e " \n WARNING! it seems your species tree contains branch length values, you should remove them before the analysis. \n "; exit; fi
 
-if [[ $n_threads -gt $(( $(ls -l $input_folder/*aln | wc -l) * $rep )) ]]; then echo -e " \n WARNING! a number of cores smaller than the number of genes to be analyzed multiplied by the number of replicates have to be specified \n "; exit; fi
+if [[ $n_threads -gt $(( $(ls -l $input_folder/*.fa | wc -l) * $rep )) ]]; then echo -e " \n WARNING! a number of cores smaller than the number of genes to be analyzed multiplied by the number of replicates have to be specified \n "; exit; fi
+
+initial_path=$(pwd)
 
 mkdir $output_folder
 
 mkdir $output_folder".tmp.full.out"
 
-cp -r $input_folder/*.aln $output_folder".tmp.full.out"
+cp -r $input_folder/*.fa $output_folder".tmp.full.out"
 
 cp $species_tree $output_folder".tmp.full.out"/species_tree
 
@@ -320,7 +322,7 @@ cd $output_folder".tmp.full.out"
 
 original_path=$(pwd)
 
-for i in *.aln; do awk '/^>/ {printf("\n%s\n",$0);next; } { printf("%s",$0);}  END {printf("\n");}' < $i > $i.ol; mv $i.ol $i; done
+for i in *.fa; do awk '/^>/ {printf("\n%s\n",$0);next; } { printf("%s",$0);}  END {printf("\n");}' < $i > $i.ol; mv $i.ol $i; done
 
 T_raxml=$((n_threads + 1))
 
@@ -328,11 +330,11 @@ echo -e "\n  analysis started on $(date)"
 
 ######################################################################################### analysis specification
 
-tot_genes=$( ls *.aln | wc -l | awk '{print $1}')
+tot_genes=$( ls *.fa | wc -l | awk '{print $1}')
 
 sed 's/,/\n/g' species_tree | sed 's/(//g' |  sed 's/)//g' | sed 's/;//g' >> sp.lst
 
-for i in *aln; do grep ">" $i | tr -d ">"; done | sort -u > aln_sp.lst
+for i in *.fa; do grep ">" $i | tr -d ">"; done | sort -u > aln_sp.lst
 
 sp_mismatch_more_aln=$(cat aln_sp.lst | grep -Fvf sp.lst); if [[ -n $sp_mismatch_more_aln ]];  then echo -e " \n  WARNING! some species which are included in the alignments are not present in the species tree. \n "; exit; fi
 
@@ -356,7 +358,7 @@ echo -e "\n  analyizing $rep replicate(s) of $tot_genes genes: model $g_m VS $a_
 
 # if [ -z "$labels" ] && [ "$a_m" != 2 ]
 
-ls *.aln > tmp.lst
+ls *.fa > tmp.lst
 
 aln_tot=$(wc -l tmp.lst | awk '{print $1}')
 
@@ -376,8 +378,6 @@ fi;
 
 prog=0
 
-#  echo -e "\n  analyizing replicate $rep of $aln_tot genes with branch modeles 0 vs 1 using $n_threads threads\n"
-
 for j in $(cat tmp.lst);
 
 do
@@ -392,13 +392,11 @@ codeml_threads=$(jobs | wc -l); raxml_threads=$(( $n_threads - $codeml_threads )
 
 		perc=$(( ((prog) * 100)/ aln_tot ))
 
-                printf "\r  analyze:\t"$perc"%"
-
-#  echo "analyzing gene $prog of $aln_tot - replicate $rep"
+                printf "\r  analyze:\t"$perc"%%"
 
  k=$(head -$prog tmp.lst| tail -1) 
 
- export f=$(echo $j | sed "s/.aln//");
+ export f=$(echo $j | sed "s/.fa//");
 
  mkdir $f;
 
@@ -409,7 +407,7 @@ cd $f
 if ( pwd | grep -q $original_path ); then : ; else printf "\n %s \n " " WARNING! an error occured while creating the folder system. \n"; exit; fi
 
 transeq -sequence ../$j -outseq $j".aa" -table $gencode  &> /dev/null ;
-if grep -q "\*" $j".aa" ; then echo -e  " the gene $j contains stop codon and has been excluded by the analyses - check if the gen code is correct" >> ../warnings_summary.txt; cd ..; mv $f $f"_stop_codons"; echo -e "$(echo $j | sed 's/.aln//')" >> failed_clusters.txt; continue; fi;
+if grep -q "\*" $j".aa" ; then echo -e  " the gene $j contains stop codon and has been excluded by the analyses - check if the gen code is correct" >> ../warnings_summary.txt; cd ..; mv $f $f"_stop_codons"; echo -e "$(echo $j | sed 's/.fa//')" >> failed_clusters.txt; continue; fi;
 
 
 export n=$(tail -1 ../$j | wc -c);
@@ -444,11 +442,13 @@ echo "DNA, rd=3-$n\3" >> $f.prt;
 
 	        Rscript prune.R &> /dev/null;
 
-raxmlHPC-PTHREADS -T $raxml_threads -m GTRGAMMA -s ../$j -f e -t species_tree_cor -q $f.prt -n $f".tre"  &> $j'_RAxML.log';
+#raxmlHPC-PTHREADS -T $raxml_threads -m GTRGAMMA -s ../$j -f e -t species_tree_cor -q $f.prt -n $f".tre"  &> $j'_RAxML.log';
+raxmlHPC-PTHREADS -T $raxml_threads -m GTRGAMMA -s ../$j -f e -g species_tree_cor -q $f.prt -n $f".tre" -p 420 &> $j'_RAxML.log'
 
 else
 
-raxmlHPC-PTHREADS -T $raxml_threads -m GTRGAMMA -s ../$j -f e -t ../species_tree -q $f.prt -n $f".tre"  &> $j'_RAxML.log'; 
+#raxmlHPC-PTHREADS -T $raxml_threads -m GTRGAMMA -s ../$j -f e -t ../species_tree -q $f.prt -n $f".tre"  &> $j'_RAxML.log'; 
+raxmlHPC-PTHREADS -T $raxml_threads -m GTRGAMMA -s ../$j -f e -g ../species_tree -q $f.prt -n $f".tre" -p 420 &> $j'_RAxML.log'
 
 fi
 
@@ -461,14 +461,14 @@ fi
  if grep -q "TOO FEW SPECIES" $j"_RAxML.log"; 
 	then cd .. ;  
 	mv $f $f"_tree_failure"; 
-	echo -e "$(echo $j | sed 's/.aln//')" >> failed_clusters.txt; 
+	echo -e "$(echo $j | sed 's/.fa//')" >> failed_clusters.txt; 
 	echo -e " the gene $j contains less tha 3 OTUS so that branch lengths could not be calculated" >> warnings_summary.txt; continue; 
  fi
 
  if grep -q "taxa that had equal names in the alignment" $j"_RAxML.log";
        then cd .. ;
        mv $f $f"_tree_failure";
-       echo -e "$(echo $j | sed 's/.aln//')" >> failed_clusters.txt;
+       echo -e "$(echo $j | sed 's/.fa//')" >> failed_clusters.txt;
        echo -e " the gene $j contains OTUs with equl name" >> warnings_summary.txt; continue;
  fi
 
@@ -668,9 +668,9 @@ if [[ $(wc -l failed_clusters.txt | awk '{print $1}') == $tot_genes ]]; then ech
 
 echo -e "\n  performing LRT \n"
 
-        for i in $(ls *.aln); do 
+        for i in $(ls *.fa); do 
 
- export name=$(echo $i | sed -s 's/.aln//g');
+ export name=$(echo $i | sed -s 's/.fa//g');
 
  unset lk_a_best rep_a_best lk_b_best rep_b_best
 
@@ -688,7 +688,7 @@ echo -e "\n  performing LRT \n"
 
    export lk_a=$(grep "lnL" $name/$name"_replicate_"$r/"$name"_model_general/*out | awk '{print $5}'); echo $lk_a $r >> $name"_general.tmp"
 
-                         export lk_b=$(grep "lnL" $name/$name"_replicate_"$r/"$name"_model_alternative/*out | awk '{print $5}');  echo $lk_b $r >> $name"_alternative.tmp"
+   export lk_b=$(grep "lnL" $name/$name"_replicate_"$r/"$name"_model_alternative/*out | awk '{print $5}');  echo $lk_b $r >> $name"_alternative.tmp"
 
     elif [[ $occurencies -lt 2 ]] && [[ -e $name/"RAxML_result."$name".tre" ]];
 
@@ -702,7 +702,7 @@ echo -e "\n  performing LRT \n"
 
  done 
 
- lk_a_best=$(sort -g $name"_general.tmp" 2> /dev/null | head -1 | awk '{print $1}')
+ 	 lk_a_best=$(sort -g $name"_general.tmp" 2> /dev/null | head -1 | awk '{print $1}')
 
          rep_a_best=$(sort -g $name"_general.tmp" 2> /dev/null | head -1 | awk '{print $2}')
 
@@ -714,7 +714,7 @@ echo -e "\n  performing LRT \n"
 
   then
 
-           echo -e "$name\t$g_m\t$ns_1\t$np_a\t$lk_a_best\t$rep_a_best\t$a_m\t$ns_2\t$np_b\t$lk_b_best\t$rep_b_best" >> likelihood_summary.txt;
+           echo -e "$name\t$g_m\t$ns_g\t$np_a\t$lk_a_best\t$rep_a_best\t$a_m\t$ns_a\t$np_b\t$lk_b_best\t$rep_b_best" >> likelihood_summary.txt;
 
                 elif [[ -z $lk_a_best ]] ||  [[ -z $lk_b_best ]] && [[ -e $name/"RAxML_result."$name".tre" ]];
 
@@ -732,19 +732,19 @@ echo -e "\n  performing LRT \n"
 
 done
 
-printf 'likelihood.summary <- read.table(file="./likelihood_summary.txt",sep="\t",header=FALSE,col.names=c("OG","branch_model_A","site_model_A","model_A_np","model_A_LnL","rep_A","branch_model_B","site_model_B","model_B_np","model_B_LnL","rep_B"),as.is=c(1:2,5)) \n' > LRT.R
+	printf 'likelihood.summary <- read.table(file="./likelihood_summary.txt",sep="\t",header=FALSE,col.names=c("OG","branch_model_A","site_model_A","model_A_np","model_A_LnL","rep_A","branch_model_B","site_model_B","model_B_np","model_B_LnL","rep_B"),as.is=c(1:2,5)) \n' > LRT.R
 
-printf 'LRT <- -2*(likelihood.summary$Model1LnL-likelihood.summary$Model2LnL) \n' >> LRT.R
+	printf 'LRT <- -2*(likelihood.summary$model_A_LnL-likelihood.summary$model_B_LnL) \n' >> LRT.R
 
-printf 'degrees.of.freedom <- likelihood.summary$Model2np-likelihood.summary$Model1np \n' >> LRT.R
+	printf 'degrees.of.freedom <- likelihood.summary$model_B_np-likelihood.summary$model_A_np \n' >> LRT.R
 
-printf 'p.value <- 1-pchisq(LRT,df=degrees.of.freedom) \n' >> LRT.R
+	printf 'p.value <- 1-pchisq(LRT,df=degrees.of.freedom) \n' >> LRT.R
 
-printf 'significance <- character() \n' >> LRT.R
+	printf 'significance <- character() \n' >> LRT.R
 
-printf 'selected.cluster <- character() \n' >> LRT.R
+	printf 'selected.cluster <- character() \n' >> LRT.R
 
-printf 'for (c in 1:dim(likelihood.summary)[1]) { \n' >> LRT.R
+	printf 'for (c in 1:dim(likelihood.summary)[1]) { \n' >> LRT.R
 
         printf 'selected <- TRUE \n' >> LRT.R
 
@@ -776,17 +776,17 @@ printf 'for (c in 1:dim(likelihood.summary)[1]) { \n' >> LRT.R
 
         printf '} \n' >> LRT.R
 
-printf 'likelihood.summary$LRT <- round(LRT,digits=4) \n' >> LRT.R
+	printf 'likelihood.summary$LRT <- round(LRT,digits=4) \n' >> LRT.R
 
-printf 'likelihood.summary$df <- degrees.of.freedom \n' >> LRT.R
+	printf 'likelihood.summary$df <- degrees.of.freedom \n' >> LRT.R
 
-printf 'likelihood.summary$p.value <- round(p.value,digits=4) \n' >> LRT.R
+	printf 'likelihood.summary$p.value <- round(p.value,digits=4) \n' >> LRT.R
 
-printf 'likelihood.summary$significance <- significance \n' >> LRT.R
+	printf 'likelihood.summary$significance <- significance \n' >> LRT.R
 
-printf 'write.table(likelihood.summary,file="./likelihood_summary.txt",quote=FALSE,sep="\\t",eol="\\n",row.names=FALSE) \n' >> LRT.R
+	printf 'write.table(likelihood.summary,file="./likelihood_summary.txt",quote=FALSE,sep="\\t",eol="\\n",row.names=FALSE) \n' >> LRT.R
 
-printf 'write.table(data.frame(selected.cluster=selected.cluster),file="./selected_clusters.txt",quote=FALSE,sep="\\t",eol="\\n",row.names=FALSE,col.names=FALSE) \n' >> LRT.R
+	printf 'write.table(data.frame(selected.cluster=selected.cluster),file="./selected_clusters.txt",quote=FALSE,sep="\\t",eol="\\n",row.names=FALSE,col.names=FALSE) \n' >> LRT.R
 
 Rscript LRT.R &> /dev/null;
 
@@ -796,23 +796,27 @@ rm LRT.R
 
 echo -e "  formatting output \n"
 
+#output_folder_rel=$(echo $output_folder | awk -F "/" '{print $NF}')
+#echo $original_path
+#echo "$original_path/$output_folder"
+
 for f in $(cat selected_clusters.txt); do
 
- rep_b_best=$(sort -g $f"_alternative.tmp" 2> /dev/null | head -1 | awk '{print $2}')
+	rep_b_best=$(sort -g $f"_alternative.tmp" 2> /dev/null | head -1 | awk '{print $2}')
 
- cp $f/$f'_replicate_'$rep_b_best/$f'_model_alternative'/$f'_replicate_'$rep_b_best'_model_alternative.out' ../$output_folder &> /dev/null;
+	cp $f/$f'_replicate_'$rep_b_best/$f'_model_alternative'/$f'_replicate_'$rep_b_best'_model_alternative.out' $initial_path/$output_folder #&> /dev/null;
 
 done
 
 ######################################################################################## moves codeml .out which did pass the LRT 
 
-for i in $(cat tmp.lst | sed 's/.aln//'); do if grep $i selected_clusters.txt &> /dev/null; then : ; else echo $i >> unselected_clusters.txt; fi; done
+for i in $(cat tmp.lst | sed 's/.fa//'); do if grep $i selected_clusters.txt &> /dev/null; then : ; else echo $i >> unselected_clusters.txt; fi; done
 
 for f in $(cat unselected_clusters.txt); do
 
         rep_a_best=$(sort -g $f"_general.tmp" 2> /dev/null | head -1 | awk '{print $2}')
 
-        cp $f/$f'_replicate_'$rep_a_best/$f'_model_general'/$f'_replicate_'$rep_a_best'_model_general.out' ../$output_folder  &> /dev/null;
+        cp $f/$f'_replicate_'$rep_a_best/$f'_model_general'/$f'_replicate_'$rep_a_best'_model_general.out'  $initial_path/$output_folder #&> /dev/null;
 
 done
 
@@ -822,13 +826,13 @@ rm tmp.lst
 
 sort -u -o warnings_summary.txt warnings_summary.txt &> /dev/null
 
-cp likelihood_summary.txt ../$output_folder 2> /dev/null
+cp likelihood_summary.txt $initial_path/$output_folder 2> /dev/null
 
-cp warnings_summary.txt ../$output_folder 2> /dev/null
+cp warnings_summary.txt $initial_path/$output_folder 2> /dev/null
 
 if [[ -a warnings_summary.txt ]]; then echo -e "  \nthe analysis has produced some warning: you will find the information relative to each failure in the file warning_summary.txt"; fi
 
-cd ../$output_folder
+cd $initial_path/$output_folder
 
 ########################################################################################
 
@@ -836,7 +840,7 @@ cd ..
 
 if  [ "$verbose" != 1 ]
 
-then rm -r $output_folder".tmp.full.out"
+then rm -r $initial_path/$output_folder".tmp.full.out"
 
 fi
 
@@ -869,7 +873,7 @@ for i in *.out;
 do
 
 perc=$(( ((prog) * 100)/ ltot ))
-printf "\r  annotate:\t"$perc"%"
+printf "\r  annotate:\t"$perc"%%"
 
         let prog=prog+1
 
@@ -1094,11 +1098,15 @@ if [[ $(ls -l $input_folder/*result | wc -l) -eq 0 ]]; then echo -e " \n WARNING
 
 echo -e "\n  analysis started on $(date)"
 
-cp $labels $input_folder
+initial_path=$(pwd)
+
+cp $initial_path/$labels $initial_path/$input_folder
 
 cd $input_folder
 
-# echo $input_folder $labels
+labels=$(echo $labels | awk -F "/" '{print $NF}')
+
+#echo $input_folder $labels
 
 ltot=$(ls -l *.out | wc -l)
 
@@ -1126,7 +1134,7 @@ echo -e "\n  extracting $ttot branches from $ltot codeml output \n"
 
   else
 
-                                echo -e "clade \t gene \t dNdS \t t \t dN \t dS" > "branch."$tag_name".dNdS.summary.tmp";
+   echo -e "clade \t gene \t dNdS \t t \t dN \t dS" > "branch."$tag_name".dNdS.summary.tmp";
 
   fi;  
 
@@ -1184,7 +1192,7 @@ echo -e "\n  extracting $ttot branches from $ltot codeml output \n"
 
   perc=$(( ((prog) * 100)/ ltot ))
 
-           printf "\r  extract ${tag_name:0:8}..\t "$perc"%"
+           printf "\r  extract ${tag_name:0:8}..\t "$perc"%%"
                  done
 
                         echo  " "
@@ -1335,11 +1343,11 @@ export branch_hits=$(echo $content | eval grep -o $grep_argument)
 
           perc=$(( ((prog) * 100)/ ltot ))
 
-	               printf "\r  extract ${tag_name:0:8}..\t "$perc"%"
+	               printf "\r  extract ${tag_name:0:8}..\t "$perc"%%"
 
   done
 
-                        #echo  " "
+                        echo -e " "
 
 fi;
 
@@ -1359,8 +1367,15 @@ if [[ -a warnings_summary.txt ]]; then echo -e "  the analysis has produced some
 
 ################################################################################################################################################################################ EXTRACT! (END)
 
-else echo -e "\nTo recall an help page type BASE -h\n"; exit;
+else echo "
+	BASE - pronunced  /'baze/ - is a tool built to allow analyses on selection regimes to integrate OGs)of non-ubiquitous genes.
+
+	To recall the main help page use the "-h" flag
+	
+	More information on the differen modes usage and options can be accessed by typing "--analize" "--annotate" "--extract" followed by "-h".
+	"; 
+exit;
 
 fi;
 
-printf "  analysis finished on $(date) \n"
+printf "  analysis finished on $(date) \n\n"
