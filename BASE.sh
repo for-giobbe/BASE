@@ -19,7 +19,7 @@ esac
 
 done
 
-while getopts ":xgzji:o:t:a:b:c:e:k:l:vr:dn:h" o; do
+while getopts ":xgzji:o:t:a:b:c:e:k:l:vr:un:h" o; do
 
     case "${o}" in
 
@@ -50,7 +50,7 @@ r) rep=${OPTARG}
 n) min_otu=${OPTARG}
 ;;
 
-d) missing_data=1
+u) missing_data=1
 ;;
 
 g) g=1
@@ -98,7 +98,7 @@ List of optional argument:
 	-l2	a second file with the labelled branch(es), used to test two model 2 versus each other.
 	-v	verbose mode keeps the temporary folder wich contains all the intermediate files of the analyses, including trees and codeml outputs for both general and alternative models.
 	-r	number of replicates to be performed (default is 1).
-	-d	allow missing data in the alignments.
+	-u	analyze only ubiquitous OGs.
 
 Several kind of ananlyeses can be carried out, with the general model specified with the flag -ma and the alternative model specified with the flag -mb:
 
@@ -430,9 +430,9 @@ echo "DNA, rd=3-$n\3" >> $f.prt;
 
  done;
 
- if [[ -e $j"missing_otus.lst" ]] && [[ -z "$missing_data" ]]; then cd .. ; echo -e " the gene $j contains missing data and has been excluded by the analyses - to include it use the -d flag" >> warnings_summary.txt; continue; fi
+  if [[ -e $j"missing_otus.lst" ]] && [[ "$missing_data" = 1 ]]; then cd .. ; echo -e " the gene $j contains missing data and has been excluded by the analyses - to include it use the -d flag" >> warnings_summary.txt; continue; fi
 
- if [[ -e $j"missing_otus.lst" ]] && [[ "$missing_data" = 1 ]]; then
+  if [[ -e $j"missing_otus.lst" ]] && [[ -z "$missing_data" ]]; then
 
 		printf 'library(ape) \n' >> prune.R
 		printf 'tre<-read.tree("../species_tree") \n' >> prune.R
@@ -514,7 +514,7 @@ for W in {1..10}; do
 		awk '{print $NF}' ../../$lab > a_tag.txt
 		awk '{$NF=""; print $0}' ../../$lab > a_species.txt
 
-		if  [[ "$missing_data" = 1 ]] && [[ -a $j"missing_otus.lst" ]];
+		if [[ -z "$missing_data" ]] && [[ -a $j"missing_otus.lst" ]];
 		
 			then for i in $(cat $j"missing_otus.lst"); do 
 				sed -i "s/$i//g" a_species.txt; 
@@ -816,7 +816,7 @@ for f in $(cat unselected_clusters.txt); do
 
         rep_a_best=$(sort -g $f"_general.tmp" 2> /dev/null | head -1 | awk '{print $2}')
 
-        cp $f/$f'_replicate_'$rep_a_best/$f'_model_general'/$f'_replicate_'$rep_a_best'_model_general.out'  $initial_path/$output_folder #&> /dev/null;
+        cp $f/$f'_replicate_'$rep_a_best/$f'_model_general'/$f'_replicate_'$rep_a_best'_model_general.out'  $initial_path/$output_folder &> /dev/null;
 
 done
 
@@ -830,7 +830,7 @@ cp likelihood_summary.txt $initial_path/$output_folder 2> /dev/null
 
 cp warnings_summary.txt $initial_path/$output_folder 2> /dev/null
 
-if [[ -a warnings_summary.txt ]]; then echo -e "  \nthe analysis has produced some warning: you will find the information relative to each failure in the file warning_summary.txt"; fi
+if [[ -a warnings_summary.txt ]]; then echo -e "  the analysis has produced some warning: you will find the information relative to each failure in the file warning_summary.txt\n"; fi
 
 cd $initial_path/$output_folder
 
