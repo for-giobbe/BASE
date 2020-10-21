@@ -13,13 +13,26 @@ for arg in "$@"; do
      "-ma")   set -- "$@" "-a" ;;
      "-mb")   set -- "$@" "-b" ;;
      "-l2")   set -- "$@" "-e" ;;
+     "-input")   set -- "$@" "-i" ;;
+     "-output")   set -- "$@" "-o" ;;
+     "-tree")   set -- "$@" "-t" ;;
+     "-model_a")   set -- "$@" "-a" ;;
+     "-model_b")   set -- "$@" "-b" ;;
+     "-cores")   set -- "$@" "-c" ;;
+     "-verbose")   set -- "$@" "-v" ;;
+     "-replicates")   set -- "$@" "-r" ;;
+     "-min_otus")   set -- "$@" "-m" ;;
+     "-ubiquitous")   set -- "$@" "-u" ;;
+     "-labels")   set -- "$@" "-l" ;;
+     "-labels_2")   set -- "$@" "-l2" ;;
+     "-outgroups")   set -- "$@" "-k" ;;
      *)       set -- "$@" "$arg"
 
 esac
 
 done
 
-while getopts ":xgzji:o:t:a:b:c:e:k:l:vr:un:h" o; do
+while getopts ":xgzji:o:t:a:b:c:e:k:l:vr:um:h" o; do
 
     case "${o}" in
 
@@ -47,7 +60,7 @@ v) verbose=1
 r) rep=${OPTARG}
 ;;
 
-n) min_otu=${OPTARG}
+m) min_otu=${OPTARG}
 ;;
 
 u) missing_data=1
