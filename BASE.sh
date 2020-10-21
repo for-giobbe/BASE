@@ -319,7 +319,13 @@ for i in $input_folder/*.fa; do a=$(cat $i | head -2); if ( echo $a | grep -v ">
 
 if grep -q ":[0-9]" $species_tree; then echo -e " \n WARNING! it seems your species tree contains branch length values, you should remove them before the analysis. \n "; exit; fi
 
-if [[ $n_threads -gt $(( $(ls -l $input_folder/*.fa | wc -l) * $rep )) ]]; then echo -e " \n WARNING! a number of cores smaller than the number of genes to be analyzed multiplied by the number of replicates have to be specified \n "; exit; fi
+max_cores=$(( $(ls -l $input_folder/*.fa | wc -l) * $rep ))
+
+#echo $max_cores
+
+if [[ $n_threads -gt $(( $(ls -l $input_folder/*.fa | wc -l) * $rep )) ]]; then echo -e " \n  WARNING! too many cores have been specified. They were automatically set to $max_cores."; n_threads=$max_cores; fi
+
+#echo $n_threads
 
 initial_path=$(pwd)
 
@@ -365,7 +371,7 @@ if [ $a_m == 2 ] && [ -z "$labels" ]; then printf "\n %s \n " " WARNING! branch 
 
 if [ "$a_m" != 2 ] && [ ! -z "$labels" ]; then printf "\n %s \n " " WARNING! you specified branch labels for a model which do not require them " " "; exit; fi
 
-echo -e "\n  analyizing $rep replicate(s) of $tot_genes genes: model $g_m VS $a_m & NSsites $ns_g VS $ns_a \n";
+echo -e "\n  analyizing $rep replicate(s) of $tot_genes genes: branch models $g_m VS $a_m & site models $ns_g VS $ns_a \n";
 
 ######################################################################################### analysis specification
 
