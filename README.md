@@ -6,9 +6,9 @@ which contain all the species considered. BASE workflow leverages several other 
 
 It has been desinged to function in two indipendent steps:
 
-1.   **analyze**	compare which model (out of two) fits best to each OG.
+1.   **analyze**		compare which model (out of two) fits best to each OG.
 
-2.   **extract**	retrive metrics of equivalent branches and/or clades, allowing a treshold for missing species.
+2.   **extract**		retrive metrics of equivalent branches and/or clades, allowing a treshold for missing species.
 
 More information on each mode can be accessed by typing ```--analize```, ```--extract``` followed by ```-h```.
 
