@@ -26,6 +26,7 @@ for arg in "$@"; do
      "--labels_2")   set -- "$@" "-l2" ;;
      "--outgroups")   set -- "$@" "-k" ;;
      "--erase")   set -- "$@" "-e" ;;
+     "--help")   set -- "$@" "-h" ;;
      *)       set -- "$@" "$arg"
 
 esac
@@ -100,66 +101,44 @@ all of the OTUs which may be included in each ortholog group.
 
 List of non-optional arguments:
 
-	-i	path to the input folder containing alignment files (aligned oneliner fasta-formatted files, including a minimum of four OTUs) (write ./ to launch the script in the current folder).
-	-o	output folder.
-	-t	comprensive species tree, including all OTU and without branch length.
-	-ma	codeml .ctl file of the generaly hypothesis, configured for the analysis (i.e. with the fields seqfile oufile and treefile left empty).
-	-mb	codeml .ctl file of the alternative hypothesis, configured for the analysis (i.e. with the fields seqfile oufile and treefile left empty).
-	-c	maximum number of cores to be used by the analysis (max = number of species x number of replicates).
+-i	--input		path to the input folder containing OGs (aligned oneliner fasta-formatted files with the .fas extension; headers must match with the spp. in the tree).
+-t	--tree		tree including all species (without branchlenth and in newick format, with the .nwk extension - species must match whith the fasta header in the OGs).
+-ma	--model_a	codeml .ctl file of the generaly model, configured for the analysis (i.e. with the fields seqfile, oufile and treefile left empty).
+-mb	--model_b	codeml .ctl file of the alternative model, configured for the analysis (i.e. with the fields seqfile, oufile and treefile left empty).
+-c	--cores		maximum number of cores to be used by the analysis.
+-o	--output	output folder.
 
 List of optional argument:
 
-	-l	file with the labelled branch(es): the file must contain in each line all the species which form a monophyletic clade which has to be tagged either with $ or # and a number.
-	-l2	a second file with the labelled branch(es), used to test two model 2 versus each other.
-	-v	verbose mode keeps the temporary folder wich contains all the intermediate files of the analyses, including trees and codeml outputs for both general and alternative models.
-	-r	number of replicates to be performed (default is 1).
-	-u	analyze only ubiquitous OGs.
-
-Several kind of ananlyeses can be carried out, with the general model specified with the flag -ma and the alternative model specified with the flag -mb:
-
-	a)	model 0 vs model 1 ---> model 0 and model 1 have to be specified in the codeml .ctl file.
-	b)	model 0 vs model 2 ---> model 0 and model 2 have to be specified in the codeml .ctl file, along with one file containing the branch labels.
-	c)	model 2 vs model 2 ---> model 2 and model 2 have to be specified in the codeml .ctl file, along with two file containing the branch labels.
-	d)	NSsites X vs NSsites Y ---> model 0 and two codeml NSsites models have to be specified in the codeml .ctl files.
-
-Aside these modifications of the .ctl file, all the other parameters of codeml can be modified.
+-l	--label		file with the branch(es) / clade(s) labels: the file must contain in each line all the relative species followed by the label (either $ or #).
+-l2	--label_2	a second file with branch(es) labels, used to test two model 2 versus each other.
+-v	--verbose	verbose mode keeps the temporary folder wich contains all the intermediate files of the analyses.
+-r	--replicates	number of replicates to be performed - if not specified it will be set to 1.
+-u	--ubiquitous	analyze only ubiquitous OGs.
+-e	--erase      	erase previous output folders with the same name as the specified output.
+-h	--help		this help page.
 "
 
 ################################################################################################################################################################################################################### ANNOTATE HELP
 
 elif [ "$j" == 1 ] ;
+
 then echo "
+This mode:
 
-This mode analyses codeml output(s) to reconstruct:
-
-        a)	the nodes annotation created by codeml.
-        b)	the OTUs which are downstream of each codeml branch.
-
-This step is required to carry out the extraction of dN/dS & t values for target branches.
+	a)	annotate the internal nodes of each OG tree to match the output of codeml and lists all species associated to each branch.
+	b)	extracts the metrics relative to each branch(es) / clade(s) of interest.
 
 List of non-optional arguments:
 
-        -i	the path to an input folder containing codeml output(s) (.out extension is required) (write ./ to launch the script in the current folder).
-        -o	the path to an output folder (write ./ to launch the script in the current folder).
-
-List of optional arguments:
-
-        -h	this help page.
-
-AND
-
-This mode extracts omega and t values relative to each tagged branch(es).
-
-List of non-optional arguments:
-
-	-i	the path to an input folder containing codeml output(s) (.out extension is required) and codeml annotation(s) produced by BASE (.result extension is required).
-	-l	the path to a file containing the branch for which the values need to be extracted (formatted as the branch ).
-	-n	minimum number of OTUs to be considered for each group, both absolute and relative values can be specified (7 means at least seven OTUs, while 0.8 means at least 80% of the clade components). if x the claded only if full
+-i	--input		the path to an input folder containing codeml output(s) (.out extension is required). If no label is specified it will just annotate codeml outputs.
 
 List of optional argument:
 
-	-v	prins also the branch and the species found.
-	-h	this help page.
+-l	--labels	the path to a file containing the branch/clade for which the metrics need to be extracted (each line all the relative species followed by the name).
+-m	--min_spp	min. number of spp. associated to a branch/clade - numbers and proportions allowed. If "x" is specified, only complete branch(es) / clade(s) are considerd.
+-v	--verbose	verbose mode prints also the tree branch (matching codeml output) and the species associated to the branch.
+-h	--help		this help page.
 "
 
 
@@ -167,15 +146,14 @@ List of optional argument:
 ################################################################################################################################################################################################################### MAIN HELP
 
 else echo "
-BASE - pronunced  /'baze/ - is a tool to test Branch And Site Evolution.
+BASE - pronunced  /'baze/ - is a workflow to test Branch And Site Evolution.
 
-This front-end tool has been made to: 
+It has been made to: 
 
-	a)	analyze		test which out of two dN/dS models fits best to each ortholog group(s), by parallel processing.
-	b)	annotate	reformat internal nodes/branches annotation along with the associated tips from codeml output(s).
-        c)	extract         retrive metrics of equivalent branches and/or clades, allowing a treshold for missing species.
+	1)	analyze		test which out of two dN/dS models fits best to each ortholog group(s), by parallel processing.
+        2)	extract         retrive metrics of equivalent branches and/or clades, allowing a treshold for missing species.
 
-More information on each mode usage and options can be accessed by typing "--analize" "--annotate" "--extract" followed by "-h".
+More information on each mode usage and options can be accessed by typing "--analize" or "--extract" followed by "-h".
 
 BASE relies on the following softwares:
 
@@ -189,8 +167,8 @@ BASE relies on the following softwares:
 
 Each software can be either 
 
-	1)	placed in the PATH
-	2)	installed with conda
+	1)	placed in the PATH.
+	2)	installed with conda.
 
 The correct installation and versions of the requirements can be checked using the --requirements option.
 
@@ -1375,7 +1353,7 @@ if [[ -a warnings_summary.txt ]]; then echo -e "  the analysis has produced some
 ################################################################################################################################################################################ EXTRACT! (END)
 
 else echo "
-	BASE - pronunced  /'baze/ - is a tool built to allow analyses on selection regimes to integrate OGs)of non-ubiquitous genes.
+	BASE - pronunced  /'baze/ - is a tool built to allow analyses on selection regimes to integrate OGs of non-ubiquitous genes.
 
 	To recall the main help page use the "-h" flag
 	
