@@ -95,7 +95,7 @@ e) e=1
 h)  if [ "$x" == 1 ]
 
 then echo "
-This mode tests which out of two dN/dS models fits best to each ortholog group(s), by carrying out branchlength optimization, two alternative codml analyses and comparing them 
+The analyze step of the workflow tests which out of two dN/dS models fits best to each ortholog group(s), by carrying out branchlength optimization, two alternative codml analyses and comparing them 
 thourgh a LRT to decide wether the general or the alternative model fits best to the data. Missing data are allowed, as long as the species tree provided by the user contains
 all of the OTUs which may be included in each ortholog group.
 
@@ -124,9 +124,9 @@ List of optional argument:
 elif [ "$j" == 1 ] ;
 
 then echo "
-This mode:
+This extract step of the workflow:
 
-	a)	annotate the internal nodes of each OG tree to match the output of codeml and lists all species associated to each branch.
+	a)	annotates the internal nodes of each OG's tree to match the output of codeml and lists all species associated to each branch.
 	b)	extracts the metrics relative to each branch(es) / clade(s) of interest.
 
 List of non-optional arguments:

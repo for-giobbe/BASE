@@ -1,18 +1,18 @@
 ## Installation and download of the toy dataset:
 
-BASE is based on GNU utilities and thus will function just on linux machines; it is substantially a wrapper which leverages the following pieces of software:
+BASE is based on GNU utilities and thus will function just on linux machines. This workflow leverages the following pieces of software:
 
-* RAxML
-* PAML (codeml)
-* R
-* getopt
-* EMBOSS (transeq)
-* phangorn
-* ape
+* RAxML 8.1.21
+* PAML 4.3 (codeml)
+* R 3.2.2
+* getopt 2.23.2
+* EMBOSS 6.6.0 (transeq)
+* ape 5.4
+* phangorn 2.4.0
 
 Each software can be either placed in the PATH or installed with conda;
 a [```.yml```](https://github.com/for-giobbe/BASE/blob/master/BASE_env.yml) is available to configure a conda environiment with all the dependencies required by BASE. 
-You can create the enivironiment using ```conda env create -f BASE_env.yml``` and it can be then recalled using ```conda activate BASE_env```.
+The enivironiment can be created using ```conda env create -f BASE_env.yml``` and can be recalled with ```conda activate BASE_env```.
 The correct installation and versions of the requirements can be checked using the ```--requirements``` option.
 
 ---
@@ -22,8 +22,8 @@ During the tutorial we are gonna leverage a toy datasets which can be found [her
 We are going to use some 
 [ubiquitous](https://github.com/for-giobbe/BASE/tree/master/example/example/_ubiquitous_OGs) and 
 [non-ubiquitous](https://github.com/for-giobbe/BASE/tree/master/example/_non-ubiquitous_OGs)
-genes OGs: in the first case each OG is made up by single copy genes present in all the species considered, while in the second case
-a certain number of species is missing in each OG.
+single-copy genes OGs: in the first case each OG is made up by genes present in all the species considered, 
+while in the second case a certain number of species is missing in each OG.
 
 These kind of data can readily be obtained using tools as [OrthoFinder2](https://github.com/davidemms/OrthoFinder), subsequently retrotranslating and aligning each OG.
 
