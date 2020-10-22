@@ -8,31 +8,31 @@ for arg in "$@"; do
 
      "--requirements") set -- "$@" "-g" ;;
      "--analyze") set -- "$@" "-x" ;;
-     "--annotate") set -- "$@" "-z" ;;
      "--extract") set -- "$@" "-j" ;;
      "-ma")   set -- "$@" "-a" ;;
      "-mb")   set -- "$@" "-b" ;;
-     "-l2")   set -- "$@" "-e" ;;
-     "-input")   set -- "$@" "-i" ;;
-     "-output")   set -- "$@" "-o" ;;
-     "-tree")   set -- "$@" "-t" ;;
-     "-model_a")   set -- "$@" "-a" ;;
-     "-model_b")   set -- "$@" "-b" ;;
-     "-cores")   set -- "$@" "-c" ;;
-     "-verbose")   set -- "$@" "-v" ;;
-     "-replicates")   set -- "$@" "-r" ;;
-     "-min_otus")   set -- "$@" "-m" ;;
-     "-ubiquitous")   set -- "$@" "-u" ;;
-     "-labels")   set -- "$@" "-l" ;;
-     "-labels_2")   set -- "$@" "-l2" ;;
-     "-outgroups")   set -- "$@" "-k" ;;
+     "-l2")   set -- "$@" "-q" ;;
+     "--input")   set -- "$@" "-i" ;;
+     "--output")   set -- "$@" "-o" ;;
+     "--tree")   set -- "$@" "-t" ;;
+     "--model_a")   set -- "$@" "-a" ;;
+     "--model_b")   set -- "$@" "-b" ;;
+     "--cores")   set -- "$@" "-c" ;;
+     "--verbose")   set -- "$@" "-v" ;;
+     "--replicates")   set -- "$@" "-r" ;;
+     "--min_spp")   set -- "$@" "-m" ;;
+     "--ubiquitous")   set -- "$@" "-u" ;;
+     "--labels")   set -- "$@" "-l" ;;
+     "--labels_2")   set -- "$@" "-l2" ;;
+     "--outgroups")   set -- "$@" "-k" ;;
+     "--erase")   set -- "$@" "-e" ;;
      *)       set -- "$@" "$arg"
 
 esac
 
 done
 
-while getopts ":xgzji:o:t:a:b:c:e:k:l:vr:um:h" o; do
+while getopts ":xgji:o:t:a:b:c:q:ek:l:vr:um:h" o; do
 
     case "${o}" in
 
@@ -72,20 +72,22 @@ g) g=1
 x) x=1
 ;;
 
-z) z=1
-;;
-
 j) j=1
 ;;
 
 l) labels=${OPTARG}
 ;;
 
-e) labels2=${OPTARG}
+q) labels2=${OPTARG}
 ;;
 
 k) outgroups=${OPTARG}
 ;;
+
+e) e=1
+;;
+
+
 
 ################################################################################################################################################################################################################### ANALYZE! HELP
 
@@ -125,36 +127,34 @@ Aside these modifications of the .ctl file, all the other parameters of codeml c
 
 ################################################################################################################################################################################################################### ANNOTATE HELP
 
-elif [ "$z" == 1 ] ;
+elif [ "$j" == 1 ] ;
 then echo "
+
 This mode analyses codeml output(s) to reconstruct:
 
-	a)	the nodes annotation created by codeml.
-	b)	the OTUs which are downstream of each codeml branch.
+        a)	the nodes annotation created by codeml.
+        b)	the OTUs which are downstream of each codeml branch.
 
-This step is required to carry out the extraction of dN/dS & t values for target branches. 
+This step is required to carry out the extraction of dN/dS & t values for target branches.
 
 List of non-optional arguments:
 
-	-i	the path to an input folder containing codeml output(s) (.out extension is required) (write ./ to launch the script in the current folder). 
-	-o	the path to an output folder (write ./ to launch the script in the current folder).
+        -i	the path to an input folder containing codeml output(s) (.out extension is required) (write ./ to launch the script in the current folder).
+        -o	the path to an output folder (write ./ to launch the script in the current folder).
 
 List of optional arguments:
 
-	-h	this help page.
-"
+        -h	this help page.
 
-################################################################################################################################################################################################################### EXTRACT! HELP
+AND
 
-elif [ "$j" == 1 ] ;
-then echo "
 This mode extracts omega and t values relative to each tagged branch(es).
 
 List of non-optional arguments:
 
 	-i	the path to an input folder containing codeml output(s) (.out extension is required) and codeml annotation(s) produced by BASE (.result extension is required).
 	-l	the path to a file containing the branch for which the values need to be extracted (formatted as the branch ).
-	-n	minimum number of OTUs to be considered for each group, both absolute and relative values can be specified (7 means at least seven OTUs, while 0.8 means at least 80% of the clade components).  
+	-n	minimum number of OTUs to be considered for each group, both absolute and relative values can be specified (7 means at least seven OTUs, while 0.8 means at least 80% of the clade components). if x the claded only if full
 
 List of optional argument:
 
@@ -243,59 +243,28 @@ fi
 
 if [ "$x" == 1 ]; then
 
- 
-
- if [ -z "$input_folder" ] || [ -z "$output_folder" ] || [ -z "$species_tree" ] || [ -z "$codeml_template_1" ] ||  [ -z "$codeml_template_2" ] || [ -z "$n_threads" ]
-
- then
-
- echo -e " \n WARNING! non-optional argument/s is missing \n "
-
- exit
-
- fi
-
-
+if [ -z "$input_folder" ] || [ -z "$output_folder" ] || [ -z "$species_tree" ] || [ -z "$codeml_template_1" ] ||  [ -z "$codeml_template_2" ] || [ -z "$n_threads" ];
+then echo -e " \n WARNING! non-optional argument/s is missing \n "; exit;
+fi;
 
 if [[ -z "$rep" ]];
-
 then rep=1;
+fi;
 
+#elif [ "$z" == 1 ]; then
+#if [ -z "$input_folder" ] || [ -z "$output_folder" ]
+#then echo -e " \n WARNING! non-optional argument/s is missing \n "
+#exit
+#fi
 
+if [[ -d "$output_folder" ]] || [[ -d $output_folder".tmp.full.out" ]] && [[ -z "$e" ]] ; then echo -e "\n  WARNING! an output folder with the same name you specified is allready present \n"; exit; fi
 
-fi
+if [[ -d "$output_folder" ]] && [[ ! -z "$e" ]] ; then rm -r $output_folder; fi
+if [[ -d $output_folder".tmp.full.out" ]] && [[ ! -z "$e" ]] ; then rm -r $output_folder".tmp.full.out"; fi
 
-
-
-elif [ "$z" == 1 ]; then
-
- 
-
- if [ -z "$input_folder" ] || [ -z "$output_folder" ]
-
-                then
-
-                echo -e " \n WARNING! non-optional argument/s is missing \n "
-
-                exit
-
-                fi
-
-
-
- if [ -e "$output_folder" ]; then echo " WARNING! the output folder is allready present"; exit; fi
-
-
-
-       elif [ "$j" == 1 ]; then
-
-
-
- if [ -z "$labels" ]; then echo "WARNING! label file is missing"; exit; fi
-
-
-
-fi
+#elif [ "$j" == 1 ]; 
+#then if [ -z "$labels" ]; then echo "WARNING! label file is missing"; exit; fi
+fi;
 
 
 
@@ -309,11 +278,13 @@ if [[ -z "$rep" ]] ;then rep=1 ;fi
 
 #########################################################################################  inputs specification
 
-if [[ -d $output_folder ]] ; then echo -e " \n WARNING! an output folder with the same name you specified is allready present. \n "; exit; fi
+#if [[ -d $output_folder ]] ; then echo -e " \n WARNING! an output folder with the same name you specified is allready present. \n "; exit; fi
 
-if [[ -d $output_folder".tmp.full.out" ]] ; then echo -e " \n WARNING! a temporary folder with the same name you specified is allready present. \n "; exit ; fi
+#if [[ -d $output_folder".tmp.full.out" ]] ; then echo -e " \n WARNING! a temporary folder with the same name you specified is allready present. \n "; exit ; fi
 
-if [[ $(ls -l $input_folder/*.fa | wc -l) -eq 0 ]]; then echo -e " \n WARNING! no alignment file(s) (one liner fasta-formatted alignment files) is present in the input folder. \n "; exit; fi
+if [[ $(ls -l $input_folder/*.fa | wc -l) -eq 0 ]]; then echo -e " \n WARNING! no alignment file(s) (one liner fasta-formatted alignment files, with .fa extension) is present in the input folder. \n "; exit; fi
+
+if echo $species_tree | grep -v nwk || grep NEXUS $species_tree; then echo -e " \n WARNING! the species tree needs to be in newick format and to have the .nwk extension. \n "; exit; fi
 
 for i in $input_folder/*.fa; do a=$(cat $i | head -2); if ( echo $a | grep -v ">") ; then echo -e " \n WARNING! something is wrong with the alnignment file(s) (they have to be one liner fasta-formatted files with the .fa extension). \n "; exit; fi; done
 
@@ -427,6 +398,12 @@ if ( pwd | grep -q $original_path ); then : ; else printf "\n %s \n " " WARNING!
 
 transeq -sequence ../$j -outseq $j".aa" -table $gencode  &> /dev/null ;
 if grep -q "\*" $j".aa" ; then echo -e  " the gene $j contains stop codon and has been excluded by the analyses - check if the gen code is correct" >> ../warnings_summary.txt; cd ..; mv $f $f"_stop_codons"; echo -e "$(echo $j | sed 's/.fa//')" >> failed_clusters.txt; continue; fi;
+
+check=$(for i in $(grep ">" ../$j); do grep -A 1 "$i" ../$j | tail -1 | wc -c; done); 
+check=$(echo $check | sort -u | wc -l); 
+if [[ $check != 1 ]]; 
+then echo -e  " the gene $j is not aligned and has been excluded by the analyses" >> ../warnings_summary.txt; cd ..; mv $f $f"_misaligned"; echo -e "$(echo $j |sed 's/.fa//')" >> failed_clusters.txt; continue; 
+fi;
 
 
 export n=$(tail -1 ../$j | wc -c);
@@ -549,10 +526,12 @@ for W in {1..10}; do
 
 	done
 
-        awk -F ")" '{print $NF}' "RAxML_result."$f"."$labels".tre" > tree_end_1
-	awk -F ")" '{print $NF}' "RAxML_result."$f"."$labels2".tre" > tree_end_2
+	if [ -f RAxML_result."$f"."$labels".tre ]; then	awk -F ")" '{print $NF}' "RAxML_result."$f"."$labels".tre" > tree_end_1; fi
+	if [ ! -z $labels2 ] && [ -f RAxML_result."$f"."$labels2".tre ]; then awk -F ")" '{print $NF}' "RAxML_result."$f"."$labels2".tre" > tree_end_2; fi
 
-	if grep -q "\\$" tree_end_1 || grep -q "#" tree_end_1 || grep -q "\\$" tree_end_2 || grep -q "#" tree_end_2 &> /dev/null;
+	#echo RAxML_result."$f"."$labels".tre RAxML_result."$f"."$labels2".tre
+
+	if grep -q "\\$" tree_end_1 || grep -q "#" tree_end_1 || grep -q "\\$" tree_end_2 &> /dev/null || grep -q "#" tree_end_2 &> /dev/null;
 		
 		then
 
@@ -581,13 +560,24 @@ for W in {1..10}; do
 
 	done
 
-	awk -F ")" '{print $NF}' "RAxML_result."$f"."$labels".tre" > tree_end_1
-        awk -F ")" '{print $NF}' "RAxML_result."$f"."$labels2".tre" > tree_end_2
 
-	if grep -q "\\$" tree_end_1 || grep -q "#" tree_end_1 || grep -q "\\$" tree_end_2 || grep -q "#" tree_end_2 &> /dev/null;
+	if [ -f RAxML_result."$f"."$labels".tre ]; then awk -F ")" '{print $NF}' "RAxML_result."$f"."$labels".tre" > tree_end_1; fi
+        if [ ! -z $labels2 ] && [ -f RAxML_result."$f"."$labels2".tre ]; then awk -F ")" '{print $NF}' "RAxML_result."$f"."$labels2".tre" > tree_end_2; fi
 
-	then echo -e "  impossible to use tag $bad_tag in gene $j because of topology. Try to lanuch it again in the subset of ortholog clusters which failed. \n" >> ../warnings_summary.txt;
+	#echo $f $labels $labels2 "RAxML_result."$f"."$labels".tre" "RAxML_result."$f"."$labels2".tre"
+
+	if [ ! -z $labels2 ] && [ -f RAxML_result."$f"."$labels2".tre ]; then
+	if grep -q "\\$" tree_end_1 || grep -q "#" tree_end_1 || grep -q "\\$" tree_end_2 || grep -q "#" tree_end_2;
+	then echo -e "  impossible to use tag $bad_tag in gene $j because of topology. Try to lanuch it again the analysis for the OGs which failed specifing outgroups with -k. \n" >> ../warnings_summary.txt;
 	fi;
+	fi;
+
+        if [ ! -f RAxML_result."$f"."$labels2".tre ]; then
+        if grep -q "\\$" tree_end_1 || grep -q "#" tree_end_1;
+        then echo -e "  impossible to use tag $bad_tag in gene $j because of topology. Try to lanuch it again the analysis for the OGs which failed specifing outgroups with -k. \n" >> ../warnings_summary.$
+        fi;
+        fi;
+
 
 else : ;
 
@@ -865,27 +855,27 @@ fi
 
 ################################################################################################################################################################################ ANNOTATE (PART 1)
 
-elif [ "$z"  == 1 ]
+elif [ "$j"  == 1 ]
 
 then
 
-if [[ $(ls -l $input_folder/*out | wc -l) -eq 0 ]]; then echo -e " \n WARNING! no .out file(s) (codeml outputs) is present in the input folder \n "; exit; fi
+if ls $input_folder/*out > /dev/null ; then : ; else  echo -e " \n WARNING! no codeml output(s) is present in the input folder - they need to have the .out extension \n "; exit; fi &> /dev/null
 
-echo -e "\n  analysis started on $(date)"
+echo -e "\n  analysis started on $(date) \n"
 
-mkdir $output_folder
+cp $labels $input_folder &> /dev/null
 
-cp $input_folder/*.out $output_folder
+cd $input_folder
 
-cp $tags_file $output_folder 2>/dev/null
+if [[ $(ls -l *out 2> /dev/null | wc -l) != $(ls -l *result 2> /dev/null | wc -l) ]]; then
 
-cd $output_folder;
+# cp $tags_file $input_folder 2>/dev/null
 
 ltot=$(ls -l *.out | wc -l)
 
 prog=1
 
-echo -e "\n  annotating $ltot codeml outputs \n"
+echo -e "  annotating $ltot codeml outputs \n"
 
 for i in *.out;
 
@@ -1103,25 +1093,17 @@ done;
 
 echo -e " \n"
 
+fi
+
 ################################################################################################################################################################################ EXTRACT!
 
-elif [ "$j"  == 1 ];
+# if [[ $(ls -l *out | wc -l) -eq 0 ]]; then echo -e " \n WARNING! no .out file(s) (codeml outputs) is present. This step failed \n "; exit; fi
 
-                then
+if [[ $(ls -l *out | wc -l) == $(ls -l *result | wc -l) ]] || [[ $(ls -l $labels | wc -l) == 1 ]]; then
 
-# if [[ -z $min_otu ]]; then echo -e " \n WARNING! a minimum number of OTUs to extract a clade has to be specified \n "; exit; fi 
+echo -e "  annotation ok \n"; fi;
 
-if [[ $(ls -l $input_folder/*out | wc -l) -eq 0 ]]; then echo -e " \n WARNING! no .out file(s) (codeml outputs) is present in the input folder \n "; exit; fi
-
-if [[ $(ls -l $input_folder/*result | wc -l) -eq 0 ]]; then echo -e " \n WARNING! no .result file(s) (annotation of codeml outputs) is present in the input folder \n "; exit; fi
-
-echo -e "\n  analysis started on $(date)"
-
-initial_path=$(pwd)
-
-cp $initial_path/$labels $initial_path/$input_folder
-
-cd $input_folder
+if [ -z "$labels" ]; then echo -e "  label file is missing - relaunch the analysis with label(s) to extract specific branches/clades\n"; printf "  analysis finished on $(date) \n\n"; exit; fi
 
 labels=$(echo $labels | awk -F "/" '{print $NF}')
 
@@ -1131,7 +1113,7 @@ ltot=$(ls -l *.out | wc -l)
 
 ttot=$(wc -l $labels | awk '{print $1}')
 
-echo -e "\n  extracting $ttot branches from $ltot codeml output \n"
+echo -e "  extracting $ttot branches from $ltot codeml output \n"
 
         while read tag; do
 
@@ -1224,13 +1206,15 @@ echo -e "\n  extracting $ttot branches from $ltot codeml output \n"
 
   if [[ -z $min_otu ]]; 
 
-then echo -e " a minimum number of OTUs to extract $tag_name clade has to be specified " >> warnings_summary.txt;
+then echo -e " a minimum number of OTUs to extract $tag_name has to be specified " >> warnings_summary.txt;
 
 printf "\r  extraction: ${tag_name:0:10}... \t \t \t must specify a minimum number of OTUs"; echo  " ";
 
 continue; 
 
 fi
+
+if [[ $min_otu == x ]]; then min_otu=$tag_number; fi
 
         float=$(echo $min_otu | awk -F "." '{print $1}');
                         
@@ -1246,7 +1230,7 @@ fi
 
                                         then echo -e " a minimum number of OTUs ($min_otu) greater than the whole clade has been specified for $tag_name and thus it has been excluded " >> warnings_summary.txt;
 
-    printf "\r  extraction: ${tag_name:0:10}... \t \t \t fail"; echo  " ";
+    printf "\r  extraction: ${tag_name:0:10}... \t \t \t fail - see warning summary for details"; echo  " ";
 
                                         continue;
 
@@ -1375,6 +1359,10 @@ fi;
 done < $labels
 
 echo " "
+
+#elif [[ $(ls -l $input_folder/*out | wc -l) == $(ls -l $input_folder/*result | wc -l) ]] || [[ ! -f $labels ]] ; then echo "ehi mancano le labels"; 
+
+#fi
 
 for i in *.summary.tmp; do cat $i | awk 'NR<2{print $0;next}{print $0 | " sort -k 2 " }' > $(echo $i | sed s'/.tmp//'); done 2>/dev/null
 
