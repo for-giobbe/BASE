@@ -92,7 +92,8 @@ second_clade  OG3622  alternative  4      0.1296     1.112  0.1481  1.1434  7..8
 second_clade  OG3640  alternative  4      0.1889     0.963  0.1623  0.8595  9..10   lart  lubb  tcan  tusa
 second_clade  OG3648  general      4      0.1708     0.651  0.1002  0.5867  9..10   lart  lubb  tcan  tusa
 second_clade  OG3682  alternative  3      0.1649     0.341  0.0519  0.3148  8..9    lart  lubb  tusa
-second_clade  OG3683  alternative  4      0.1670     0.255  0.0403  0.2410  7..8    lart  lubb  tcan  tusa```
+second_clade  OG3683  alternative  4      0.1670     0.255  0.0403  0.2410  7..8    lart  lubb  tcan  tusa
+```
 
 But let's try to use a different treshold of 0.6 - which means that at leas 60% of the species of a clade are necessary for the clade to be considered:
 
