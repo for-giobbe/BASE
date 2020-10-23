@@ -131,7 +131,7 @@ The ```--min_spp ``` flag - wether in combination with an explicit number of spe
 in a single analysis. To apply different tresholds across different clades separate analyses have to be carried out, or  ```x ``` can be specified to disable 
 any tollerance towards missing species in the branches/clades of interest.
 
-Nonetheless these results should be **handeled carefully**: if we allow too much missing data, both in the branch/clades of interest and in the whole tree,
+Nonetheless these results should be **handled carefully**: if we allow too much missing data, both in the branch/clades of interest and in the whole tree,
 the analyses start to become meaningless. For example: if we want to consider the branch leading to a clade of 50 species, one thing is to allow 3-4 of them
 to go missing, but when more than half are not present the analysis doesn't make sense anymore.
 A good approach is to stay conservative and try to explore the tradeoff between the number of OGs considered and the missing data treshold,
