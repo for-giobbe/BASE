@@ -3,37 +3,35 @@
 ---
 
 This tutorial is rather similar to the previous one, with a big exception: 
-we are going to implement in our analyses **OGs of non-ubiquitous genes** - _i.e._ OGs where some single-copy genes are lacking for some of the tips - species? - considered.
+we are going to implement in our analyses **OGs of non-ubiquitous genes** - _i.e._ OGs where some single-copy genes are lacking for some of the species considered.
 As before, what's need to carry out this analysis is a folder of ```.aln``` aligned OGs, a ```.nwk``` species tree and two codeml ```.ctl``` files.
 
 [Here](https://github.com/for-giobbe/BASE/tree/master/example/_non-ubiquitous_OGs) is the folder of the toy-dastaset which includes non-ubiquitous genes OGs as well; if 
-you type ``` grep -c ">" *``` you can see how each fasta-formatted file has a different number of genes in it, yet never exceeding the total number of species in our phylogeny.
+you type ``` grep -c ">" *``` you can see how each OG has a different number of genes in it, yet never exceeding the total number of species in our phylogeny.
 Consider that too small OGs (<3 OTUs) won't be processed by BASE, so you can exclude them before the analysis or make BASE discard them.
 
 ---
 
-To carry out the ```--analyze``` step leveraging also non ubiquitous genes OGs we need to specify the ```-d``` flag; we can also include ```-v``` so that BASE will produce a verbose output
+Leveraging non ubiquitous genes OGs is the defeault behavior in the ```--analyze``` step ; we can also include ```--verbose``` so that BASE will produce a verbose output
 and won't erase its temporary folder and files. Here's the line:
 
 ```
-    sh BASE.sh --analyze -i _non-ubiquitous_OGs/ -o _non-ubiquitous_OGs_analyze 
-    -t sp.tre -ma m0.ctl -mb m1.ctl -c 4 
-    -d -v
+    sh ../BASE.sh --analyze --input  _non-ubiquitous_OGs/ --output _non-ubiquitous_OGs_0VS1 
+    --tree spp_tree.nwk --model_a m0.ctl --model_b m1.ctl --cores 4 
+    --verbose
 ```
 
-The files generated are exactly the same as an analysis which includes ubiquitous genes OGs..
-Due to the ```-v``` flag we also get a ```...tmp.full.out folder``` which contains all the intermediate and temporary file of the analyses. 
-We can then proceed straight to the ```--annotate``` step by typing:
+The files generated are exactly the same as an analysis which included only ubiquitous genes OGs.
+Due to the ```--verbose``` flag we also get a ```.tmp.full.out folder``` which contains all the intermediate and temporary file of the analyses. 
+We can then proceed straight to the ```--extract``` step by typing:
 
-```sh BASE.sh --annotate -i _non-ubiquitous_OGs_analyze/ -o _non-ubiquitous_OGs_annotate```
+```sh ../BASE.sh --extract --input _non-ubiquitous_OGs_0VS1```
 
 In a first scenario, we want to extract the values of a branch without allowing any missing data in the relative clade. To do so we
-can just specify a treshold equal to the number of species in our clade of interest: in our case it consists of just two species, so that we can use the flag ```-n 2```,
-which specifies that a minimun of 2 species must be subtended for the branch to be considered. Let's type:
+can just specify ```--min_spp x```.  Let's type:
 
-```sh BASE.sh --extract -i _non-ubiquitous_OGs_annotate/ -l branch.lst -n 2```
+```sh BASE.sh --extract --input _non-ubiquitous_OGs_0VS1 --labels branch.lst --min_spp x```
 
-The ouptut will be named with the clade name and the treshold of missing data as well.
 We can see that it clearly states where the criteria was not met for certain OGs, as we can observe from the ```no_branch``` labels.
 
 ```
@@ -62,12 +60,12 @@ clade_of_interest  OG3683  0       no_branch
 ```
 
 In a second scenario, we want instead to obtain the information of the branch leading to our group(s) of interest even when some of its species are missing.
-With the ```-n``` flag we can specify either an absolute number or a proportion. For example let's extract the information
-for a second clade using a treshold of 0.8 - which means that at leas 80% of the species of a clade are necessary for the clade to be considered:
+As said before we can specify either an absolute number or a proportion with the ```--min_spp```. For example let's extract the metrics
+for a branch using a treshold of 0.8 - which means that at leas 80% of the species of its associated species are necessary for it to be considered:
 
-```sh BASE.sh --extract -i _non-ubiquitous_OGs_annotate -l branch_alt.lst -n 0.8 -v```
+```sh ../BASE.sh --extract --input  _non-ubiquitous_OGS_0VS1 --labels branch_alt.lst --min_spp 0.8 --verbose```
 
-This analysis will consider more OGs than the one only considering ubiquitous genes; due to the ```-v``` flag we can visualize each OGs OTUs and the specific branch in the tree:
+Of course this analysis will consider more OGs than the one considering only ubiquitous ones; due to the ```-v``` flag we can visualize the reported branch and its associated speceis for each OGs:
 
 ```
 second_clade  OG3105  alternative  0       no_branch
@@ -95,7 +93,7 @@ second_clade  OG3683  alternative  4       0.1670     0.255  0.0403  0.2410  7..
 
 But let's try to use a different treshold of 0.6 - which means that at leas 60% of the species of a clade are necessary for the clade to be considered:
 
-```sh BASE.sh --extract -i _non-ubiquitous_OGs_annotate -l branch_alt.lst -n 0.6 -v```
+```sh ../BASE.sh --extract --input  _non-ubiquitous_OGS_0VS1 --labels branch_alt.lst --min_spp 0.6 --verbose```
 
 We can notice that the our criteria have been met in a larger number of cases (all of the OGs actually):
 
@@ -124,8 +122,8 @@ second_clade  OG3682  alternative  3       0.1649  0.341  0.0519  0.3148  8..9  
 second_clade  OG3683  alternative  4       0.1670  0.255  0.0403  0.2410  7..8    lart  lubb  tcan  tusa
 ```
 
-The ```-n``` flag - wether in combination with an explicit number of species or a proporiton - will be applayed to all the clades considered
-in a single analysis. To apply different tresholds across different clades separate analyses have to be carried out. 
+The ```--min_spp ``` flag - wether in combination with an explicit number of species or a proporiton - will be applayed to all the clades considered
+in a single analysis. To apply different tresholds across different clades separate analyses have to be carried out, but when using x the trashold will be completeness.
 
 Nonetheless these results should be **handeled carefully**: if we allow too much missing data, both in the clade(s) of interest and in the whole tree,
 the analyses start to become meaningless. For example: if we want to consider the branch leading to a clade of 50 species, one thing is to allow 5-6 of them
