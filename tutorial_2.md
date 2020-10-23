@@ -159,59 +159,59 @@ The warning printed to the standard output is the same generated in the analyze 
 The two separate ```--extract``` commands could have been carried out also in a single step, by specifying since the beginning the labels file. 
 If one wants to extract additional branches - either modifying prehexisting label file of using a novel one - this step will be faster,
 as the workflow will recognize the ```.annotation``` files and skip that step.
-We can then see the output by typing```column -t _ubiquitous_OGs_0VS1/branch.clade_of_interest.min.spp.1.dNdS.summary```; as you can see
+We can then see the output by typing```column -t _ubiquitous_OGs_0VS1/branch.branch_of_interest.min.spp.2.dNdS.summary```; as you can see
 each line of the label file generates a summary output, named with the identifyer and the treshold of missing species 
 (min.spp meaning minimum of species). This is an ouput for a internal branch:
 
 ```
 branch/clade        gene    spp_n  dNdS    t      dN      dS
-branch_of_interest  OG3126  2      0.0646  0.518  0.0403  0.6234
-branch_of_interest  OG3158  2      0.0946  0.482  0.0508  0.5369
-branch_of_interest  OG3164  2      0.0866  0.425  0.0474  0.5469
-branch_of_interest  OG3196  2      0.1364  0.505  0.0651  0.4774
-branch_of_interest  OG3197  2      0.1076  0.639  0.0688  0.6394
-branch_of_interest  OG3302  2      0.0974  0.392  0.0438  0.4493
-branch_of_interest  OG3342  2      0.0837  0.389  0.0380  0.4536
-branch_of_interest  OG3347  2      0.0697  0.375  0.0323  0.4628
-branch_of_interest  OG3359  2      0.0272  0.324  0.0109  0.4007
-branch_of_interest  OG3362  2      0.1145  0.398  0.0465  0.4057
-branch_of_interest  OG3372  2      0.0231  0.318  0.0107  0.4639
-branch_of_interest  OG3387  2      0.1054  0.292  0.0295  0.2797
-branch_of_interest  OG3395  2      0.0655  0.218  0.0170  0.2595
-branch_of_interest  OG3399  2      0.0919  0.625  0.0640  0.6967
-branch_of_interest  OG3600  2      0.1416  0.207  0.0293  0.2067
-branch_of_interest  OG3622  2      0.0684  0.530  0.0432  0.6312
-branch_of_interest  OG3640  2      0.1045  0.411  0.0464  0.4440
+branch_of_interest  OG3126  2      0.0978  0.518  0.0559  0.5711
+branch_of_interest  OG3158  2      0.1264  0.482  0.0628  0.4966
+branch_of_interest  OG3164  2      0.1314  0.425  0.0630  0.4796
+branch_of_interest  OG3196  2      0.1297  0.505  0.0629  0.4844
+branch_of_interest  OG3197  2      0.1381  0.639  0.0826  0.5982
+branch_of_interest  OG3302  2      0.1491  0.392  0.0588  0.3945
+branch_of_interest  OG3342  2      0.1238  0.389  0.0507  0.4097
+branch_of_interest  OG3347  2      0.0735  0.375  0.0336  0.4580
+branch_of_interest  OG3359  2      0.0299  0.324  0.0119  0.3978
+branch_of_interest  OG3362  2      0.1541  0.398  0.0573  0.3717
+branch_of_interest  OG3372  2      0.0219  0.318  0.0102  0.4656
+branch_of_interest  OG3387  2      0.0953  0.292  0.0272  0.2857
+branch_of_interest  OG3395  2      0.0476  0.218  0.0130  0.2727
+branch_of_interest  OG3399  2      0.1391  0.625  0.0864  0.6212
+branch_of_interest  OG3600  2      0.2059  0.207  0.0370  0.1798
+branch_of_interest  OG3622  2      0.0965  0.530  0.0566  0.5867
+branch_of_interest  OG3640  2      0.1355  0.411  0.0559  0.4127
 branch_of_interest  OG3648  2      0.1708  0.471  0.0726  0.4250
-branch_of_interest  OG3682  2      0.1242  0.277  0.0348  0.2803
-branch_of_interest  OG3683  2      0.0993  0.407  0.0448  0.4517
+branch_of_interest  OG3682  2      0.1398  0.277  0.0378  0.2705
+branch_of_interest  OG3683  2      0.1825  0.407  0.0679  0.3720
 ```
 
-Typing ```column -t _ubiquitous_OGs_annotate/branch.species_of_interest.dNdS.summary``` 
+Typing ```column -t _ubiquitous_OGs_0VS1/branch.single_species.dNdS.summary ``` 
 you can see how an output for a terminal branch looks like:
 
 ```
 species         gene    dNdS    t      dN      dS
-single_species  OG3126  0.0646  0.085  0.0066  0.1023
-single_species  OG3158  0.0946  0.109  0.0115  0.1215
-single_species  OG3164  0.0866  0.155  0.0173  0.1999
-single_species  OG3196  0.1364  0.269  0.0346  0.2539
-single_species  OG3197  0.1076  0.286  0.0308  0.2864
-single_species  OG3302  0.0974  0.144  0.0161  0.1649
-single_species  OG3342  0.0837  0.118  0.0115  0.1370
-single_species  OG3347  0.0697  0.223  0.0192  0.2754
-single_species  OG3359  0.0272  0.020  0.0007  0.0251
-single_species  OG3362  0.1145  0.141  0.0165  0.1439
-single_species  OG3372  0.0231  0.095  0.0032  0.1392
-single_species  OG3387  0.1054  0.102  0.0103  0.0981
-single_species  OG3395  0.0655  0.104  0.0081  0.1231
-single_species  OG3399  0.0919  0.148  0.0151  0.1647
-single_species  OG3600  0.1416  0.064  0.0091  0.0644
-single_species  OG3622  0.0684  0.187  0.0153  0.2232
-single_species  OG3640  0.1045  0.159  0.0180  0.1718
+single_species  OG3126  0.0201  0.085  0.0023  0.1171
+single_species  OG3158  0.0603  0.109  0.0081  0.1336
+single_species  OG3164  0.0424  0.155  0.0098  0.2321
+single_species  OG3196  0.0571  0.269  0.0174  0.3055
+single_species  OG3197  0.0705  0.286  0.0220  0.3122
+single_species  OG3302  0.0476  0.144  0.0091  0.1906
+single_species  OG3342  0.0844  0.118  0.0116  0.1371
+single_species  OG3347  0.0618  0.223  0.0174  0.2820
+single_species  OG3359  0.0001  0.020  0.0000  0.0272
+single_species  OG3362  0.0981  0.141  0.0147  0.1497
+single_species  OG3372  0.0036  0.095  0.0005  0.1492
+single_species  OG3387  0.0749  0.102  0.0078  0.1047
+single_species  OG3395  0.0001  0.104  0.0000  0.1499
+single_species  OG3399  0.0530  0.148  0.0097  0.1832
+single_species  OG3600  0.1323  0.064  0.0087  0.0658
+single_species  OG3622  0.0198  0.187  0.0051  0.2584
+single_species  OG3640  0.0613  0.159  0.0118  0.1930
 single_species  OG3648  0.1708  0.125  0.0193  0.1127
-single_species  OG3682  0.1242  0.094  0.0118  0.0950
-single_species  OG3683  0.0993  0.090  0.0099  0.0997
+single_species  OG3682  0.0294  0.094  0.0036  0.1219
+single_species  OG3683  0.0290  0.090  0.0035  0.1220
 ```
 
 These tables are rather self explanatory as well, and represent the final output of our analysis.

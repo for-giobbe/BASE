@@ -651,7 +651,7 @@ wait
 
 #########################################################################################  likelihood ratio test
 
-if [[ $(wc -l failed_clusters.txt | awk '{print $1}') == $tot_genes ]]; then echo -e "\n all clusters failed, check the warning_summary.txt file in the .tmp.full.out folder. \n" ; exit; fi 2>/dev/null
+if [[ $(wc -l failed_clusters.txt | awk '{print $1}') == $tot_genes ]]; then echo -e "\n all clusters failed, check the warnings_summary.txt file in the .tmp.full.out folder. \n" ; exit; fi 2>/dev/null
 
 echo -e "\n  performing LRT \n"
 
@@ -759,7 +759,7 @@ done
 
         printf '} \n' >> LRT.R
 
-        printf 'if (selected == TRUE) selected.cluster <- c(selected.cluster,likelihood.summary$Ortholog_Cluster[c]) \n' >> LRT.R
+        printf 'if (selected == TRUE) selected.cluster <- c(selected.cluster,likelihood.summary$OG[c]) \n' >> LRT.R
 
         printf '} \n' >> LRT.R
 
@@ -817,7 +817,7 @@ cp likelihood_summary.txt $initial_path/$output_folder 2> /dev/null
 
 cp warnings_summary.txt $initial_path/$output_folder 2> /dev/null
 
-if [[ -a warnings_summary.txt ]]; then echo -e "  the analysis has produced some warning: you will find the information relative to each failure in the file warning_summary.txt\n"; fi
+if [[ -a warnings_summary.txt ]]; then echo -e "  the analysis has produced some warning(s): you will find the information relative to each failure in the file warnings_summary.txt\n"; fi
 
 cd $initial_path/$output_folder
 
@@ -1348,7 +1348,7 @@ for i in *.summary.tmp; do cat $i | awk 'NR<2{print $0;next}{print $0 | " sort -
 
 rm *.tmp 2>/dev/null
 
-if [[ -a warnings_summary.txt ]]; then echo -e "  the analysis has produced some warning: you will find the information relative to each failure in the file warning_summary.txt \n"; fi
+if [[ -a warnings_summary.txt ]]; then echo -e "  the analysis has produced some warning(s): you will find the information relative to each failure in the file warnings_summary.txt \n"; fi
 
 ################################################################################################################################################################################ EXTRACT! (END)
 
