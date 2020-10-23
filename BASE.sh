@@ -95,14 +95,14 @@ e) e=1
 h)  if [ "$x" == 1 ]
 
 then echo "
-The analyze step of the workflow tests which out of two dN/dS models fits best to each ortholog group(s), by carrying out branchlength optimization, two alternative codml analyses and comparing them 
-thourgh a LRT to decide wether the general or the alternative model fits best to the data. Missing data are allowed, as long as the species tree provided by the user contains
-all of the OTUs which may be included in each ortholog group.
+The analyze step of the workflow carries out branchlength optimization, fits two models and subsequently compares them thourgh a LRT.
+A likelihood summary table will be produced, which will show for each OG wether the general or the alternative model fits best to the data; 
+moreover the best-fit model output file will be returned. It's possible to label branch(es) / clade(s) and branch-site, branch and site models are supported.
 
 List of non-optional arguments:
 
 -i	--input		path to the input folder containing OGs (aligned oneliner fasta-formatted files with the .fas extension; headers must match with the spp. in the tree).
--t	--tree		tree including all species (without branchlenth and in newick format, with the .nwk extension - species must match whith the fasta header in the OGs).
+-t	--tree		tree including all species (without branchlenth and  in newick format, with the .nwk extension - species must match whith the fasta header in the OGs).
 -ma	--model_a	codeml .ctl file of the generaly model, configured for the analysis (i.e. with the fields seqfile, oufile and treefile left empty).
 -mb	--model_b	codeml .ctl file of the alternative model, configured for the analysis (i.e. with the fields seqfile, oufile and treefile left empty).
 -c	--cores		maximum number of cores to be used by the analysis.
@@ -150,7 +150,7 @@ BASE - pronunced  /'baze/ - is a workflow to test Branch And Site Evolution.
 
 It has been made to: 
 
-	1)	analyze		test which out of two dN/dS models fits best to each ortholog group(s), by parallel processing.
+	1)	analyze		fits a general and an alternative model to each OGs and compares them thourgh a LRT.
         2)	extract         retrive metrics of equivalent branches and/or clades, allowing a treshold for missing species.
 
 More information on each mode usage and options can be accessed by typing "--analize" or "--extract" followed by "-h".
@@ -404,7 +404,7 @@ echo "DNA, rd=3-$n\3" >> $f.prt;
 
  done;
 
-  if [[ -e $j"missing_otus.lst" ]] && [[ "$missing_data" = 1 ]]; then cd .. ; echo -e " the gene $j contains missing data and has been excluded by the analyses - to include it use the -d flag" >> warnings_summary.txt; continue; fi
+  if [[ -e $j"missing_otus.lst" ]] && [[ "$missing_data" = 1 ]]; then cd .. ; echo -e " the OG $j is non-ubiquitous and has been excluded by the analyses." >> warnings_summary.txt; continue; fi
 
   if [[ -e $j"missing_otus.lst" ]] && [[ -z "$missing_data" ]]; then
 
@@ -845,7 +845,7 @@ cp $labels $input_folder &> /dev/null
 
 cd $input_folder
 
-if [[ $(ls -l *out 2> /dev/null | wc -l) != $(ls -l *result 2> /dev/null | wc -l) ]]; then
+if [[ $(ls -l *out 2> /dev/null | wc -l) != $(ls -l *annotation 2> /dev/null | wc -l) ]]; then
 
 # cp $tags_file $input_folder 2>/dev/null
 
@@ -1031,37 +1031,37 @@ done <  $i".deep.branches.corrected.tmp";
 
 ################################################################################################################################################################################ ANNOTATE (WRITE OUTPUT)
 
-echo -e "\ntips defined by each branch (original) ---------------------------------------------------------------------< \n"  >> $i".result"
+echo -e "\ntips defined by each branch (original) ---------------------------------------------------------------------< \n"  >> $i".annotation"
 
-        cat $i".terminal.branches.corrected.tmp" >> $i".result"
+        cat $i".terminal.branches.corrected.tmp" >> $i".annotation"
 
-cat $i".deep.branches.corrected.tmp" >> $i".result"
+cat $i".deep.branches.corrected.tmp" >> $i".annotation"
 
-        echo -e "\ntips defined by each branch (mirror) -----------------------------------------------------------------------< \n"  >> $i".result"
+        echo -e "\ntips defined by each branch (mirror) -----------------------------------------------------------------------< \n"  >> $i".annotation"
 
-cat $i"_terminal_branches_opposite.tmp" >> $i".result"
+cat $i"_terminal_branches_opposite.tmp" >> $i".annotation"
 
-        cat $i"_deep_branches_opposite.tmp" >> $i".result"
+        cat $i"_deep_branches_opposite.tmp" >> $i".annotation"
 
-#       echo -e "\ntips defined by each branch (codeml) -----------------------------------------------------------------------<"  >> $i".result"
+#       echo -e "\ntips defined by each branch (codeml) -----------------------------------------------------------------------<"  >> $i".annotation"
 
-# cat $i".terminal.branches.tmp" >> $i".result"
+# cat $i".terminal.branches.tmp" >> $i".annotation"
 
-# cat $i".deep.branches.tmp" >> $i".result"
+# cat $i".deep.branches.tmp" >> $i".annotation"
 
-echo -e "\nconversion table between codeml and original tips ---------------------------------------------------------------< \n"  >> $i".result"
+echo -e "\nconversion table between codeml and original tips ---------------------------------------------------------------< \n"  >> $i".annotation"
 
-        cat conversion.tmp | sort -u | sort -k 2 | sed 's/ /\t - - - - - \t/g'>> $i".result"; 
+        cat conversion.tmp | sort -u | sort -k 2 | sed 's/ /\t - - - - - \t/g'>> $i".annotation"; 
 
-        echo -e "\ntree with deep nodes and tips annotation (original) -------------------------------------------------------------< \n"  >> $i".result"
+        echo -e "\ntree with deep nodes and tips annotation (original) -------------------------------------------------------------< \n"  >> $i".annotation"
 
-echo -e $(cat codeml_tre_renamed.tmp) >> $i".result"
+echo -e $(cat codeml_tre_renamed.tmp) >> $i".annotation"
 
-        echo -e "\ntree with deep nodes and tips annotation (codeml) ---------------------------------------------------------------< \n"  >> $i".result"
+        echo -e "\ntree with deep nodes and tips annotation (codeml) ---------------------------------------------------------------< \n"  >> $i".annotation"
 
-echo -e $(cat codeml_tre.tmp) >> $i".result"
+echo -e $(cat codeml_tre.tmp) >> $i".annotation"
 
-echo -e "\n" >> $i".result"
+echo -e "\n" >> $i".annotation"
 
 ############################################################################################################################################################################### ANNOTATE (END)
 
@@ -1077,7 +1077,7 @@ fi
 
 # if [[ $(ls -l *out | wc -l) -eq 0 ]]; then echo -e " \n WARNING! no .out file(s) (codeml outputs) is present. This step failed \n "; exit; fi
 
-if [[ $(ls -l *out | wc -l) == $(ls -l *result | wc -l) ]] || [[ $(ls -l $labels | wc -l) == 1 ]]; then
+if [[ $(ls -l *out | wc -l) == $(ls -l *annotation | wc -l) ]] || [[ $(ls -l $labels | wc -l) == 1 ]]; then
 
 echo -e "  annotation ok \n"; fi;
 
@@ -1109,11 +1109,11 @@ echo -e "  extracting $ttot branches from $ltot codeml output \n"
 
   if  [ "$verbose" = 1 ]; then
 
-   echo -e "clade \t gene \t model \t dNdS \t t \t dN \t dS \t branch" > "branch."$tag_name".dNdS.summary.tmp";
+   echo -e "species \t gene \t model \t dNdS \t t \t dN \t dS \t branch" > "branch."$tag_name".dNdS.summary.tmp";
 
   else
 
-   echo -e "clade \t gene \t dNdS \t t \t dN \t dS" > "branch."$tag_name".dNdS.summary.tmp";
+   echo -e "species \t gene \t dNdS \t t \t dN \t dS" > "branch."$tag_name".dNdS.summary.tmp";
 
   fi;  
 
@@ -1129,7 +1129,7 @@ echo -e "  extracting $ttot branches from $ltot codeml output \n"
 
                                 model=$(echo $codeml_file | awk -F "_model_" '{print $2}' | sed 's/\.out//');
 
-                  sed -n -e '/tips defined by each branch/,/conversion table between codeml and original tips/ p' $codeml_file".result" | sort -n | tail -n +8 > $codeml_file"_result_deep_branches.tmp"
+                  sed -n -e '/tips defined by each branch/,/conversion table between codeml and original tips/ p' $codeml_file".annotation" | sort -n | tail -n +8 > $codeml_file"_annotation_deep_branches.tmp"
 
    while read line; 
 
@@ -1151,7 +1151,7 @@ echo -e "  extracting $ttot branches from $ltot codeml output \n"
 
     fi
 
-                         done < $codeml_file"_result_deep_branches.tmp"
+                         done < $codeml_file"_annotation_deep_branches.tmp"
 
                          if [ -z "$dNdS" ]; then dNdS=$(echo "no_branch"); fi;
 
@@ -1218,11 +1218,11 @@ if [[ $min_otu == x ]]; then min_otu=$tag_number; fi
 
                         if  [ "$verbose" = 1 ]; then
 
-                                echo -e "clade \t gene \t model \t OTUs_n \t dNdS \t t \t dN \t dS \t branch \t OTUs" > "branch."$tag_name".min.otu."$min_otu".dNdS.summary.tmp";
+                                echo -e "branch/clade \t gene \t model \t spp_n \t dNdS \t t \t dN \t dS \t branch \t spp" > "branch."$tag_name".min.spp."$min_otu".dNdS.summary.tmp";
 
                         else
 
-                                echo -e "clade \t gene \t OTUs_n \t dNdS \t t \t dN \t dS" > "branch."$tag_name".min.otu."$min_otu".dNdS.summary.tmp";
+                                echo -e "branch/clade \t gene \t spp_n \t dNdS \t t \t dN \t dS" > "branch."$tag_name".min.spp."$min_otu".dNdS.summary.tmp";
 
                         fi;
 
@@ -1256,7 +1256,7 @@ let prog=prog+1
 
 #   echo -e "extracting $codeml_file tag $tag_name"
 
-  sed -n -e '/tips defined by each branch/,/conversion table between codeml and original tips/ p' $codeml_file".result" | sort -n | tail -n +8 > $codeml_file"_result_deep_branches.tmp"
+  sed -n -e '/tips defined by each branch/,/conversion table between codeml and original tips/ p' $codeml_file".annotation" | sort -n | tail -n +8 > $codeml_file"_annotation_deep_branches.tmp"
 
                   while read line; do
 
@@ -1280,7 +1280,7 @@ export branch_hits=$(echo $content | eval grep -o $grep_argument)
 
                                 fi;
 
-                 done < $codeml_file"_result_deep_branches.tmp";
+                 done < $codeml_file"_annotation_deep_branches.tmp";
 
                         sort -nr candidate_branches.tmp > candidate_branches_sorted.tmp 2>/dev/null;
 
@@ -1312,11 +1312,11 @@ export branch_hits=$(echo $content | eval grep -o $grep_argument)
 
    if  [ "$verbose" = 1 ]; then
 
-    echo -e "$tag_name \t $name \t $model \t $comp_branch_hits_number \t $dNdS \t $t \t $enne \t $esse \t $comp_branch \t $comp_branch_hits" >> "branch."$tag_name".min.otu."$min_otu".dNdS.summary.tmp";
+    echo -e "$tag_name \t $name \t $model \t $comp_branch_hits_number \t $dNdS \t $t \t $enne \t $esse \t $comp_branch \t $comp_branch_hits" >> "branch."$tag_name".min.spp."$min_otu".dNdS.summary.tmp";
 
                                 else
 
-                                 echo -e "$tag_name \t $name \t $comp_branch_hits_number \t $dNdS \t $t \t $enne \t $esse" >> "branch."$tag_name".min.otu."$min_otu".dNdS.summary.tmp";
+                                 echo -e "$tag_name \t $name \t $comp_branch_hits_number \t $dNdS \t $t \t $enne \t $esse" >> "branch."$tag_name".min.spp."$min_otu".dNdS.summary.tmp";
 
    fi;
 
@@ -1338,7 +1338,7 @@ done < $labels
 
 echo " "
 
-#elif [[ $(ls -l $input_folder/*out | wc -l) == $(ls -l $input_folder/*result | wc -l) ]] || [[ ! -f $labels ]] ; then echo "ehi mancano le labels"; 
+#elif [[ $(ls -l $input_folder/*out | wc -l) == $(ls -l $input_folder/*annotation | wc -l) ]] || [[ ! -f $labels ]] ; then echo -e "WARNING! labels missing"; 
 
 #fi
 
