@@ -4,6 +4,10 @@ which contain all the species considered.
 
 ![Image description](https://github.com/for-giobbe/BASE/blob/master/figures/BASE_fig.001.jpg)
 
+![Image description](https://github.com/for-giobbe/BASE/blob/master/figures/BASE_fig.003.jpg)
+
+![Image description](https://github.com/for-giobbe/BASE/blob/master/figures/BASE_fig.004.jpg)
+
 It has been desinged to function in two indipendent steps:
 
 1.   **analyze**		compare which two nested models for each OG.
