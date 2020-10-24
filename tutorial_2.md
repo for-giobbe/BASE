@@ -21,6 +21,8 @@ In the latter ```.ctl``` files, every parameter can still be modified, but the `
 As stated before, in this analysis we will compare two branch models:
 a [model](https://github.com/for-giobbe/BASE/blob/master/example/m0.ctl) where there is one omega shared by all branches and (branch model 0) and
 a [model](https://github.com/for-giobbe/BASE/blob/master/example/m1.ctl) where each branch has it's own omega (branch model 1). 
+We can specify this two models to the workflow using the ```--model_g``` and ```--model_a``` flags, in which *g* and *a* stend respectively for *general* and *alternative*.
+
 When using your own data, remember to properly set the genetic code in the ```.ctl``` files. 
 
 Moreover remember that species name should match exactly between OGs and phylogeny.
@@ -31,7 +33,7 @@ We can start the analysis using 4 cores - using ```--cores``` 4 - and restrictin
 
 ```
 	sh ../BASE.sh --analyze --input _ubiquitous_OGs/ --output _ubiquitous_OGs_0VS1 
-	--tree spp_tree.nwk --model_a m0.ctl --model_b m1.ctl --cores 4 --ubiquitous
+	--tree spp_tree.nwk --model_g m0.ctl --model_a m1.ctl --cores 4 --ubiquitous
 ```
 
 Some information are printed to the standard output, including potential errors, as can be seen from the second-last line:
@@ -61,7 +63,7 @@ the best-fit and - if specified - the best replicate (more on that in following 
 rather important output is allready the summary of the LRTs. Type ```column -t column -t _ubiquitous_OGs_0VS1/likelihood_summary.txt``` to take a look at it:
 
 ```
-OG      branch_model_A  site_model_A  model_A_np  model_A_LnL    rep_A  branch_model_B  site_model_B  model_B_np  model_B_LnL   rep_B  LRT      df  p.value  significance
+OG      branch_model_g  site_model_g  model_g_np  model_g_LnL    rep_g  branch_model_a  site_model_a  model_a_np  model_a_LnL   rep_a  LRT      df  p.value  significance
 OG3126  0               0             2           -4132.017209   1      1               0             12          -4116.793123  1      30.4482  10  7e-04    ***
 OG3158  0               0             2           -3818.030135   1      1               0             12          -3801.882145  1      32.296   10  4e-04    ***
 OG3164  0               0             2           -5374.980383   1      1               0             12          -5358.727983  1      32.5048  10  3e-04    ***

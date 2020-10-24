@@ -21,7 +21,7 @@ Lets' find which of the two models fits best each OG:
 Here is the summary for the LRTs:
 
 ```
-OG      branch_model_A  site_model_A  model_A_np  model_A_LnL   rep_A  branch_model_B  site_model_B  model_B_np  model_B_LnL    rep_B  LRT      df  p.value  significance
+OG      branch_model_g  site_model_g  model_g_np  model_g_LnL   rep_g  branch_model_a  site_model_a  model_a_np  model_a_LnL    rep_a  LRT      df  p.value  significance
 OG3126  2               0             3           -4126.374378  1      2               0             4           -4125.951623   1      0.8455   1   0.3578   n/s
 OG3158  2               0             3           -3814.052104  1      2               0             4           -3810.216186   1      7.6718   1   0.0056   **
 OG3164  2               0             3           -5372.238755  1      2               0             4           -5372.238754   1      0        1   0.9989   n/s
@@ -53,7 +53,7 @@ sh ../BASE.sh --extract --input _ubiquitous_OGs_clades --labels branch_clades.ls
 This will generate the two output relative to each branch:
 
 ```
-branch/clade  OG    spp_n  dNdS    t      dN      dS
+branch/clade  OG      spp_n  dNdS    t      dN      dS
 clade_one     OG3126  2      0.0349  0.107  0.0049  0.1402
 clade_one     OG3158  2      0.2049  0.018  0.0032  0.0157
 clade_one     OG3164  2      0.0648  0.112  0.0100  0.1551
@@ -77,7 +77,7 @@ clade_one     OG3683  2      0.0553  0.073  0.0050  0.0913
 ```
 
 ```
-branch/clade  OG    spp_n  dNdS    t      dN      dS
+branch/clade  OG      spp_n  dNdS    t      dN      dS
 clade_two     OG3126  2      0.0349  0.204  0.0093  0.2675
 clade_two     OG3158  2      0.0356  0.212  0.0099  0.2790
 clade_two     OG3164  2      0.0648  0.142  0.0127  0.1968
@@ -144,7 +144,7 @@ The likelihood summary which has been generated in the output folder shows that 
 thus that a certain variability of dN/dS among the different sites of our alignments can be observed:
 
 ```
-OG      branch_model_A  site_model_A  model_A_np  model_A_LnL    rep_A  branch_model_B  site_model_B  model_B_np  model_B_LnL    rep_B  LRT       df  p.value  significance
+OG      branch_model_g  site_model_g  model_g_np  model_g_LnL    rep_g  branch_model_a  site_model_a  model_a_np  model_a_LnL    rep_a  LRT       df  p.value  significance
 OG3105  0               0             2           -5241.508221   1      0               3             8           -5194.531414   1      93.9536   6   0        ***
 OG3126  0               0             2           -4132.017209   1      0               3             8           -4086.882015   1      90.2704   6   0        ***
 OG3158  0               0             2           -3818.030135   1      0               3             8           -3772.584619   1      90.891    6   0        ***
@@ -186,7 +186,7 @@ substantially strengthening our confidence in the results.
 Here is the likelihood summary:
 
 ```
-OG      branch_model_A  site_model_A  model_A_np  model_A_LnL   rep_A  branch_model_B  site_model_B  model_B_np  model_B_LnL   rep_B  LRT     df  p.value  significance
+OG      branch_model_g  site_model_g  model_g_np  model_g_LnL   rep_g  branch_model_a  site_model_a  model_a_np  model_a_LnL   rep_a  LRT     df  p.value  significance
 OG3126  2               2             4           -4108.905187  1      2               2             5           -4107.471035  1      2.8683  1   0.0903   n/s
 OG3158  2               2             4           -3795.537032  1      2               2             5           -3795.537032  1      0       1   1        n/s
 OG3164  2               2             4           -5326.864502  1      2               2             5           -5326.864503  1      0       1   1        n/s

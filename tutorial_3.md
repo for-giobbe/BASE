@@ -71,7 +71,7 @@ for a branch using a treshold of 0.8 - which means that at leas 80% of the speci
 sh ../BASE.sh --extract --input _non-ubiquitous_OGs_0VS1 --labels branch_alt.lst --min_spp 0.8 --verbose
 ```
 
-Of course this analysis will consider more OGs than the one considering only ubiquitous ones; due to the ```-v``` flag we can visualize the reported branch and its associated speceis for each OGs:
+Of course this analysis will consider more OGs than the one considering only ubiquitous ones; due to the ```-v``` flag we can also visualize the best-fit model, the branch and its associated speceis for each OGs:
 
 Let's take a look to the ```_non-ubiquitous_OGs_0VS1/branch.second_clade.min.spp.0.8.dNdS.summary``` file: 
 
