@@ -4,108 +4,105 @@
 
 
 In this part of the tutorial we will leverage the clade (#) tagging functionalty. Let's assume that we are willing
-to find the genes where two clades of our phylogeny have differential selection regimes. 
+to find the OGs for which two clades of our phylogeny have differential selection regimes. 
 We can leverage the same [```.ctl```](https://github.com/for-giobbe/BASE/blob/master/example/m2.ctl) file - which specifies for the branch model 2 
-and assumes different omega classes for the "foreground" and "background" branches - but implement different labeling using the ```-l``` and ```-l2``` flags.
-The first [label](https://github.com/for-giobbe/BASE/blob/master/example/tag_same.lst) assume that our clades of interst share the same omega class, 
+and assumes different omega classes for the "foreground" and "background" branches - but implement different labeling schemes using the ```--labels``` and ```--labels_2``` flags.
+When two branch model 2 analyses are configured ```--labels``` is applied to ghe general model and ```--labels_2``` to the alternative one. When 
+intead just the alternative analysis is configured with branch	model 2, the ```--labels``` is applied to the alternative model.
+The first [label](https://github.com/for-giobbe/BASE/blob/master/example/tag_same.lst) assume that our clades of interst share the same omega class,
 wile the second [```tag_diff.lst```](https://github.com/for-giobbe/BASE/blob/master/example/tag_diff.lst) makes them have two different omega classes.
 Lets' find which of the two models fits best each OG:
 
 ```
-    sh BASE.sh --analyze -i _ubiquitous_OGs/ -o _ubiquitous_OGs_analyze_clades 
-    -t sp.tre -ma m2.ctl -mb m2.ctl -c 4 
-    -l tag_same.lst -l2 tag_diff.lst
+    sh ../BASE.sh --analyze --input _ubiquitous_OGs/ --output _ubiquitous_OGs_clades 
+    --tree spp_tree.nwk --model_a m2.ctl --model_b m2.ctl --cores 4 --label tag_same.lst --label_2 tag_diff.lst
 ```
 
 Here is the summary for the LRTs:
 
 ```
-Ortholog_Cluster  Model1  NSsites_a  Model1np  Model1LnL      Rep1  Model2  NSsites_a.1  Model2np  Model2LnL      Rep2  LRT      df  p.value  significance
-OG3105            0       NA         2         -5241.508221   1     2       NA           3         -5241.070044   1     0.8764   1   0.3492   n/s
-OG3126            0       NA         2         -4132.017209   1     2       NA           4         -4127.83591    1     8.3626   2   0.0153   *
-OG3158            0       NA         2         -3818.030135   1     2       NA           4         -3810.358255   1     15.3438  2   5e-04    ***
-OG3164            0       NA         2         -5374.980383   1     2       NA           4         -5373.852274   1     2.2562   2   0.3236   n/s
-OG3196            0       NA         2         -3365.98055    1     2       NA           4         -3358.486049   1     14.989   2   6e-04    ***
-OG3197            0       NA         2         -3680.783168   1     2       NA           4         -3675.90942    1     9.7475   2   0.0076   **
-OG3302            0       NA         2         -9054.676043   1     2       NA           4         -9051.915521   1     5.521    2   0.0633   n/s
-OG3342            0       NA         2         -3444.803353   1     2       NA           4         -3436.439699   1     16.7273  2   2e-04    ***
-OG3347            0       NA         2         -9597.616313   1     2       NA           4         -9593.160792   1     8.911    2   0.0116   *
-OG3359            0       NA         2         -3147.226951   1     2       NA           4         -3139.261242   1     15.9314  2   3e-04    ***
-OG3362            0       NA         2         -5722.861684   1     2       NA           4         -5714.936329   1     15.8507  2   4e-04    ***
-OG3372            0       NA         2         -3710.675722   1     2       NA           4         -3706.474579   1     8.4023   2   0.015    *
-OG3387            0       NA         2         -4067.125785   1     2       NA           4         -4063.48902    1     7.2735   2   0.0263   *
-OG3395            0       NA         2         -3901.33739    1     2       NA           4         -3891.655412   1     19.364   2   1e-04    ***
-OG3399            0       NA         2         -3003.011552   1     2       NA           4         -3000.226596   1     5.5699   2   0.0617   n/s
-OG3600            0       NA         2         -2867.120583   1     2       NA           4         -2858.329414   1     17.5823  2   2e-04    ***
-OG3622            0       NA         2         -3407.557493   1     2       NA           4         -3401.823165   1     11.4687  2   0.0032   **
-OG3640            0       NA         2         -3342.883393   1     2       NA           4         -3335.087473   1     15.5918  2   4e-04    ***
-OG3648            0       NA         2         -10491.352418  1     2       NA           4         -10487.570129  1     7.5646   2   0.0228   *
-OG3682            0       NA         2         -3703.868866   1     2       NA           4         -3703.465076   1     0.8076   2   0.6678   n/s
-OG3683            0       NA         2         -2791.481942   1     2       NA           4         -2789.801519   1     3.3608   2   0.1863   n/s
+OG      branch_model_A  site_model_A  model_A_np  model_A_LnL   rep_A  branch_model_B  site_model_B  model_B_np  model_B_LnL    rep_B  LRT      df  p.value  significance
+OG3126  2               0             3           -4126.374378  1      2               0             4           -4125.951623   1      0.8455   1   0.3578   n/s
+OG3158  2               0             3           -3814.052104  1      2               0             4           -3810.216186   1      7.6718   1   0.0056   **
+OG3164  2               0             3           -5372.238755  1      2               0             4           -5372.238754   1      0        1   0.9989   n/s
+OG3196  2               0             3           -3360.908271  1      2               0             4           -3360.398794   1      1.019    1   0.3128   n/s
+OG3197  2               0             3           -3677.121538  1      2               0             4           -3676.589707   1      1.0637   1   0.3024   n/s
+OG3302  2               0             3           -9053.264092  1      2               0             4           -9051.828915   1      2.8704   1   0.0902   n/s
+OG3342  2               0             3           -3437.230877  1      2               0             4           -3437.216262   1      0.0292   1   0.8642   n/s
+OG3347  2               0             3           -9596.388996  1      2               0             4           -9593.993164   1      4.7917   1   0.0286   *
+OG3359  2               0             3           -3140.059561  1      2               0             4           -3138.572243   1      2.9746   1   0.0846   n/s
+OG3362  2               0             3           -5714.728104  1      2               0             4           -5713.991507   1      1.4732   1   0.2248   n/s
+OG3372  2               0             3           -3708.284008  1      2               0             4           -3706.387761   1      3.7925   1   0.0515   n/s
+OG3387  2               0             3           -4063.241135  1      2               0             4           -4062.950405   1      0.5815   1   0.4457   n/s
+OG3395  2               0             3           -3884.930938  1      2               0             4           -3873.364272   1      23.1333  1   0        ***
+OG3399  2               0             3           -3001.431867  1      2               0             4           -3000.368731   1      2.1263   1   0.1448   n/s
+OG3600  2               0             3           -2863.211741  1      2               0             4           -2854.223199   1      17.9771  1   0        ***
+OG3622  2               0             3           -3402.125939  1      2               0             4           -3401.836062   1      0.5798   1   0.4464   n/s
+OG3640  2               0             3           -3334.841932  1      2               0             4           -3334.78744    1      0.109    1   0.7413   n/s
+OG3648  2               0             3           -10489.07023  1      2               0             4           -10488.011445  1      2.1176   1   0.1456   n/s
+OG3682  2               0             3           -3703.746639  1      2               0             4           -3702.983079   1      1.5271   1   0.2165   n/s
+OG3683  2               0             3           -2786.60211   1      2               0             4           -2785.837636   1      1.5289   1   0.2163   n/s
 ```
 
-We can then proceed to the ```--annotate``` step:
+We can then proceed to the ```--extract``` step, using the relative label [file](https://github.com/for-giobbe/BASE/blob/master/example/branch_clades.lst):
 
-```sh BASE.sh --annotate -i _ubiquitous_OGs_analyze_clades -o _ubiquitous_OGs_analyze_clades_annotate```
-
-To retrive metrics relative to our clade of interst we must specify all its species in the relative [file](https://github.com/for-giobbe/BASE/blob/master/example/branch_clades.lst) 
-and carry out the ```--analyze``` step.
-
-```sh BASE.sh --extract -i _ubiquitous_OGs_analyze_clades_annotate/ -l branch_clades.lst -n 1```
+```	
+sh ../BASE.sh --extract --input _ubiquitous_OGs_clades --labels branch_clades.lst --min_spp x
+```
 
 This will generate the two output relative to each branch:
 
 ```
-clade      gene    OTUs_n  dNdS    t      dN      dS
-clade_one  OG3126  2       0.0349  0.107  0.0049  0.1402
-clade_one  OG3158  2       0.2049  0.018  0.0032  0.0157
-clade_one  OG3164  2       0.0648  0.112  0.0100  0.1551
-clade_one  OG3196  2       0.1828  0.722  0.1137  0.6216
-clade_one  OG3197  2       0.0734  0.290  0.0231  0.3143
-clade_one  OG3302  2       0.0845  0.209  0.0210  0.2484
-clade_one  OG3342  2       0.0442  0.222  0.0128  0.2906
-clade_one  OG3347  2       0.0745  0.227  0.0206  0.2768
-clade_one  OG3359  2       0.0069  0.149  0.0014  0.1955
-clade_one  OG3362  2       0.0739  0.189  0.0157  0.2131
-clade_one  OG3372  2       0.0141  0.143  0.0030  0.2153
-clade_one  OG3387  2       0.0672  0.125  0.0088  0.1306
-clade_one  OG3395  2       0.1922  0.109  0.0185  0.0962
-clade_one  OG3399  2       0.0668  0.136  0.0108  0.1618
-clade_one  OG3600  2       0.0184  0.108  0.0028  0.1509
-clade_one  OG3622  2       0.0383  0.207  0.0103  0.2692
-clade_one  OG3640  2       0.0505  0.112  0.0071  0.1397
-clade_one  OG3648  2       0.1340  0.197  0.0258  0.1923
-clade_one  OG3682  2       0.1325  0.135  0.0178  0.1345
-clade_one  OG3683  2       0.0553  0.073  0.0050  0.0913
+branch/clade  OG    spp_n  dNdS    t      dN      dS
+clade_one     OG3126  2      0.0349  0.107  0.0049  0.1402
+clade_one     OG3158  2      0.2049  0.018  0.0032  0.0157
+clade_one     OG3164  2      0.0648  0.112  0.0100  0.1551
+clade_one     OG3196  2      0.1828  0.722  0.1137  0.6216
+clade_one     OG3197  2      0.0734  0.290  0.0231  0.3143
+clade_one     OG3302  2      0.0845  0.209  0.0210  0.2484
+clade_one     OG3342  2      0.0442  0.222  0.0128  0.2906
+clade_one     OG3347  2      0.0745  0.227  0.0206  0.2768
+clade_one     OG3359  2      0.0069  0.149  0.0014  0.1955
+clade_one     OG3362  2      0.0739  0.189  0.0157  0.2131
+clade_one     OG3372  2      0.0141  0.143  0.0030  0.2153
+clade_one     OG3387  2      0.0672  0.125  0.0088  0.1306
+clade_one     OG3395  2      0.1922  0.109  0.0185  0.0962
+clade_one     OG3399  2      0.0668  0.136  0.0108  0.1618
+clade_one     OG3600  2      0.0184  0.108  0.0028  0.1509
+clade_one     OG3622  2      0.0383  0.207  0.0103  0.2692
+clade_one     OG3640  2      0.0505  0.112  0.0071  0.1397
+clade_one     OG3648  2      0.1340  0.197  0.0258  0.1923
+clade_one     OG3682  2      0.1325  0.135  0.0178  0.1345
+clade_one     OG3683  2      0.0553  0.073  0.0050  0.0913
 ```
 
 ```
-clade      gene    OTUs_n  dNdS       t      dN      dS
-clade_two  OG3126  2       0.0349     0.204  0.0093  0.2675
-clade_two  OG3158  2       0.0356     0.212  0.0099  0.2790
-clade_two  OG3164  2       0.0648     0.142  0.0127  0.1968
-clade_two  OG3196  2       0.1828     0.510  0.0802  0.4386
-clade_two  OG3197  2       0.0734     0.331  0.0264  0.3589
-clade_two  OG3302  2       0.0845     0.225  0.0225  0.2667
-clade_two  OG3342  2       0.0442     0.140  0.0081  0.1828
-clade_two  OG3347  2       0.0425     0.228  0.0130  0.3056
-clade_two  OG3359  2       0.0069     0.167  0.0015  0.2193
-clade_two  OG3362  2       0.0739     0.306  0.0254  0.3439
-clade_two  OG3372  2       0.0141     0.153  0.0032  0.2304
-clade_two  OG3387  2       0.0672     0.238  0.0167  0.2480
-clade_two  OG3395  2       0.0294     0.165  0.0064  0.2168
-clade_two  OG3399  2       0.0668     0.222  0.0177  0.2642
-clade_two  OG3600  2       0.2032     0.102  0.0182  0.0895
-clade_two  OG3622  2       0.0383     0.214  0.0107  0.2780
-clade_two  OG3640  2       0.0505     0.153  0.0097  0.1913
-clade_two  OG3648  2       0.1340     0.220  0.0288  0.2149
-clade_two  OG3682  2       0.1325     0.101  0.0133  0.1004
-clade_two  OG3683  2       0.0553     0.243  0.0168  0.3042
+branch/clade  OG    spp_n  dNdS    t      dN      dS
+clade_two     OG3126  2      0.0349  0.204  0.0093  0.2675
+clade_two     OG3158  2      0.0356  0.212  0.0099  0.2790
+clade_two     OG3164  2      0.0648  0.142  0.0127  0.1968
+clade_two     OG3196  2      0.1828  0.510  0.0802  0.4386
+clade_two     OG3197  2      0.0734  0.331  0.0264  0.3589
+clade_two     OG3302  2      0.0845  0.225  0.0225  0.2667
+clade_two     OG3342  2      0.0442  0.140  0.0081  0.1828
+clade_two     OG3347  2      0.0425  0.228  0.0130  0.3056
+clade_two     OG3359  2      0.0069  0.167  0.0015  0.2193
+clade_two     OG3362  2      0.0739  0.306  0.0254  0.3439
+clade_two     OG3372  2      0.0141  0.153  0.0032  0.2304
+clade_two     OG3387  2      0.0672  0.238  0.0167  0.2480
+clade_two     OG3395  2      0.0294  0.165  0.0064  0.2168
+clade_two     OG3399  2      0.0668  0.222  0.0177  0.2642
+clade_two     OG3600  2      0.2032  0.102  0.0182  0.0895
+clade_two     OG3622  2      0.0383  0.214  0.0107  0.2780
+clade_two     OG3640  2      0.0505  0.153  0.0097  0.1913
+clade_two     OG3648  2      0.1340  0.220  0.0288  0.2149
+clade_two     OG3682  2      0.1325  0.101  0.0133  0.1004
+clade_two     OG3683  2      0.0553  0.243  0.0168  0.3042
 ```
 
-dNdS values are identical across the two branches when the general model was the best fit for that OG,
+Omega values are identical across the two branches when the general model was the best fit for that OG,
 reflecting similar selective regimes across the two clades.
-On the contrary, some OGs have the alternative model as the betst-fit and thus theyr genes
+On the contrary, some OGs have the alternative model as their best-fit, meaning that their genes
 have undergone differential selective regimes across the two clades. This outcome can already be observed from the LRT results, 
 but to understand the actual difference between branches, one has to extract and compare the relative metrics.
 
@@ -116,8 +113,8 @@ we just need to substitute the symbol for tagging clades (#) with the one for ta
 
 BASE also implement models which allow different dN/dS values among different alignement sites. 
 Let's use one [```.ctl```](https://github.com/for-giobbe/BASE/blob/master/example/m0.ctl) 
-which has one omega class across all branches and all sites as the general model,
-and one [```.ctl```](https://github.com/for-giobbe/BASE/blob/master/example/m0_NS3.ctl) with NSsites=3 as the alternative model,
+which has one omega class across all sites as the general model - site model 0 - 
+and one [```.ctl```](https://github.com/for-giobbe/BASE/blob/master/example/m0_NS3.ctl) which assumes different omega classe - site model 3 - as the alternative model,
 like this:
 
 ```
@@ -139,36 +136,36 @@ fix_blength = 2
 Let's use the line:
 
 ```
-    sh BASE.sh --analyze -i _ubiquitous_OGs/ -o _ubiquitous_OGs_analyze_NSsites 
-    -t sp.tre -c 4 
-    -ma m0.ctl -mb m0_NS3.ctl
+	sh ../BASE.sh --analyze --input _ubiquitous_OGs/ --output _ubiquitous_OGs_NSsites 
+	--tree spp_tree.nwk --cores 4 --model_a m0.ctl --model_b m0_NS3.ctl
 ```
 
 The likelihood summary which has been generated in the output folder shows that all genes passed the LRT, and 
-thus that a certain omega variability among the different sites of our alignments can be observed:
+thus that a certain variability of dN/dS among the different sites of our alignments can be observed:
 
 ```
-Ortholog_Cluster  Model1  NSsites_a  Model1np  Model1LnL      Rep1  Model2  NSsites_a.1  Model2np  Model2LnL      Rep2  LRT       df  p.value  significance
-OG3126            0       NA         2         -4132.017209   1     0       NA           8         -4086.882015   1     90.2704   6   0        ***
-OG3158            0       NA         2         -3818.030135   1     0       NA           8         -3772.584619   1     90.891    6   0        ***
-OG3164            0       NA         2         -5374.980383   1     0       NA           8         -5304.139456   1     141.6819  6   0        ***
-OG3196            0       NA         2         -3365.98055    1     0       NA           8         -3279.872989   1     172.2151  6   0        ***
-OG3197            0       NA         2         -3680.783168   1     0       NA           8         -3611.208846   1     139.1486  6   0        ***
-OG3302            0       NA         2         -9054.676043   1     0       NA           8         -8884.092991   1     341.1661  6   0        ***
-OG3342            0       NA         2         -3444.803353   1     0       NA           8         -3379.341607   1     130.9235  6   0        ***
-OG3347            0       NA         2         -9597.616313   1     0       NA           8         -9443.970478   1     307.2917  6   0        ***
-OG3359            0       NA         2         -3147.226951   1     0       NA           8         -3119.670872   1     55.1122   6   0        ***
-OG3362            0       NA         2         -5722.861684   1     0       NA           8         -5640.13579    1     165.4518  6   0        ***
-OG3372            0       NA         2         -3710.675722   1     0       NA           8         -3691.491562   1     38.3683   6   0        ***
-OG3387            0       NA         2         -4067.125785   1     0       NA           8         -4024.065264   1     86.121    6   0        ***
-OG3395            0       NA         2         -3901.33739    1     0       NA           8         -3889.142938   1     24.3889   6   4e-04    ***
-OG3399            0       NA         2         -3003.011552   1     0       NA           8         -2959.338795   1     87.3455   6   0        ***
-OG3600            0       NA         2         -2867.120583   1     0       NA           8         -2835.05711    1     64.1269   6   0        ***
-OG3622            0       NA         2         -3407.557493   1     0       NA           8         -3379.421493   1     56.272    6   0        ***
-OG3640            0       NA         2         -3342.883393   1     0       NA           8         -3317.365453   1     51.0359   6   0        ***
-OG3648            0       NA         2         -10491.352418  1     0       NA           8         -10362.379639  1     257.9456  6   0        ***
-OG3682            0       NA         2         -3703.868866   1     0       NA           8         -3662.590623   1     82.5565   6   0        ***
-OG3683            0       NA         2         -2791.481942   1     0       NA           8         -2775.466035   1     32.0318   6   0        ***
+OG      branch_model_A  site_model_A  model_A_np  model_A_LnL    rep_A  branch_model_B  site_model_B  model_B_np  model_B_LnL    rep_B  LRT       df  p.value  significance
+OG3105  0               0             2           -5241.508221   1      0               3             8           -5194.531414   1      93.9536   6   0        ***
+OG3126  0               0             2           -4132.017209   1      0               3             8           -4086.882015   1      90.2704   6   0        ***
+OG3158  0               0             2           -3818.030135   1      0               3             8           -3772.584619   1      90.891    6   0        ***
+OG3164  0               0             2           -5374.980383   1      0               3             8           -5304.139456   1      141.6819  6   0        ***
+OG3196  0               0             2           -3365.98055    1      0               3             8           -3279.872989   1      172.2151  6   0        ***
+OG3197  0               0             2           -3680.783168   1      0               3             8           -3611.208846   1      139.1486  6   0        ***
+OG3302  0               0             2           -9054.676043   1      0               3             8           -8884.092991   1      341.1661  6   0        ***
+OG3342  0               0             2           -3444.803353   1      0               3             8           -3379.341607   1      130.9235  6   0        ***
+OG3347  0               0             2           -9597.616313   1      0               3             8           -9443.970478   1      307.2917  6   0        ***
+OG3359  0               0             2           -3147.226951   1      0               3             8           -3119.670872   1      55.1122   6   0        ***
+OG3362  0               0             2           -5722.861684   1      0               3             8           -5640.13579    1      165.4518  6   0        ***
+OG3372  0               0             2           -3710.675722   1      0               3             8           -3691.491562   1      38.3683   6   0        ***
+OG3387  0               0             2           -4067.125785   1      0               3             8           -4024.065264   1      86.121    6   0        ***
+OG3395  0               0             2           -3901.33739    1      0               3             8           -3889.142938   1      24.3889   6   4e-04    ***
+OG3399  0               0             2           -3003.011552   1      0               3             8           -2959.338795   1      87.3455   6   0        ***
+OG3600  0               0             2           -2867.120583   1      0               3             8           -2835.05711    1      64.1269   6   0        ***
+OG3622  0               0             2           -3407.557493   1      0               3             8           -3379.421493   1      56.272    6   0        ***
+OG3640  0               0             2           -3342.883393   1      0               3             8           -3317.365453   1      51.0359   6   0        ***
+OG3648  0               0             2           -10491.352418  1      0               3             8           -10362.379639  1      257.9456  6   0        ***
+OG3682  0               0             2           -3703.868866   1      0               3             8           -3662.590623   1      82.5565   6   0        ***
+OG3683  0               0             2           -2791.481942   1      0               3             8           -2775.466035   1      32.0318   6   0        ***
 ```
 
 ---
@@ -182,32 +179,32 @@ This features makes BASE carry out a certain number of replicate analysis and se
 substantially strengthening our confidence in the results.
 
 ```
-sh BASE.sh --analyze -i _ubiquitous_OGs/ -o _ubiquitous_OGs_analyze_branch_site 
--t sp.tre -c 4 -ma m_branch_site_gen.ctl -mb m_branch_site_alt.ctl 
--l tag_branch_site.lst -l2 tag_branch_site.lst -r 10
+	sh ../BASE.sh --analyze --input _ubiquitous_OGs/ --output _ubiquitous_OGs_branch_site 
+	--tree spp_tree.nwk --cores 4 --model_a m_branch_site_gen.ctl --model_b m_branch_site_alt.ctl 
+	--labels tag_branch_site.lst --labels_2 tag_branch_site.lst --replicates 10
 ```
 Here is the likelihood summary:
 
 ```
-Ortholog_Cluster  Model1  NSsites_a  Model1np  Model1LnL     Rep1  Model2  NSsites_a.1  Model2np  Model2LnL     Rep2  LRT     df  p.value  significance
-OG3126            2       NA         4         -4108.905187  1     2       NA           5         -4107.471035  1     2.8683  1   0.0903   n/s
-OG3158            2       NA         4         -3795.537032  1     2       NA           5         -3795.537032  1     0       1   1        n/s
-OG3164            2       NA         4         -5326.864502  1     2       NA           5         -5326.864503  1     0       1   1        n/s
-OG3196            2       NA         4         -3287.050015  1     2       NA           5         -3286.841551  1     0.4169  1   0.5185   n/s
-OG3197            2       NA         4         -3623.298938  1     2       NA           5         -3623.298938  1     0       1   1        n/s
-OG3302            2       NA         4         -8911.697147  1     2       NA           5         -8911.697147  1     0       1   1        n/s
-OG3342            2       NA         4         -3404.532625  1     2       NA           5         -3404.532625  1     0       1   1        n/s
-OG3347            2       NA         4         -9499.288353  1     2       NA           5         -9497.793637  1     2.9894  1   0.0838   n/s
-OG3359            2       NA         4         -3131.472756  1     2       NA           5         -3131.472756  1     0       1   1        n/s
-OG3362            2       NA         4         -5667.803294  1     2       NA           5         -5666.883737  1     1.8391  1   0.1751   n/s
-OG3372            2       NA         4         -3701.094933  1     2       NA           5         -3701.094933  1     0       1   1        n/s
-OG3395            2       NA         4         -3898.643714  1     2       NA           5         -3897.257103  1     2.7732  1   0.0959   n/s
-OG3399            2       NA         4         -2983.357611  1     2       NA           5         -2983.357611  1     0       1   1        n/s
-OG3600            2       NA         4         -2843.435359  1     2       NA           5         -2843.435359  1     0       1   1        n/s
-OG3622            2       NA         4         -3403.301033  1     2       NA           5         -3403.244384  1     0.1133  1   0.7364   n/s
-OG3640            2       NA         4         -3328.867214  1     2       NA           5         -3328.867214  1     0       1   1        n/s
-OG3682            2       NA         4         -3667.782582  1     2       NA           5         -3667.782583  1     0       1   1        n/s
-OG3683            2       NA         4         -2780.761592  1     2       NA           5         -2778.824226  1     3.8747  1   0.049    *
+OG      branch_model_A  site_model_A  model_A_np  model_A_LnL   rep_A  branch_model_B  site_model_B  model_B_np  model_B_LnL   rep_B  LRT     df  p.value  significance
+OG3126  2               2             4           -4108.905187  1      2               2             5           -4107.471035  1      2.8683  1   0.0903   n/s
+OG3158  2               2             4           -3795.537032  1      2               2             5           -3795.537032  1      0       1   1        n/s
+OG3164  2               2             4           -5326.864502  1      2               2             5           -5326.864503  1      0       1   1        n/s
+OG3196  2               2             4           -3287.050015  1      2               2             5           -3286.841551  1      0.4169  1   0.5185   n/s
+OG3197  2               2             4           -3623.298938  1      2               2             5           -3623.298938  1      0       1   1        n/s
+OG3302  2               2             4           -8911.697147  1      2               2             5           -8911.697147  1      0       1   1        n/s
+OG3342  2               2             4           -3404.532625  1      2               2             5           -3404.532625  1      0       1   1        n/s
+OG3347  2               2             4           -9499.288353  1      2               2             5           -9497.793637  1      2.9894  1   0.0838   n/s
+OG3359  2               2             4           -3131.472756  1      2               2             5           -3131.472756  1      0       1   1        n/s
+OG3362  2               2             4           -5667.803294  1      2               2             5           -5666.883737  1      1.8391  1   0.1751   n/s
+OG3372  2               2             4           -3701.094933  1      2               2             5           -3701.094933  1      0       1   1        n/s
+OG3395  2               2             4           -3898.643714  1      2               2             5           -3897.257103  1      2.7732  1   0.0959   n/s
+OG3399  2               2             4           -2983.357611  1      2               2             5           -2983.357611  1      0       1   1        n/s
+OG3600  2               2             4           -2843.435359  1      2               2             5           -2843.435359  1      0       1   1        n/s
+OG3622  2               2             4           -3403.301033  1      2               2             5           -3403.244384  1      0.1133  1   0.7364   n/s
+OG3640  2               2             4           -3328.867214  1      2               2             5           -3328.867214  1      0       1   1        n/s
+OG3682  2               2             4           -3667.782582  1      2               2             5           -3667.782583  1      0       1   1        n/s
+OG3683  2               2             4           -2780.761592  1      2               2             5           -2778.824226  1      3.8747  1   0.049    *
 ```
 
 We can select the codeml outputs for which the alternative model was the best-fit and explore the sites which have been found to be under

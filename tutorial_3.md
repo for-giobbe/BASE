@@ -3,7 +3,7 @@
 ---
 
 This tutorial is rather similar to the previous one, with a big exception: 
-we are going to implement in our analyses **OGs of non-ubiquitous genes** - _i.e._ OGs where some single-copy genes are missing for some of the species considered.
+we are going to implement in our analyses **OGs of non-ubiquitous genes** - _i.e._ OGs the gene is missing for some of the species considered.
 As before, what's need to carry out this analysis is a folder of ```.fa``` aligned OGs, a ```.nwk``` species tree and two codeml ```.ctl``` files.
 
 [Here](https://github.com/for-giobbe/BASE/tree/master/example/_non-ubiquitous_OGs) is the folder of the toy-dastaset which includes non-ubiquitous genes OGs as well; if 
@@ -16,27 +16,30 @@ Leveraging non ubiquitous genes OGs is the defeault behavior in the ```--analyze
 and won't erase its temporary folder and files. Here's the line:
 
 ```
-    sh ../BASE.sh --analyze --input _non-ubiquitous_OGs/ --output _non-ubiquitous_OGs_0VS1 
-    --tree spp_tree.nwk --model_a m0.ctl --model_b m1.ctl --cores 4 
-    --verbose
+	sh ../BASE.sh --analyze --input _non-ubiquitous_OGs/ --output _non-ubiquitous_OGs_0VS1 
+	--tree spp_tree.nwk --model_a m0.ctl --model_b m1.ctl --cores 4 --verbose
 ```
 
 The files generated are exactly the same as an analysis which included only ubiquitous genes OGs.
 Due to the ```--verbose``` flag we also get a ```.tmp.full.out folder``` which contains all the intermediate and temporary file of the analyses. 
 We can then proceed straight to the ```--extract``` step by typing:
 
-```sh ../BASE.sh --extract --input _non-ubiquitous_OGs_0VS1```
+```
+sh ../BASE.sh --extract --input _non-ubiquitous_OGs_0VS1
+```
 
 In a first scenario, we want to extract the values of a branch without allowing any missing data in the relative clade. To do so we
 can just specify ```--min_spp x```.  Let's type:
 
-```sh ../BASE.sh --extract --input _non-ubiquitous_OGs_0VS1 --labels branch.lst --min_spp x```
+```
+sh ../BASE.sh --extract --input _non-ubiquitous_OGs_0VS1 --labels branch.lst --min_spp x
+```
 
 We can see that the outpur clearly states where the criteria was not met for certain OGs, as we can observe from the ```no_branch``` labels
 in ```_non-ubiquitous_OGs_0VS1/branch.branch_of_interest.min.spp.2.dNdS.summary```
 
 ```
-branch/clade        gene    spp_n  dNdS       t      dN      dS
+branch/clade        OG      spp_n  dNdS       t      dN      dS
 branch_of_interest  OG3105  2      0.0821     0.404  0.0363  0.4422
 branch_of_interest  OG3126  2      0.0942     1.100  0.1159  1.2294
 branch_of_interest  OG3158  2      0.1048     0.539  0.0623  0.5941
@@ -64,14 +67,16 @@ In a second scenario, we want instead to obtain the information of the branch le
 As said before we can specify either an absolute number or a proportion with the ```--min_spp```. For example let's extract the metrics
 for a branch using a treshold of 0.8 - which means that at leas 80% of the species of its associated species are necessary for it to be considered:
 
-```sh ../BASE.sh --extract --input _non-ubiquitous_OGs_0VS1 --labels branch_alt.lst --min_spp 0.8 --verbose```
+```
+sh ../BASE.sh --extract --input _non-ubiquitous_OGs_0VS1 --labels branch_alt.lst --min_spp 0.8 --verbose
+```
 
 Of course this analysis will consider more OGs than the one considering only ubiquitous ones; due to the ```-v``` flag we can visualize the reported branch and its associated speceis for each OGs:
 
 Let's take a look to the ```_non-ubiquitous_OGs_0VS1/branch.second_clade.min.spp.0.8.dNdS.summary``` file: 
 
 ```
-branch/clade  gene    model        spp_n  dNdS       t      dN      dS      branch  spp
+branch/clade  OG      model        spp_n  dNdS       t      dN      dS      branch  spp
 second_clade  OG3105  alternative  0      no_branch
 second_clade  OG3126  alternative  0      no_branch
 second_clade  OG3158  alternative  0      no_branch
@@ -97,13 +102,15 @@ second_clade  OG3683  alternative  4      0.1670     0.255  0.0403  0.2410  7..8
 
 But let's try to use a different treshold of 0.6 - which means that at leas 60% of the species of a clade are necessary for the clade to be considered:
 
-```sh ../BASE.sh --extract --input  _non-ubiquitous_OGs_0VS1 --labels branch_alt.lst --min_spp 0.6 --verbose```
+```
+sh ../BASE.sh --extract --input  _non-ubiquitous_OGs_0VS1 --labels branch_alt.lst --min_spp 0.6 --verbose
+```
 
 We can notice that the our criteria have been met in a larger number of cases (all of the OGs actually)
 by checking the ```_non-ubiquitous_OGs_0VS1/branch.second_clade.min.spp.0.8.dNdS.summary``` file:
 
 ```
-branch/clade  gene    model        spp_n  dNdS    t      dN      dS      branch  spp
+branch/clade  OG      model        spp_n  dNdS    t      dN      dS      branch  spp
 second_clade  OG3105  alternative  2      0.0875  0.270  0.0255  0.2916  7..8    lart  lubb
 second_clade  OG3126  alternative  2      0.0942  1.100  0.1159  1.2294  5..6    lart  lubb
 second_clade  OG3158  alternative  2      0.1187  1.361  0.1718  1.4471  7..8    tcan  tusa

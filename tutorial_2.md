@@ -3,7 +3,7 @@
 ---
 
 In this tutorial we will compare through a Likelihood Ratio Test (LRT from now on)
-a model with a single omega values across all the branch of our phylogeny versus a model in which all the branches have different omegas, for each OG; subsequently 
+a model with a single omega value across all the branch of our phylogeny versus a model in which all the branches have different omega values, for each OG; subsequently 
 we will extract omega (along with other metrics) for specific branches. This analysis will focus only on [OGs of ubiquitus genes](https://github.com/for-giobbe/BASE/tree/master/example/_ubiquitous_OGs),
 in which a single-copy gene is present for each species.
 After moving to the [toy-dataset folder](https://github.com/for-giobbe/BASE/tree/master/example) we can quickly revise what's needed to start our analysis:
@@ -12,15 +12,15 @@ After moving to the [toy-dataset folder](https://github.com/for-giobbe/BASE/tree
 These alignment shouldn't have any STOP codon, yet BASE will report and exclude the OGs wehre they are found. The fasta alignment headers have to be identical to the tips names in the phylogenetic tree.
 
 * a [species tree](https://github.com/for-giobbe/BASE/blob/master/example/sp.tre) - in the newick format ```.nwk```. It has to include all the species considered and
-no branchlengths are needed as they will be optimized for each gene through our analysis. 
+no branchlengths are needed as they will be optimized for each OG through our analysis. 
 The tips names in the phylogenetic tree have to be identical to the headers of the fasta alignements.
 
 * two codeml ```.ctl``` files, which describe the models we want to leverage in our analysis.
 
 In the latter ```.ctl``` files, every parameter can still be modified, but the ```seqfile =```, ```outfile =``` , ```treefile =``` fields should be left empty.
 As stated before, in this analysis we will compare two branch models:
-a [model](https://github.com/for-giobbe/BASE/blob/master/example/m0.ctl) where there is one omega shared by all branches and (codeml model 0) and
-a [model](https://github.com/for-giobbe/BASE/blob/master/example/m1.ctl) where each branch has it's own omega (codeml model 1). 
+a [model](https://github.com/for-giobbe/BASE/blob/master/example/m0.ctl) where there is one omega shared by all branches and (branch model 0) and
+a [model](https://github.com/for-giobbe/BASE/blob/master/example/m1.ctl) where each branch has it's own omega (branch model 1). 
 When using your own data, remember to properly set the genetic code in the ```.ctl``` files. 
 
 Moreover remember that species name should match exactly between OGs and phylogeny.
@@ -31,8 +31,7 @@ We can start the analysis using 4 cores - using ```--cores``` 4 - and restrictin
 
 ```
 	sh ../BASE.sh --analyze --input _ubiquitous_OGs/ --output _ubiquitous_OGs_0VS1 
-	--tree spp_tree.nwk --model_a m0.ctl --model_b m1.ctl 
-	--cores 4 --ubiquitous
+	--tree spp_tree.nwk --model_a m0.ctl --model_b m1.ctl --cores 4 --ubiquitous
 ```
 
 Some information are printed to the standard output, including potential errors, as can be seen from the second-last line:
@@ -118,7 +117,7 @@ and here goes the standard output:
   analysis finished on Fri Sep 25 15:02:59 CEST 2020 
 ```
 
-As the secon-last line tells us, perfroming this step without specifying any branch/clade will just  annotate codeml outputs;
+As the secon-last line tells us, perfroming this step without specifying any branch/clade will just annotate codeml outputs;
 to retrive the metrics relative to our branch/clade of interest we need to specify them using a file like [this](https://github.com/for-giobbe/BASE/blob/master/example/branch.lst) 
 which contains on each line all the species associated to our branch/clade of interested - separated by single spaces - followed by a custom identifier.
 Here ```branch_of_interest``` and ```species_of_interest``` are used but they can be changed to any name. Let's take a look to our labels file:
@@ -164,7 +163,7 @@ each line of the label file generates a summary output, named with the identifye
 (min.spp meaning minimum of species). This is an ouput for a internal branch:
 
 ```
-branch/clade        gene    spp_n  dNdS    t      dN      dS
+branch/clade        OG      spp_n  dNdS    t      dN      dS
 branch_of_interest  OG3126  2      0.0978  0.518  0.0559  0.5711
 branch_of_interest  OG3158  2      0.1264  0.482  0.0628  0.4966
 branch_of_interest  OG3164  2      0.1314  0.425  0.0630  0.4796
@@ -191,7 +190,7 @@ Typing ```column -t _ubiquitous_OGs_0VS1/branch.single_species.dNdS.summary ```
 you can see how an output for a terminal branch looks like:
 
 ```
-species         gene    dNdS    t      dN      dS
+species         OG      dNdS    t      dN      dS
 single_species  OG3126  0.0201  0.085  0.0023  0.1171
 single_species  OG3158  0.0603  0.109  0.0081  0.1336
 single_species  OG3164  0.0424  0.155  0.0098  0.2321
