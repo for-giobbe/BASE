@@ -9,21 +9,21 @@ for arg in "$@"; do
      "--requirements") set -- "$@" "-g" ;;
      "--analyze") set -- "$@" "-x" ;;
      "--extract") set -- "$@" "-j" ;;
-     "-ma")   set -- "$@" "-a" ;;
-     "-mb")   set -- "$@" "-b" ;;
+     "-mg")   set -- "$@" "-a" ;;
+     "-ma")   set -- "$@" "-b" ;;
      "-l2")   set -- "$@" "-q" ;;
      "--input")   set -- "$@" "-i" ;;
      "--output")   set -- "$@" "-o" ;;
      "--tree")   set -- "$@" "-t" ;;
-     "--model_a")   set -- "$@" "-a" ;;
-     "--model_b")   set -- "$@" "-b" ;;
+     "--model_g")   set -- "$@" "-a" ;;
+     "--model_a")   set -- "$@" "-b" ;;
      "--cores")   set -- "$@" "-c" ;;
      "--verbose")   set -- "$@" "-v" ;;
      "--replicates")   set -- "$@" "-r" ;;
      "--min_spp")   set -- "$@" "-m" ;;
      "--ubiquitous")   set -- "$@" "-u" ;;
      "--labels")   set -- "$@" "-l" ;;
-     "--labels_2")   set -- "$@" "-l2" ;;
+     "--labels_2")   set -- "$@" "-q" ;;
      "--outgroups")   set -- "$@" "-k" ;;
      "--erase")   set -- "$@" "-e" ;;
      "--help")   set -- "$@" "-h" ;;
@@ -103,15 +103,15 @@ List of non-optional arguments:
 
 -i	--input		path to the input folder containing OGs (aligned oneliner fasta-formatted files with the .fas extension; headers must match with the spp. in the tree).
 -t	--tree		tree including all species (without branchlenth and  in newick format, with the .nwk extension - species must match whith the fasta header in the OGs).
--ma	--model_a	codeml .ctl file of the generaly model, configured for the analysis (i.e. with the fields seqfile, oufile and treefile left empty).
--mb	--model_b	codeml .ctl file of the alternative model, configured for the analysis (i.e. with the fields seqfile, oufile and treefile left empty).
+-mg	--model_g	codeml .ctl file of the generaly model, configured for the analysis (i.e. with the fields seqfile, oufile and treefile left empty).
+-ma	--model_a	codeml .ctl file of the alternative model, configured for the analysis (i.e. with the fields seqfile, oufile and treefile left empty).
 -c	--cores		maximum number of cores to be used by the analysis.
 -o	--output	output folder.
 
 List of optional argument:
 
--l	--label		file with the branch(es) / clade(s) labels: the file must contain in each line all the relative species followed by the label (either $ or #).
--l2	--label_2	a second file with branch(es) labels, used to test two model 2 versus each other.
+-l	--labels	file with the branch(es) / clade(s) labels: the file must contain in each line all the relative species followed by the label (either $ or #).
+-l2	--labels_2	a second file with branch(es) labels, used to test two model 2 versus each other.
 -v	--verbose	verbose mode keeps the temporary folder wich contains all the intermediate files of the analyses.
 -r	--replicates	number of replicates to be performed - if not specified it will be set to 1.
 -u	--ubiquitous	analyze only ubiquitous OGs.
@@ -719,11 +719,11 @@ echo -e "\n  performing LRT \n"
 
 done
 
-	printf 'likelihood.summary <- read.table(file="./likelihood_summary.txt",sep="\t",header=FALSE,col.names=c("OG","branch_model_A","site_model_A","model_A_np","model_A_LnL","rep_A","branch_model_B","site_model_B","model_B_np","model_B_LnL","rep_B"),as.is=c(1:2,5)) \n' > LRT.R
+	printf 'likelihood.summary <- read.table(file="./likelihood_summary.txt",sep="\t",header=FALSE,col.names=c("OG","branch_model_g","site_model_g","model_g_np","model_g_LnL","rep_g","branch_model_a","site_model_a","model_a_np","model_a_LnL","rep_a"),as.is=c(1:2,5)) \n' > LRT.R
 
-	printf 'LRT <- -2*(likelihood.summary$model_A_LnL-likelihood.summary$model_B_LnL) \n' >> LRT.R
+	printf 'LRT <- -2*(likelihood.summary$model_g_LnL-likelihood.summary$model_a_LnL) \n' >> LRT.R
 
-	printf 'degrees.of.freedom <- likelihood.summary$model_B_np-likelihood.summary$model_A_np \n' >> LRT.R
+	printf 'degrees.of.freedom <- likelihood.summary$model_a_np-likelihood.summary$model_g_np \n' >> LRT.R
 
 	printf 'p.value <- 1-pchisq(LRT,df=degrees.of.freedom) \n' >> LRT.R
 
@@ -791,7 +791,7 @@ for f in $(cat selected_clusters.txt); do
 
 	rep_b_best=$(sort -g $f"_alternative.tmp" 2> /dev/null | head -1 | awk '{print $2}')
 
-	cp $f/$f'_replicate_'$rep_b_best/$f'_model_alternative'/$f'_replicate_'$rep_b_best'_model_alternative.out' $initial_path/$output_folder #&> /dev/null;
+	cp $f/$f'_replicate_'$rep_b_best/$f'_model_alternative'/$f'_replicate_'$rep_b_best'_model_alternative.out' $initial_path/$output_folder &> /dev/null;
 
 done
 
@@ -799,7 +799,7 @@ done
 
 for i in $(cat tmp.lst | sed 's/.fa//'); do if grep $i selected_clusters.txt &> /dev/null; then : ; else echo $i >> unselected_clusters.txt; fi; done
 
-for f in $(cat unselected_clusters.txt); do
+for f in $(cat unselected_clusters.txt &> /dev/null); do
 
         rep_a_best=$(sort -g $f"_general.tmp" 2> /dev/null | head -1 | awk '{print $2}')
 
@@ -1109,11 +1109,11 @@ echo -e "  extracting $ttot branches from $ltot codeml output \n"
 
   if  [ "$verbose" = 1 ]; then
 
-   echo -e "species \t gene \t model \t dNdS \t t \t dN \t dS \t branch" > "branch."$tag_name".dNdS.summary.tmp";
+   echo -e "species \t OG \t model \t dNdS \t t \t dN \t dS \t branch" > "branch."$tag_name".dNdS.summary.tmp";
 
   else
 
-   echo -e "species \t gene \t dNdS \t t \t dN \t dS" > "branch."$tag_name".dNdS.summary.tmp";
+   echo -e "species \t OG \t dNdS \t t \t dN \t dS" > "branch."$tag_name".dNdS.summary.tmp";
 
   fi;  
 
@@ -1218,11 +1218,11 @@ if [[ $min_otu == x ]]; then min_otu=$tag_number; fi
 
                         if  [ "$verbose" = 1 ]; then
 
-                                echo -e "branch/clade \t gene \t model \t spp_n \t dNdS \t t \t dN \t dS \t branch \t spp" > "branch."$tag_name".min.spp."$min_otu".dNdS.summary.tmp";
+                                echo -e "branch/clade \t OG \t model \t spp_n \t dNdS \t t \t dN \t dS \t branch \t spp" > "branch."$tag_name".min.spp."$min_otu".dNdS.summary.tmp";
 
                         else
 
-                                echo -e "branch/clade \t gene \t spp_n \t dNdS \t t \t dN \t dS" > "branch."$tag_name".min.spp."$min_otu".dNdS.summary.tmp";
+                                echo -e "branch/clade \t OG \t spp_n \t dNdS \t t \t dN \t dS" > "branch."$tag_name".min.spp."$min_otu".dNdS.summary.tmp";
 
                         fi;
 
