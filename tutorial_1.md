@@ -23,7 +23,7 @@ We are going to use some
 [ubiquitous](https://github.com/for-giobbe/BASE/tree/master/example/example/_ubiquitous_OGs) and 
 [non-ubiquitous](https://github.com/for-giobbe/BASE/tree/master/example/_non-ubiquitous_OGs)
 single-copy genes OGs: in the first case each OG is made up by genes present in all the species considered, 
-while in the second case a certain number of species is missing in each OG.
+while in the second case each OG lacks a certain number of species.
 
 These kind of data can readily be obtained using tools as [OrthoFinder2](https://github.com/davidemms/OrthoFinder), subsequently retrotranslating and aligning each OG.
 

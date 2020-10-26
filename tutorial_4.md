@@ -5,17 +5,17 @@
 
 In this part of the tutorial we will leverage the clade (#) tagging functionalty. Let's assume that we are willing
 to find the OGs for which two clades of our phylogeny have differential selection regimes. 
-We can leverage the same [```.ctl```](https://github.com/for-giobbe/BASE/blob/master/example/m2.ctl) file - which specifies for the branch model 2 
+For the general and alternative models, we can leverage the same [```.ctl```](https://github.com/for-giobbe/BASE/blob/master/example/m2.ctl) file - which specifies for the branch model 2 
 and assumes different omega classes for the "foreground" and "background" branches - but implement different labeling schemes using the ```--labels``` and ```--labels_2``` flags.
 When two branch model 2 analyses are configured ```--labels``` is applied to ghe general model and ```--labels_2``` to the alternative one. When 
-intead just the alternative analysis is configured with branch	model 2, the ```--labels``` is applied to the alternative model.
-The first [label](https://github.com/for-giobbe/BASE/blob/master/example/tag_same.lst) assume that our clades of interst share the same omega class,
+instead just the alternative analysis is configured with branch	model 2, the ```--labels``` is applied only to the alternative model.
+The first labels file [```tag_same.lst```](https://github.com/for-giobbe/BASE/blob/master/example/tag_same.lst) assume that our clades of interst share the same omega class,
 wile the second [```tag_diff.lst```](https://github.com/for-giobbe/BASE/blob/master/example/tag_diff.lst) makes them have two different omega classes.
 Lets' find which of the two models fits best each OG:
 
 ```
-    sh ../BASE.sh --analyze --input _ubiquitous_OGs/ --output _ubiquitous_OGs_clades 
-    --tree spp_tree.nwk --model_a m2.ctl --model_b m2.ctl --cores 4 --label tag_same.lst --label_2 tag_diff.lst
+    sh ../BASE.sh --analyze --input _ubiquitous_OGs/ --output _ubiquitous_OGs_clades --ubiquitous
+    --tree spp_tree.nwk --model_g m2.ctl --model_a m2.ctl --cores 4 --label tag_same.lst --label_2 tag_diff.lst 
 ```
 
 Here is the summary for the LRTs:
@@ -47,57 +47,57 @@ OG3683  2               0             3           -2786.60211   1      2        
 We can then proceed to the ```--extract``` step, using the relative label [file](https://github.com/for-giobbe/BASE/blob/master/example/branch_clades.lst):
 
 ```	
-sh ../BASE.sh --extract --input _ubiquitous_OGs_clades --labels branch_clades.lst --min_spp x
+sh ../BASE.sh --extract --input _ubiquitous_OGs_clades --labels branch_clades.lst --min_spp x --verbose
 ```
 
 This will generate the two output relative to each branch:
 
 ```
-branch/clade  OG      spp_n  dNdS    t      dN      dS
-clade_one     OG3126  2      0.0349  0.107  0.0049  0.1402
-clade_one     OG3158  2      0.2049  0.018  0.0032  0.0157
-clade_one     OG3164  2      0.0648  0.112  0.0100  0.1551
-clade_one     OG3196  2      0.1828  0.722  0.1137  0.6216
-clade_one     OG3197  2      0.0734  0.290  0.0231  0.3143
-clade_one     OG3302  2      0.0845  0.209  0.0210  0.2484
-clade_one     OG3342  2      0.0442  0.222  0.0128  0.2906
-clade_one     OG3347  2      0.0745  0.227  0.0206  0.2768
-clade_one     OG3359  2      0.0069  0.149  0.0014  0.1955
-clade_one     OG3362  2      0.0739  0.189  0.0157  0.2131
-clade_one     OG3372  2      0.0141  0.143  0.0030  0.2153
-clade_one     OG3387  2      0.0672  0.125  0.0088  0.1306
-clade_one     OG3395  2      0.1922  0.109  0.0185  0.0962
-clade_one     OG3399  2      0.0668  0.136  0.0108  0.1618
-clade_one     OG3600  2      0.0184  0.108  0.0028  0.1509
-clade_one     OG3622  2      0.0383  0.207  0.0103  0.2692
-clade_one     OG3640  2      0.0505  0.112  0.0071  0.1397
-clade_one     OG3648  2      0.1340  0.197  0.0258  0.1923
-clade_one     OG3682  2      0.1325  0.135  0.0178  0.1345
-clade_one     OG3683  2      0.0553  0.073  0.0050  0.0913
+branch/clade  OG      model        spp_n  dNdS    t      dN      dS      branch  spp
+clade_one     OG3126  general      2      0.0349  0.107  0.0049  0.1402  10..11  lart  lubb
+clade_one     OG3158  alternative  2      0.2049  0.018  0.0032  0.0157  10..11  lart  lubb
+clade_one     OG3164  general      2      0.0648  0.112  0.0100  0.1551  10..11  lart  lubb
+clade_one     OG3196  general      2      0.1828  0.722  0.1137  0.6216  10..11  lart  lubb
+clade_one     OG3197  general      2      0.0734  0.290  0.0231  0.3143  10..11  lart  lubb
+clade_one     OG3302  general      2      0.0845  0.209  0.0210  0.2484  10..11  lart  lubb
+clade_one     OG3342  general      2      0.0442  0.222  0.0128  0.2906  10..11  lart  lubb
+clade_one     OG3347  alternative  2      0.0745  0.227  0.0206  0.2768  10..11  lart  lubb
+clade_one     OG3359  general      2      0.0069  0.149  0.0014  0.1955  10..11  lart  lubb
+clade_one     OG3362  general      2      0.0739  0.189  0.0157  0.2131  10..11  lart  lubb
+clade_one     OG3372  general      2      0.0141  0.143  0.0030  0.2153  10..11  lart  lubb
+clade_one     OG3387  general      2      0.0672  0.125  0.0088  0.1306  10..11  lart  lubb
+clade_one     OG3395  alternative  2      0.1922  0.109  0.0185  0.0962  10..11  lart  lubb
+clade_one     OG3399  general      2      0.0668  0.136  0.0108  0.1618  10..11  lart  lubb
+clade_one     OG3600  alternative  2      0.0184  0.108  0.0028  0.1509  10..11  lart  lubb
+clade_one     OG3622  general      2      0.0383  0.207  0.0103  0.2692  10..11  lart  lubb
+clade_one     OG3640  general      2      0.0505  0.112  0.0071  0.1397  10..11  lart  lubb
+clade_one     OG3648  general      2      0.1340  0.197  0.0258  0.1923  10..11  lart  lubb
+clade_one     OG3682  general      2      0.1325  0.135  0.0178  0.1345  10..11  lart  lubb
+clade_one     OG3683  general      2      0.0553  0.073  0.0050  0.0913  10..11  lart  lubb
 ```
 
 ```
-branch/clade  OG      spp_n  dNdS    t      dN      dS
-clade_two     OG3126  2      0.0349  0.204  0.0093  0.2675
-clade_two     OG3158  2      0.0356  0.212  0.0099  0.2790
-clade_two     OG3164  2      0.0648  0.142  0.0127  0.1968
-clade_two     OG3196  2      0.1828  0.510  0.0802  0.4386
-clade_two     OG3197  2      0.0734  0.331  0.0264  0.3589
-clade_two     OG3302  2      0.0845  0.225  0.0225  0.2667
-clade_two     OG3342  2      0.0442  0.140  0.0081  0.1828
-clade_two     OG3347  2      0.0425  0.228  0.0130  0.3056
-clade_two     OG3359  2      0.0069  0.167  0.0015  0.2193
-clade_two     OG3362  2      0.0739  0.306  0.0254  0.3439
-clade_two     OG3372  2      0.0141  0.153  0.0032  0.2304
-clade_two     OG3387  2      0.0672  0.238  0.0167  0.2480
-clade_two     OG3395  2      0.0294  0.165  0.0064  0.2168
-clade_two     OG3399  2      0.0668  0.222  0.0177  0.2642
-clade_two     OG3600  2      0.2032  0.102  0.0182  0.0895
-clade_two     OG3622  2      0.0383  0.214  0.0107  0.2780
-clade_two     OG3640  2      0.0505  0.153  0.0097  0.1913
-clade_two     OG3648  2      0.1340  0.220  0.0288  0.2149
-clade_two     OG3682  2      0.1325  0.101  0.0133  0.1004
-clade_two     OG3683  2      0.0553  0.243  0.0168  0.3042
+branch/clade  OG      model        spp_n  dNdS       t      dN      dS      branch  spp
+clade_two     OG3126  general      2      0.0349     0.204  0.0093  0.2675  10..12  tcan  tusa
+clade_two     OG3158  alternative  2      0.0356     0.212  0.0099  0.2790  10..12  tcan  tusa
+clade_two     OG3164  general      2      0.0648     0.142  0.0127  0.1968  10..12  tcan  tusa
+clade_two     OG3196  general      2      0.1828     0.510  0.0802  0.4386  10..12  tcan  tusa
+clade_two     OG3197  general      2      0.0734     0.331  0.0264  0.3589  10..12  tcan  tusa
+clade_two     OG3302  general      2      0.0845     0.225  0.0225  0.2667  10..12  tcan  tusa
+clade_two     OG3342  general      2      0.0442     0.140  0.0081  0.1828  10..12  tcan  tusa
+clade_two     OG3347  alternative  2      0.0425     0.228  0.0130  0.3056  10..12  tcan  tusa
+clade_two     OG3359  general      2      0.0069     0.167  0.0015  0.2193  10..12  tcan  tusa
+clade_two     OG3362  general      2      0.0739     0.306  0.0254  0.3439  10..12  tcan  tusa
+clade_two     OG3372  general      2      0.0141     0.153  0.0032  0.2304  10..12  tcan  tusa
+clade_two     OG3387  general      2      0.0672     0.238  0.0167  0.2480  10..12  tcan  tusa
+clade_two     OG3395  alternative  2      0.0294     0.165  0.0064  0.2168  10..12  tcan  tusa
+clade_two     OG3399  general      2      0.0668     0.222  0.0177  0.2642  10..12  tcan  tusa
+clade_two     OG3600  alternative  2      0.2032     0.102  0.0182  0.0895  10..12  tcan  tusa
+clade_two     OG3622  general      2      0.0383     0.214  0.0107  0.2780  10..12  tcan  tusa
+clade_two     OG3640  general      2      0.0505     0.153  0.0097  0.1913  10..12  tcan  tusa
+clade_two     OG3648  general      2      0.1340     0.220  0.0288  0.2149  10..12  tcan  tusa
+clade_two     OG3682  general      2      0.1325     0.101  0.0133  0.1004  10..12  tcan  tusa
+clade_two     OG3683  general      2      0.0553     0.243  0.0168  0.3042  10..12  tcan  tusa
 ```
 
 Omega values are identical across the two branches when the general model was the best fit for that OG,
@@ -137,7 +137,7 @@ Let's use the line:
 
 ```
 	sh ../BASE.sh --analyze --input _ubiquitous_OGs/ --output _ubiquitous_OGs_NSsites 
-	--tree spp_tree.nwk --cores 4 --model_a m0.ctl --model_b m0_NS3.ctl
+	--tree spp_tree.nwk --cores 4 --model_g m0.ctl --model_a m0_NS3.ctl
 ```
 
 The likelihood summary which has been generated in the output folder shows that all genes passed the LRT, and 
@@ -180,8 +180,8 @@ substantially strengthening our confidence in the results.
 
 ```
 	sh ../BASE.sh --analyze --input _ubiquitous_OGs/ --output _ubiquitous_OGs_branch_site 
-	--tree spp_tree.nwk --cores 4 --model_a m_branch_site_gen.ctl --model_b m_branch_site_alt.ctl 
-	--labels tag_branch_site.lst --labels_2 tag_branch_site.lst --replicates 10
+	--tree spp_tree.nwk --cores 4 --model_g m_branch_site_gen.ctl --model_a m_branch_site_alt.ctl 
+	--labels tag_branch_site.lst --labels_2 tag_branch_site.lst --replicates 10 --ubiquitous
 ```
 Here is the likelihood summary:
 

@@ -19,7 +19,7 @@ and won't erase its temporary folder and files. Let's use the line:
 
 ```
 	sh ../BASE.sh --analyze --input _non-ubiquitous_OGs/ --output _non-ubiquitous_OGs_0VS1 
-	--tree spp_tree.nwk --model_a m0.ctl --model_b m1.ctl --cores 4 --verbose
+	--tree spp_tree.nwk --model_g m0.ctl --model_a m1.ctl --cores 4 --verbose
 ```
 
 The files generated are exactly the same as an analysis which included only ubiquitous genes OGs.
