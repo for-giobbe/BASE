@@ -6,6 +6,15 @@ This tutorial is rather similar to the previous one, with a big exception:
 we are going to implement in our analyses **OGs of non-ubiquitous genes** - _i.e._ OGs the gene is missing for some of the species considered.
 As before, what's need to carry out this analysis is a folder of ```.fa``` aligned OGs, a ```.nwk``` species tree and two codeml ```.ctl``` files.
 
+
+In one possible scenario the user can allow the absence of some species only when they are not part of the group of interest:
+
+![Image description](https://github.com/for-giobbe/BASE/blob/master/figures/BASE_fig.003.jpg)
+
+In onother scenario the user could allow missing species also in the group of interest:
+
+![Image description](https://github.com/for-giobbe/BASE/blob/master/figures/BASE_fig.004.jpg)
+
 [Here](https://github.com/for-giobbe/BASE/tree/master/example/_non-ubiquitous_OGs) is the folder of the toy-dastaset which includes non-ubiquitous genes OGs as well; if 
 you type ``` grep -c ">" *``` you can see how each OG has a different number of genes in it, yet never exceeding the total number of species in our phylogeny.
 Consider that too small OGs (<3 OTUs) won't be processed by BASE, so you can exclude them before the analysis or make BASE discard them.
