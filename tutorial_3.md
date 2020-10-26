@@ -21,14 +21,14 @@ to restrict the analyses to just ubiquitous OGs, the ```--ubiquitous``` flag nee
 ```
 
 The files generated are exactly the same as an analysis which includes only ubiquitous genes OGs.
-Due to the ```--verbose``` flag we also get a ```.tmp.full.out folder``` which contains all intermediate and temporary files. 
+Due to the ```--verbose``` flag we also get a ```.tmp.full.out folder``` which contains all the intermediate and temporary files relative to the analyses. 
 We can then proceed to the ```--extract``` step by typing:
 
 ```
 sh ../BASE.sh --extract --input _non-ubiquitous_OGs_0VS1
 ```
 
-In a first scenario, we want to extract the values of the two branches without allowing any missing data in the relative clades,
+In a first scenario, we want to extract the values of a branch without allowing any missing data in the relative clades,
 as exemplified in this image:
 
 ![Image description](https://github.com/for-giobbe/BASE/blob/master/figures/BASE_fig.003.jpg)
