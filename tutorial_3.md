@@ -38,35 +38,35 @@ as exemplified in this image:
 To do so we can just specify ```--min_spp x```.  Let's type:
 
 ```
-sh ../BASE.sh --extract --input _non-ubiquitous_OGs_0VS1 --labels branch.lst --min_spp x
+sh ../BASE.sh --extract --input _non-ubiquitous_OGs_0VS1 --labels branch_alt.lst --min_spp x
 ```
 
 We can see that the outpur clearly states the OGs where the criteria was not met, as we can observe from the ```no_branch``` labels
-in the ```_non-ubiquitous_OGs_0VS1/branch.branch_of_interest.min.spp.2.dNdS.summary``` file:
+in the ```_non-ubiquitous_OGs_0VS1/branch.second_clade.min.spp.4.dNdS.summary``` file:
 
 ```
-branch/clade        OG      spp_n  dNdS       t      dN      dS
-branch_of_interest  OG3105  2      0.0821     0.404  0.0363  0.4422
-branch_of_interest  OG3126  2      0.0942     1.100  0.1159  1.2294
-branch_of_interest  OG3158  2      0.1048     0.539  0.0623  0.5941
-branch_of_interest  OG3164  0      no_branch
-branch_of_interest  OG3196  0      no_branch
-branch_of_interest  OG3197  2      0.0960     1.188  0.1186  1.2349
-branch_of_interest  OG3302  2      0.1724     0.778  0.1277  0.7410
-branch_of_interest  OG3342  0      no_branch
-branch_of_interest  OG3347  0      no_branch
-branch_of_interest  OG3359  2      0.0298     0.326  0.0119  0.3998
-branch_of_interest  OG3362  2      0.1541     0.398  0.0573  0.3717
-branch_of_interest  OG3372  2      0.0219     0.318  0.0102  0.4641
-branch_of_interest  OG3387  2      0.0953     0.292  0.0272  0.2857
-branch_of_interest  OG3395  0      no_branch
-branch_of_interest  OG3399  0      no_branch
-branch_of_interest  OG3600  2      0.1973     0.244  0.0425  0.2154
-branch_of_interest  OG3622  2      0.1296     1.112  0.1481  1.1434
-branch_of_interest  OG3640  2      0.1355     0.411  0.0559  0.4127
-branch_of_interest  OG3648  2      0.1708     0.471  0.0726  0.4250
-branch_of_interest  OG3682  2      0.1405     0.276  0.0378  0.2693
-branch_of_interest  OG3683  0      no_branch
+branch/clade  OG      spp_n  dNdS       t      dN      dS
+second_clade  OG3105  0      no_branch
+second_clade  OG3126  0      no_branch
+second_clade  OG3158  0      no_branch
+second_clade  OG3164  4      0.0976     0.406  0.0523  0.5362
+second_clade  OG3196  4      0.1980     0.468  0.0768  0.3881
+second_clade  OG3197  4      0.0960     1.188  0.1186  1.2349
+second_clade  OG3302  4      0.1724     0.778  0.1277  0.7410
+second_clade  OG3342  4      0.1393     0.520  0.0734  0.5267
+second_clade  OG3347  4      0.1104     0.501  0.0611  0.5537
+second_clade  OG3359  0      no_branch
+second_clade  OG3362  4      0.1477     0.530  0.0741  0.5015
+second_clade  OG3372  0      no_branch
+second_clade  OG3387  4      0.1755     0.704  0.1033  0.5884
+second_clade  OG3395  4      0.0415     0.183  0.0096  0.2315
+second_clade  OG3399  4      0.1089     0.509  0.0592  0.5434
+second_clade  OG3600  0      no_branch
+second_clade  OG3622  4      0.1296     1.112  0.1481  1.1434
+second_clade  OG3640  4      0.1889     0.963  0.1623  0.8595
+second_clade  OG3648  4      0.1708     0.651  0.1002  0.5867
+second_clade  OG3682  0      no_branch
+second_clade  OG3683  4      0.1670     0.255  0.0403  0.2410
 ```
 
 In a second scenario, we want instead to obtain the information of the branch leading to our group(s) of interest even when some of its species are missing,
