@@ -33,7 +33,7 @@ sh ../BASE.sh --extract --input _non-ubiquitous_OGs_0VS1
 In a first scenario, we want to extract the values of the two branches without allowing any missing data in the relative clades,
 as exemplified in this image:
 
-[Image description](https://github.com/for-giobbe/BASE/blob/master/figures/BASE_fig.003.jpg)
+![Image description](https://github.com/for-giobbe/BASE/blob/master/figures/BASE_fig.003.jpg)
 
 To do so we can just specify ```--min_spp x```.  Let's type:
 
