@@ -66,7 +66,7 @@ second_clade  OG3682  0      no_branch
 second_clade  OG3683  4      0.1670     0.255  0.0403  0.2410
 ```
 
-In a second scenario, we want instead to obtain the information of the branch leading to our group(s) of interest even when some of its species are missing,
+In a second scenario, we want instead to obtain the information of the branch leading to our clade(s) of interest even when some of its species are missing,
 as exemplified in this image:
 
 ![Image description](https://github.com/for-giobbe/BASE/blob/master/figures/BASE_fig.004.jpg)

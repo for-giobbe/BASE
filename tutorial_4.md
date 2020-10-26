@@ -7,8 +7,8 @@ In this part of the tutorial we will leverage the clade (#) tagging functionalty
 to find the OGs for which two clades of our phylogeny have differential selection regimes. 
 For the general and alternative models, we can leverage the same [```.ctl```](https://github.com/for-giobbe/BASE/blob/master/example/m2.ctl) file - which specifies for the branch model 2 
 and assumes different omega classes for the "foreground" and "background" branches - but implement different labeling schemes using the ```--labels``` and ```--labels_2``` flags.
-When two branch model 2 analyses are configured ```--labels``` is applied to ghe general model and ```--labels_2``` to the alternative one. When 
-instead just the alternative analysis is configured with branch	model 2, the ```--labels``` is applied only to the alternative model.
+When using two branch model 2 analyses ```--labels``` is applied to the general model and ```--labels_2``` to the alternative one. When 
+instead just the alternative model is configured with branch	model 2, the ```--labels``` flag is applied only to it.
 The first labels file [```tag_same.lst```](https://github.com/for-giobbe/BASE/blob/master/example/tag_same.lst) assume that our clades of interst share the same omega class,
 wile the second [```tag_diff.lst```](https://github.com/for-giobbe/BASE/blob/master/example/tag_diff.lst) makes them have two different omega classes.
 Lets' find which of the two models fits best each OG:
