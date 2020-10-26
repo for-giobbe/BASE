@@ -16,7 +16,7 @@ BASE has been desinged to function in two indipendent steps:
 
 More information on each mode can be accessed by typing ```--analize``` or ```--extract``` followed by ```-h```.
 
-BASE workflow leverages several other pieces of software, most notably [codeml](http://abacus.gene.ucl.ac.uk/software/pamlDOC.pdf). Here is the workfloe schematic:
+BASE leverages several other pieces of software, most notably [codeml](http://abacus.gene.ucl.ac.uk/software/pamlDOC.pdf). Here is the workflow schematic:
 
 ![Image description](https://github.com/for-giobbe/BASE/blob/master/figures/BASE_fig.002.jpg)
 
