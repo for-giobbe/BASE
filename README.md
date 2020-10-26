@@ -1,15 +1,14 @@
-**BASE** - pronunced  /'baze/ - is a workflow built to ease analyses on selection regimes in the comparative genomic context. 
-Most notably, it allows to integrate ortholog groups (OGs) of non-ubiquitous genes - *i.e.* OGs which do not 
-contain the full set of species considered; the vast majority of genomic analyses on selection restricts analyses on ubiquitous genes OGs - *i.e.* OGs 
-which contain all the species considered.
+**BASE** - pronunced  /'baze/ - is a workflow built to ease analyses on selection regimes for comparative genomics. 
+
+While the majority of these analyses are restricted to ortholog groups of ubiquitous genes - *i.e.* genes which are presnet in all the species considered - 
+BASE  allows to integrate ortholog groups of non-ubiquitous genes - *i.e.* genes which are not present in all the species considered. 
+This approach allows to increase substantially the number of genes for which selection regimes can be inferred.
 
 ![Image description](https://github.com/for-giobbe/BASE/blob/master/figures/BASE_fig.001.jpg)
 
-By doing so, the number of genes which can be analyzed for selection regimes can be substantially increased! 
-Nonetheleas, ASE presents many other features
-which ease selection analyses in the comparative genomics context, such as the automatic extraction of metrics relative to a branch/clade on the basis
-of the relative species. It also seamlessly implements the possibility to carry out replicate analysis, providing more confidence
-when large phylogenies of very divergent species are used. The workflow allows to process OGs in batches, so that large numbers of them can be analyzed
+Nonetheleas, BASE presents many other features which ease selection analyses, such as the automatic extraction of metrics relative to a branch/clade on the basis
+of its species. It also implements the possibility to carry out replicate analysis - providing more confidence
+when large phylogenies of very divergent species are used - and allows to process OGs in batches - so that large numbers of them can be analyzed
 at the same time.
 
 BASE has been desinged to function in two indipendent steps:
