@@ -1,29 +1,27 @@
-**Implementing non-ubiquitous genes OGs in the analysis**
+**Implement non-ubiquitous genes OGs in the analysis**
 
 ---
 
 This tutorial is rather similar to the previous one, with a big exception: 
-we are going to implement **OGs of non-ubiquitous genes** - _i.e._ OGs the gene is missing for some of the species considered.
-
-
-As before, what's need to carry out this analysis is a folder of ```.fa``` aligned OGs, a ```.nwk``` species tree and two codeml ```.ctl``` files.
+we are going to implement **OGs of non-ubiquitous genes** - _i.e._ OGs in which the  gene is missing for some of the species considered.
+As before, what's need to carry out this analysis are a ```.nwk``` species tree and two codeml ```.ctl``` files, along with a folder of ```.fa``` aligned OGs.
 [Here](https://github.com/for-giobbe/BASE/tree/master/example/_non-ubiquitous_OGs) is the folder of the toy-dastaset which includes non-ubiquitous genes OGs; if 
 you type ``` grep -c ">" *``` you can see how each OG has a different number of genes in it, yet never exceeding the total number of species in our phylogeny.
 Consider that too small OGs (<3 OTUs) won't be processed by BASE, so you can exclude them before the analysis or make BASE discard them.
 
 ---
 
-Note that, leveraging non ubiquitous genes OGs - along ubiquitous ones - is the defeault behavior in the ```--analyze``` step, if one wants 
-to restrict the analyses to just ubiquitous OGs, the ```--ubiquitous``` flag needs to be used; we can also include ```--verbose``` so that BASE will produce a verbose output
-and won't erase its temporary folder and files. Let's use the line:
+Note that, leveraging non ubiquitous genes OGs - along ubiquitous ones - is the defeault behavior in the ```--analyze``` step: if one wants 
+to restrict the analyses to just ubiquitous OGs, the ```--ubiquitous``` flag needs to be used: We can also include ```--verbose``` so that BASE
+ won't erase its temporary folder and files. Let's use the line:
 
 ```
 	sh ../BASE.sh --analyze --input _non-ubiquitous_OGs/ --output _non-ubiquitous_OGs_0VS1 
 	--tree spp_tree.nwk --model_g m0.ctl --model_a m1.ctl --cores 4 --verbose
 ```
 
-The files generated are exactly the same as an analysis which included only ubiquitous genes OGs.
-Due to the ```--verbose``` flag we also get a ```.tmp.full.out folder``` which contains all the intermediate and temporary file of the analyses. 
+The files generated are exactly the same as an analysis which includes only ubiquitous genes OGs.
+Due to the ```--verbose``` flag we also get a ```.tmp.full.out folder``` which contains all intermediate and temporary file of the analyses. 
 We can then proceed to the ```--extract``` step by typing:
 
 ```
