@@ -4,19 +4,10 @@
 
 This tutorial is rather similar to the previous one, with a big exception: 
 we are going to implement **OGs of non-ubiquitous genes** - _i.e._ OGs the gene is missing for some of the species considered.
-Let's think for a second to two possible scenarios:
 
-
-The user want to allow the absence of some species only when they are not part of the group of interest:
-
-![Image description](https://github.com/for-giobbe/BASE/blob/master/figures/BASE_fig.003.jpg)
-
-The ueser wants to allow missing species across the whole phylogent, including the group of interest:
-
-![Image description](https://github.com/for-giobbe/BASE/blob/master/figures/BASE_fig.004.jpg)
 
 As before, what's need to carry out this analysis is a folder of ```.fa``` aligned OGs, a ```.nwk``` species tree and two codeml ```.ctl``` files.
-[Here](https://github.com/for-giobbe/BASE/tree/master/example/_non-ubiquitous_OGs) is the folder of the toy-dastaset which includes non-ubiquitous genes OGs as well; if 
+[Here](https://github.com/for-giobbe/BASE/tree/master/example/_non-ubiquitous_OGs) is the folder of the toy-dastaset which includes non-ubiquitous genes OGs; if 
 you type ``` grep -c ">" *``` you can see how each OG has a different number of genes in it, yet never exceeding the total number of species in our phylogeny.
 Consider that too small OGs (<3 OTUs) won't be processed by BASE, so you can exclude them before the analysis or make BASE discard them.
 
@@ -39,8 +30,12 @@ We can then proceed to the ```--extract``` step by typing:
 sh ../BASE.sh --extract --input _non-ubiquitous_OGs_0VS1
 ```
 
-In a first scenario, we want to extract the values of the two branches without allowing any missing data in the relative clades. To do so we
-can just specify ```--min_spp x```.  Let's type:
+In a first scenario, we want to extract the values of the two branches without allowing any missing data in the relative clades,
+as exemplified in this image:
+
+[Image description](https://github.com/for-giobbe/BASE/blob/master/figures/BASE_fig.003.jpg)
+
+To do so we can just specify ```--min_spp x```.  Let's type:
 
 ```
 sh ../BASE.sh --extract --input _non-ubiquitous_OGs_0VS1 --labels branch.lst --min_spp x
@@ -74,8 +69,12 @@ branch_of_interest  OG3682  2      0.1405     0.276  0.0378  0.2693
 branch_of_interest  OG3683  0      no_branch
 ```
 
-In a second scenario, we want instead to obtain the information of the branch leading to our group(s) of interest even when some of its species are missing.
-As said before we can specify either an absolute number or a proportion with the ```--min_spp```. For example let's extract the metrics
+In a second scenario, we want instead to obtain the information of the branch leading to our group(s) of interest even when some of its species are missing,
+as exemplified in this image:
+
+![Image description](https://github.com/for-giobbe/BASE/blob/master/figures/BASE_fig.004.jpg)
+
+We can either specify an absolute number or a proportion with the ```--min_spp```. For example let's extract the metrics
 for a branch using a treshold of 0.8 - which means that at leas 80% of the species of its associated species are necessary for it to be considered:
 
 ```
