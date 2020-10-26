@@ -1,4 +1,5 @@
-**BASE** - pronunced  /'baze/ - is a workflow built to ease analyses on selection regimes in a genomic context. Most notably, it allows to integrate ortholog groups (OGs) of non-ubiquitous genes - *i.e.* OGs which do not 
+**BASE** - pronunced  /'baze/ - is a workflow built to ease analyses on selection regimes in the comparative genomic context. 
+Most notably, it allows to integrate ortholog groups (OGs) of non-ubiquitous genes - *i.e.* OGs which do not 
 contain the full set of species considered; the vast majority of genomic analyses on selection restricts analyses on ubiquitous genes OGs - *i.e.* OGs 
 which contain all the species considered.
 
@@ -12,9 +13,11 @@ In onother scenario the user could allow for a treshold of missing species also 
 
 ![Image description](https://github.com/for-giobbe/BASE/blob/master/figures/BASE_fig.004.jpg)
 
-By doing so, the number of genes which can be analyzed for selection regimes can be substantially increased! BASE presents many other features
+By doing so, the number of genes which can be analyzed for selection regimes can be substantially increased! 
+
+BASE presents many other features
 which ease selection analyses in the comparative genomics context, such as the automatic extraction of metrics relative to a branch/clade on the basis
-of its species. It also seamlessly implements the possibility to carry out replicate analysis, providing more confidence towards such investigations
+of the relative species. It also seamlessly implements the possibility to carry out replicate analysis, providing more confidence
 when large phylogenies of very divergent species are used. The workflow allows to process OGs in batches, so that large numbers of them can be analyzed
 at the same time.
 
@@ -26,7 +29,7 @@ BASE has been desinged to function in two indipendent steps:
 
 More information on each mode can be accessed by typing ```--analize```, ```--extract``` followed by ```-h```.
 
-BASE workflow leverages several other pieces of software, most notably [codeml](http://abacus.gene.ucl.ac.uk/software/pamlDOC.pdf). Here is a schematic of BASE workflow:
+BASE workflow leverages several other pieces of software, most notably [codeml](http://abacus.gene.ucl.ac.uk/software/pamlDOC.pdf). Here is the workfloe schematic:
 
 ![Image description](https://github.com/for-giobbe/BASE/blob/master/figures/BASE_fig.002.jpg)
 
