@@ -158,7 +158,7 @@ The warning printed to the standard output is the same generated in the analyze 
 The two separate ```--extract``` commands could have been carried out also in a single step, by specifying since the beginning the labels file. 
 If one wants to extract additional branches - either modifying prehexisting label file of using a novel one - this step will be faster,
 as the workflow will recognize the ```.annotation``` files and skip that step.
-We can take a lookk at the output by```column -t _ubiquitous_OGs_0VS1/branch.branch_of_interest.min.spp.2.dNdS.summary```; as you can see
+By typing ```column -t _ubiquitous_OGs_0VS1/branch.branch_of_interest.min.spp.2.dNdS.summary``` we can take a lookk at the output; as you can see
 each line of the label file generates a summary output, named with the identifyer and the treshold of missing species 
 (min.spp meaning minimum of species). This is an ouput for a internal branch:
 
