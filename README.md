@@ -1,18 +1,28 @@
-**BASE** - pronunced  /'baze/ - is a workflow built to allow analyses on selection regimes to integrate ortholog groups (OGs) of non-ubiquitous genes - *i.e.* OGs which do not 
-contain the full set of species considered. The vast majority of genomic analyses on selection restricts analyses on ubiquitous genes OGs - *i.e.* OGs 
+**BASE** - pronunced  /'baze/ - is a workflow built to ease analyses on selection regimes in a genomic context. Most notably, it allows to integrate ortholog groups (OGs) of non-ubiquitous genes - *i.e.* OGs which do not 
+contain the full set of species considered; the vast majority of genomic analyses on selection restricts analyses on ubiquitous genes OGs - *i.e.* OGs 
 which contain all the species considered.
 
 ![Image description](https://github.com/for-giobbe/BASE/blob/master/figures/BASE_fig.001.jpg)
 
+For example, in one possible scenario the user can allow the abesnce of some species only when they are outside to the group of interest:
+
 ![Image description](https://github.com/for-giobbe/BASE/blob/master/figures/BASE_fig.003.jpg)
+
+In onother scenario the user could allow for a treshold of missing species also in the group of interst:
 
 ![Image description](https://github.com/for-giobbe/BASE/blob/master/figures/BASE_fig.004.jpg)
 
-It has been desinged to function in two indipendent steps:
+By doing so, the number of genes which can be analyzed for selection regimes can be substantially increased! BASE presents many other features
+which ease selection analyses in the comparative genomics context, such as the automatic extraction of metrics relative to a branch/clade on the basis
+of its species. It also seamlessly implements the possibility to carry out replicate analysis, providing more confidence towards such investigations
+when large phylogenies of very divergent species are used. The workflow allows to process OGs in batches, so that large numbers of them can be analyzed
+at the same time.
 
-1.   **analyze**		compare which two nested models for each OG.
+BASE has been desinged to function in two indipendent steps:
 
-2.   **extract**		retrive metrics of equivalent branches and/or clades, allowing a treshold for missing species.
+1.   **analyze**		compare a general and alternative (nested) models for each OG.
+
+2.   **extract**		retrive metrics of branches and/or clades, allowing a treshold for missing species.
 
 More information on each mode can be accessed by typing ```--analize```, ```--extract``` followed by ```-h```.
 
