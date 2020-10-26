@@ -1,6 +1,6 @@
-## Installation and download of the toy dataset:
+## Install BASE and download the toy dataset
 
-BASE is based on GNU utilities and thus will function just on linux machines. This workflow leverages the following pieces of software:
+BASE is based on GNU utilities and thus will function just on linux machines. Moreover, it leverages the following pieces of software:
 
 * RAxML 8.1.21
 * PAML 4.3 (codeml)
