@@ -4,14 +4,20 @@
 
 This tutorial is rather similar to the previous one, with a big exception: 
 we are going to implement in our analyses **OGs of non-ubiquitous genes** - _i.e._ OGs the gene is missing for some of the species considered.
-As before, what's need to carry out this analysis is a folder of ```.fa``` aligned OGs, a ```.nwk``` species tree and two codeml ```.ctl``` files.
+As before, what's need to carry out this analysis is:
+
+* a folder of ```.fa``` aligned OGs
+* a ```.nwk``` species tree
+* two codeml ```.ctl``` files.
+
+Let's think for a second to two possible scenarios:
 
 
-In one possible scenario the user can allow the absence of some species only when they are not part of the group of interest:
+The user want to allow the absence of some species only when they are not part of the group of interest:
 
 ![Image description](https://github.com/for-giobbe/BASE/blob/master/figures/BASE_fig.003.jpg)
 
-In onother scenario the user could allow missing species also in the group of interest:
+The ueser wants to allow missing species across the whole phylogent, including the group of interest:
 
 ![Image description](https://github.com/for-giobbe/BASE/blob/master/figures/BASE_fig.004.jpg)
 
@@ -21,8 +27,9 @@ Consider that too small OGs (<3 OTUs) won't be processed by BASE, so you can exc
 
 ---
 
-Leveraging non ubiquitous genes OGs is the defeault behavior in the ```--analyze``` step ; we can also include ```--verbose``` so that BASE will produce a verbose output
-and won't erase its temporary folder and files. Here's the line:
+Note that, leveraging non ubiquitous genes OGs - along ubiquitous ones - is the defeault behavior in the ```--analyze``` step, if one wants 
+to restrict the analyses to just ubiquitous OGs, the ```--ubiquitous``` flag needs to be used; we can also include ```--verbose``` so that BASE will produce a verbose output
+and won't erase its temporary folder and files. Let's use the line:
 
 ```
 	sh ../BASE.sh --analyze --input _non-ubiquitous_OGs/ --output _non-ubiquitous_OGs_0VS1 
@@ -31,21 +38,21 @@ and won't erase its temporary folder and files. Here's the line:
 
 The files generated are exactly the same as an analysis which included only ubiquitous genes OGs.
 Due to the ```--verbose``` flag we also get a ```.tmp.full.out folder``` which contains all the intermediate and temporary file of the analyses. 
-We can then proceed straight to the ```--extract``` step by typing:
+We can then proceed to the ```--extract``` step by typing:
 
 ```
 sh ../BASE.sh --extract --input _non-ubiquitous_OGs_0VS1
 ```
 
-In a first scenario, we want to extract the values of a branch without allowing any missing data in the relative clade. To do so we
+In a first scenario, we want to extract the values of the two branches without allowing any missing data in the relative clades. To do so we
 can just specify ```--min_spp x```.  Let's type:
 
 ```
 sh ../BASE.sh --extract --input _non-ubiquitous_OGs_0VS1 --labels branch.lst --min_spp x
 ```
 
-We can see that the outpur clearly states where the criteria was not met for certain OGs, as we can observe from the ```no_branch``` labels
-in ```_non-ubiquitous_OGs_0VS1/branch.branch_of_interest.min.spp.2.dNdS.summary```
+We can see that the outpur clearly states the OGs where the criteria was not met, as we can observe from the ```no_branch``` labels
+in the ```_non-ubiquitous_OGs_0VS1/branch.branch_of_interest.min.spp.2.dNdS.summary``` file:
 
 ```
 branch/clade        OG      spp_n  dNdS       t      dN      dS
