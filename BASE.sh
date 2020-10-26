@@ -787,6 +787,8 @@ echo -e "  formatting output \n"
 #echo $original_path
 #echo "$original_path/$output_folder"
 
+if [[ -f selected_clusters.txt ]]; then
+
 for f in $(cat selected_clusters.txt); do
 
 	rep_b_best=$(sort -g $f"_alternative.tmp" 2> /dev/null | head -1 | awk '{print $2}')
@@ -795,17 +797,23 @@ for f in $(cat selected_clusters.txt); do
 
 done
 
+fi
+
 ######################################################################################## moves codeml .out which did pass the LRT 
 
 for i in $(cat tmp.lst | sed 's/.fa//'); do if grep $i selected_clusters.txt &> /dev/null; then : ; else echo $i >> unselected_clusters.txt; fi; done
 
-for f in $(cat unselected_clusters.txt &> /dev/null); do
+if [[ -f unselected_clusters.txt ]]; then
+
+for f in $(cat unselected_clusters.txt); do
 
         rep_a_best=$(sort -g $f"_general.tmp" 2> /dev/null | head -1 | awk '{print $2}')
 
         cp $f/$f'_replicate_'$rep_a_best/$f'_model_general'/$f'_replicate_'$rep_a_best'_model_general.out'  $initial_path/$output_folder &> /dev/null;
 
 done
+
+fi
 
 ######################################################################################## moves codeml .out which did not pass the LRT
 
