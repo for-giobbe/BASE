@@ -157,8 +157,7 @@ The two separate ```--extract``` commands could have been carried out in a singl
 If one wants to extract additional branches this step will be faster,
 as the workflow will recognize the ```.annotation``` files and skip that step.
 By typing ```column -t _ubiquitous_OGs_0VS1/ branch.branch_of_interest.min.spp.2.dNdS.summary``` we can take a look at the output; as you can see
-each line of the label file generates a summary output, named with the identifyer and the treshold of missing species 
-(min.spp meaning minimum of species). This is an ouput for a internal branch:
+each line of the label file generates a summary output - named with the identifyer and the treshold of missing species. This is an ouput for an internal branch:
 
 ```
 branch/clade        OG      spp_n  dNdS    t      dN      dS
