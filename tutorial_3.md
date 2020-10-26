@@ -20,7 +20,7 @@ to restrict the analyses to just ubiquitous OGs, the ```--ubiquitous``` flag nee
 	--tree spp_tree.nwk --model_g m0.ctl --model_a m1.ctl --cores 4 --verbose
 ```
 
-The files generated are exactly the same as an analysis which includes only ubiquitous genes OGs.
+The files generated are the same as an analysis which includes only ubiquitous genes OGs.
 Due to the ```--verbose``` flag we also get a ```.tmp.full.out folder``` which contains all intermediate and temporary file of the analyses. 
 We can then proceed to the ```--extract``` step by typing:
 
