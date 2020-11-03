@@ -1,5 +1,5 @@
 **BASE** - pronunced  /'baze/ - is a workflow built to ease analyses on selection regimes for comparative genomics. 
-While the majority of these analyses are restricted to ortholog groups of ubiquitous genes - *i.e.* genes which are preseNt in all the species considered - 
+While the majority of these analyses are restricted to ortholog groups of ubiquitous genes - *i.e.* genes which are present in all the species considered - 
 BASE  allows to integrate ortholog groups of non-ubiquitous genes - *i.e.* genes which are not present in all the species considered. 
 This approach allows to increase substantially the number of genes for which selection regimes can be inferred.
 
@@ -8,7 +8,7 @@ This approach allows to increase substantially the number of genes for which sel
 Nonetheless, BASE presents many other features which ease selection analyses, such as the automatic extraction of metrics relative to a branch/clade on the basis
 of its species or the possibility to carry out replicate analysis. Moreover, it allows to process OGs in batches - making analyses substantially faster.
 
-BASE has been desinged to function in two indipendent steps:
+BASE has been designed to function in two indipendent steps:
 
 1.   **analyze**		compare a general and alternative (nested) models for each OG.
 
