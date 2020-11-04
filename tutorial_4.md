@@ -15,7 +15,7 @@ Lets' find which of the two models fits best each OG:
 
 ```
     sh ../BASE.sh --analyze --input _ubiquitous_OGs/ --output _ubiquitous_OGs_clades --ubiquitous
-    --tree spp_tree.nwk --model_g m2.ctl --model_a m2.ctl --cores 4 --label tag_same.lst --label_2 tag_diff.lst 
+    --tree spp_tree.nwk --model_g m2.ctl --model_a m2.ctl --cores 4 --labels tag_same.lst --labels_2 tag_diff.lst 
 ```
 
 Here is the summary for the LRTs:

@@ -1,6 +1,6 @@
 ## Install BASE and download the toy dataset
 
-BASE is based on GNU utilities and thus will function just on linux machines. Moreover, it leverages the following pieces of software:
+BASE is based on GNU utilities and thus will function just on linux distributions, such as CentOS 8. Moreover, it leverages the following pieces of software:
 
 * RAxML 8.1.21
 * PAML 4.3 (codeml)
@@ -27,7 +27,7 @@ while in the second case each OG lacks a certain number of species.
 
 These kind of data can readily be obtained using tools as [OrthoFinder2](https://github.com/davidemms/OrthoFinder), subsequently retrotranslating and aligning each OG.
 
-BASE is built around codeml, so that a general knowledge of its usage is necessary to use it (here is the [manual](http://abacus.gene.ucl.ac.uk/software/pamlDOC.pdf)).
+BASE leverages CodeML the statistical and computational framework of CodeML, thus a general knowledge of its usage is necessary to use it (here is the [manual](http://abacus.gene.ucl.ac.uk/software/pamlDOC.pdf)).
 
 ---
 

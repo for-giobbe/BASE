@@ -156,7 +156,7 @@ The warning reported is the same generated in the analyze step, so we shouldn't 
 The two separate ```--extract``` commands could have been carried out in a single step, by specifying since the beginning the labels file. 
 If one wants to extract additional branches this step will be faster,
 as the workflow will recognize the ```.annotation``` files and skip that step.
-By typing ```column -t _ubiquitous_OGs_0VS1/ branch.branch_of_interest.min.spp.2.dNdS.summary``` we can take a look at the output; as you can see
+By typing ```column -t _ubiquitous_OGs_0VS1/branch.branch_of_interest.min.spp.2.dNdS.summary``` we can take a look at the output; as you can see
 each line of the label file generates a summary output - named with the identifyer and the treshold of missing species. This is an ouput for an internal branch:
 
 ```
@@ -183,7 +183,7 @@ branch_of_interest  OG3682  2      0.1398  0.277  0.0378  0.2705
 branch_of_interest  OG3683  2      0.1825  0.407  0.0679  0.3720
 ```
 
-Typing ```column -t _ubiquitous_OGs_0VS1/branch.single_species.dNdS.summary ``` 
+Typing ```column -t _ubiquitous_OGs_0VS1/branch.single_species.dNdS.summary``` 
 you can see how an output for a terminal branch looks like:
 
 ```
