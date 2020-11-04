@@ -1202,7 +1202,7 @@ fi
 
 if [[ $min_otu == x ]]; then min_otu=$tag_number; fi
 
-        float=$(echo $min_otu | awk -F "." '{print $1}');
+  float=$(echo $min_otu | awk -F "." '{print $1}');
                         
   if [[ $float == 0 ]]; then perc=$( echo $min_otu | sed "s/0.//"); min=$(( tag_number * perc / 10 ));
 
@@ -1236,7 +1236,7 @@ if [[ $min_otu == x ]]; then min_otu=$tag_number; fi
 
                 beginning=$(echo $tag | awk '{$NF=""; print $0}' | sed 's/ /" -e "/g');
 
-		corrected_beginning=${beginning:0:${#begininnig}-4};
+		corrected_beginning=${beginning:0:${#beginning}-4};
 
                 grep_argument=$(echo "-e \"$corrected_beginning")
 
