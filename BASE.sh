@@ -229,22 +229,13 @@ if [[ -z "$rep" ]];
 then rep=1;
 fi;
 
-#elif [ "$z" == 1 ]; then
-#if [ -z "$input_folder" ] || [ -z "$output_folder" ]
-#then echo -e " \n WARNING! non-optional argument/s is missing \n "
-#exit
-#fi
-
 if [[ -d "$output_folder" ]] || [[ -d $output_folder".tmp.full.out" ]] && [[ -z "$e" ]] ; then echo -e "\n  WARNING! an output folder with the same name you specified is allready present \n"; exit; fi
-
 if [[ -d "$output_folder" ]] && [[ ! -z "$e" ]] ; then rm -r $output_folder; fi
 if [[ -d $output_folder".tmp.full.out" ]] && [[ ! -z "$e" ]] ; then rm -r $output_folder".tmp.full.out"; fi
 
-#elif [ "$j" == 1 ]; 
-#then if [ -z "$labels" ]; then echo "WARNING! label file is missing"; exit; fi
+folder_name=$(echo $output_folder | awk -F "/" '{print $NF}'); if [[ -z $folder_name ]]; then echo -e "\n  WARNING! a folder name needs to be specified \n"; exit; fi
+
 fi;
-
-
 
 ################################################################################################################################################################################ ANALYZE!
 
@@ -256,10 +247,6 @@ if [[ -z "$rep" ]] ;then rep=1 ;fi
 
 #########################################################################################  inputs specification
 
-#if [[ -d $output_folder ]] ; then echo -e " \n WARNING! an output folder with the same name you specified is allready present. \n "; exit; fi
-
-#if [[ -d $output_folder".tmp.full.out" ]] ; then echo -e " \n WARNING! a temporary folder with the same name you specified is allready present. \n "; exit ; fi
-
 if [[ $(ls -l $input_folder/*.fa | wc -l) -eq 0 ]]; then echo -e " \n WARNING! no alignment file(s) (one liner fasta-formatted alignment files, with .fa extension) is present in the input folder. \n "; exit; fi
 
 if echo $species_tree | grep -v nwk || grep NEXUS $species_tree; then echo -e " \n WARNING! the species tree needs to be in newick format and to have the .nwk extension. \n "; exit; fi
@@ -269,8 +256,6 @@ for i in $input_folder/*.fa; do a=$(cat $i | head -2); if ( echo $a | grep -v ">
 if grep -q ":[0-9]" $species_tree; then echo -e " \n WARNING! it seems your species tree contains branch length values, you should remove them before the analysis. \n "; exit; fi
 
 max_cores=$(( $(ls -l $input_folder/*.fa | wc -l) * $rep ))
-
-#echo $max_cores
 
 if [[ $n_threads -gt $(( $(ls -l $input_folder/*.fa | wc -l) * $rep )) ]]; then echo -e " \n  WARNING! too many cores have been specified. They were automatically set to $max_cores."; n_threads=$max_cores; fi
 
@@ -304,9 +289,21 @@ sed 's/,/\n/g' species_tree | sed 's/(//g' |  sed 's/)//g' | sed 's/;//g' >> sp.
 
 for i in *.fa; do grep ">" $i | tr -d ">"; done | sort -u > aln_sp.lst
 
-sp_mismatch_more_aln=$(cat aln_sp.lst | grep -Fvf sp.lst); if [[ -n $sp_mismatch_more_aln ]];  then echo -e " \n  WARNING! some species which are included in the alignments are not present in the species tree. \n "; exit; fi
+sp_mismatch_more_aln=$(cat aln_sp.lst | grep -wFvf sp.lst); if [[ -n $sp_mismatch_more_aln ]];  then echo -e " \n  WARNING! some species which are included in the alignments are not present in the species tree. \n "; exit; fi
 
-sp_mismatch_more_tre=$(cat sp.lst | grep -Fvf aln_sp.lst); if [[ -n $sp_mismatch_more_tre ]];  then echo -e " \n  WARNING! some species which are included in the alignments are not present in the species tree. \n "; exit; fi
+sp_mismatch_more_tre=$(cat sp.lst | grep -wFvf aln_sp.lst); if [[ -n $sp_mismatch_more_tre ]];  then echo -e " \n  WARNING! some species which are included in the alignments are not present in the species tree. \n "; exit; fi
+
+if [[ ! -z $outgroups ]]; then sp_mismatch_outgroups=$(cat ../$outgroups | grep -wFvf sp.lst);
+if [[ -n $sp_mismatch_outgroups ]]; then echo -e " \n  WARNING! some species specified in the outgroups file do not match with those in the tree and OGs. \n"; exit; fi; fi
+if [[ ! -z $outgroups ]] &&  grep -q '^$' ../$outgroups; then echo -e " \n  WARNING! remove empty lines in the outgroups file. \n"; exit; fi;
+
+if [[ ! -z $labels ]]; then sp_mismatch_labels=$(cat ../$labels | grep -wFvf sp.lst);
+if [[ -n $sp_mismatch_labels ]]; then echo -e " \n  WARNING! some species specified in the labels file do not match with those in the tree and OGs. \n"; exit; fi; fi
+if [[ ! -z $labels ]] &&  grep -q '^$' ../$labels; then echo -e " \n  WARNING! remove empty lines in the labels file. \n"; exit; fi;
+
+if [[ ! -z $labels2 ]]; then sp_mismatch_labels2=$(cat ../$labels2 | grep -wFvf sp.lst);
+if [[ -n $sp_mismatch_labels2 ]]; then echo -e " \n  WARNING! some species specified in the second labels file do not match with those in the tree and OGs. \n"; exit; fi; fi
+if [[ ! -z $labels2 ]] &&  grep -q '^$' ../$labels2; then echo -e " \n  WARNING! remove empty lines in the second labels file. \n"; exit; fi;
 
         export g_m=$(grep model ../$codeml_template_1 | awk {'print $3'})
 
@@ -323,8 +320,6 @@ if [ "$a_m" != 2 ] && [ ! -z "$labels" ]; then printf "\n %s \n " " WARNING! you
 echo -e "\n  analyizing $rep replicate(s) of $tot_genes genes: branch models $g_m VS $a_m & site models $ns_g VS $ns_a \n";
 
 ######################################################################################### analysis specification
-
-# if [ -z "$labels" ] && [ "$a_m" != 2 ]
 
 ls *.fa > tmp.lst
 
@@ -416,12 +411,10 @@ echo "DNA, rd=3-$n\3" >> $f.prt;
 
 	        Rscript prune.R &> /dev/null;
 
-#raxmlHPC-PTHREADS -T $raxml_threads -m GTRGAMMA -s ../$j -f e -t species_tree_cor -q $f.prt -n $f".tre"  &> $j'_RAxML.log';
 raxmlHPC-PTHREADS -T $raxml_threads -m GTRGAMMA -s ../$j -f e -g species_tree_cor -q $f.prt -n $f".tre" -p 420 &> $j'_RAxML.log'
 
 else
 
-#raxmlHPC-PTHREADS -T $raxml_threads -m GTRGAMMA -s ../$j -f e -t ../species_tree -q $f.prt -n $f".tre"  &> $j'_RAxML.log'; 
 raxmlHPC-PTHREADS -T $raxml_threads -m GTRGAMMA -s ../$j -f e -g ../species_tree -q $f.prt -n $f".tre" -p 420 &> $j'_RAxML.log'
 
 fi
@@ -471,14 +464,6 @@ printf '} \n' >> label.R
 printf '  write.tree(tr, file = filename) \n' >> label.R
 printf '  return(tr) \n' >> label.R
 printf '} \n' >> label.R
-
-#printf 'label_nodes <- function(tr, tips, labels, filename = "tree.tre"){ \n' >> label.R
-#printf '    tr$node.label <- rep("", max(tr$edge)-Ntip(tr)) \n' >> label.R
-#printf '    for(i in 1:length(labels)) tr$node.label[mrca.phylo(tr, node = strsplit(tips[i], " ")[[1]], full = FALSE) - Ntip(tr)] <- labels[i] \n' >> label.R
-#printf '    write.tree(tr, file = filename) \n' >> label.R
-#printf '    return(tr) \n' >> label.R
-#printf '} \n' >> label.R
-
 printf 'label_nodes(tr, tips, labels, filename = "tree.tre") \n' >> label.R
 
 for W in {1..9}; do
@@ -686,7 +671,7 @@ echo -e "\n  performing LRT \n"
 
   then : ;
 
-                          echo -e " the codeml analyisis relative to the replicate $r of the gene $name crashed" >> warnings_summary.txt;
+   echo -e " the codeml analyisis relative to the replicate $r of the gene $name crashed" >> warnings_summary.txt;
 
    mv $name/$name"_replicate_"$r $name/$name"_replicate_"$r"_codeml_failure"
 
@@ -1249,27 +1234,13 @@ if [[ $min_otu == x ]]; then min_otu=$tag_number; fi
 
                 for codeml_file in *out; do
 
-#   if [[ $float != 0 ]]; then 
-
-#    if [[ $min_otu -gt $tag_number ]]; 
-
-#     then echo -e " a minimum number of OTUs ($min_otu) greater than the whole clade has been specified for $tag_name and thus it has been excluded " >> warnings_summary.txt;
-
-#     continue; 
-
-#    fi;
-
-#   fi;
-
 name=$(echo $codeml_file | awk -F "_replicate_" '{print $1}');
 
         model=$(echo $codeml_file | awk -F "_model_" '{print $2}' | sed 's/\.out//');
 
-let prog=prog+1
+	let prog=prog+1
 
-#   echo -e "extracting $codeml_file tag $tag_name"
-
-  sed -n -e '/tips defined by each branch/,/conversion table between codeml and original tips/ p' $codeml_file".annotation" | sort -n | tail -n +8 > $codeml_file"_annotation_deep_branches.tmp"
+  	sed -n -e '/tips defined by each branch/,/conversion table between codeml and original tips/ p' $codeml_file".annotation" | sort -n | tail -n +8 > $codeml_file"_annotation_deep_branches.tmp"
 
                   while read line; do
 
@@ -1285,7 +1256,7 @@ export branch_hits=$(echo $content | eval grep -o $grep_argument)
 
 #  echo $branch $content $branch_element_number $branch_hits $branch_hits_number $tag_number $min
 
-#  echo  $branch_element_number $tag_number $branch_hits_number $min
+#  echo $branch_element_number $tag_number $branch_hits_number $min
 
                                 if [[ "$branch_element_number" -le "$tag_number" ]] && [[ "$branch_hits_number" -ge "$min" ]];
 
@@ -1350,10 +1321,6 @@ fi;
 done < $labels
 
 echo " "
-
-#elif [[ $(ls -l $input_folder/*out | wc -l) == $(ls -l $input_folder/*annotation | wc -l) ]] || [[ ! -f $labels ]] ; then echo -e "WARNING! labels missing"; 
-
-#fi
 
 for i in *.summary.tmp; do cat $i | awk 'NR<2{print $0;next}{print $0 | " sort -k 2 " }' > $(echo $i | sed s'/.tmp//'); done 2>/dev/null
 
