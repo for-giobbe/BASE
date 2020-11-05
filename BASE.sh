@@ -481,7 +481,7 @@ printf '} \n' >> label.R
 
 printf 'label_nodes(tr, tips, labels, filename = "tree.tre") \n' >> label.R
 
-for W in {1..10}; do
+for W in {1..9}; do
 
 	for lab in $labels $labels2; do
 
@@ -500,6 +500,7 @@ for W in {1..10}; do
 
 		Rscript label.R &> /dev/null;
 
+
 		mv tree.tre "RAxML_result."$f"."$lab".tre"
 
 	done
@@ -510,13 +511,17 @@ for W in {1..10}; do
 	#echo RAxML_result."$f"."$labels".tre RAxML_result."$f"."$labels2".tre
 
 	if grep -q "\\$" tree_end_1 || grep -q "#" tree_end_1 || grep -q "\\$" tree_end_2 &> /dev/null || grep -q "#" tree_end_2 &> /dev/null;
-		
+
 		then
 
-			if [ ! -z "$outgroups" ]; 
-			then root=$(shuf -n 1 ../../$outgroups); if grep $root $j"missing_otus.lst" &> /dev/null ; then continue; fi;
-			else
-        		root=$(shuf -n 1 ../sp.lst); if grep $root $j"missing_otus.lst" &> /dev/null ; then continue; fi;
+			if [ ! -z "$outgroups" ] && [ -f $j"missing_otus.lst" ]; then
+			root=$(shuf -n 1 ../../$outgroups); if grep $root $j"missing_otus.lst" &> /dev/null; then continue; fi;
+			elif [ ! -z "$outgroups" ] && [ ! -f $j"missing_otus.lst" ]; then
+			root=$(shuf -n 1 ../../$outgroups)
+			elif [  -z "$outgroups" ] && [ -f $j"missing_otus.lst" ]; then
+        		root=$(shuf -n 1 ../sp.lst); if grep $root $j"missing_otus.lst" &> /dev/null; then continue; fi;
+			elif [  -z "$outgroups" ] && [  ! -f $j"missing_otus.lst" ]; then
+                        root=$(shuf -n 1 ../sp.lst);
 			fi;
 
 		printf 'library(ape) \n' >> root.R
@@ -552,7 +557,7 @@ for W in {1..10}; do
 
         if [ ! -f RAxML_result."$f"."$labels2".tre ]; then
         if grep -q "\\$" tree_end_1 || grep -q "#" tree_end_1;
-        then echo -e "  impossible to use tag $bad_tag in gene $j because of topology. Try to lanuch it again the analysis for the OGs which failed specifing outgroups with -k. \n" >> ../warnings_summary.$
+        then echo -e "  impossible to use tag $bad_tag in gene $j because of topology. Try to lanuch it again the analysis for the OGs which failed specifing outgroups with -k. \n" >> ../warnings_summary.txt
         fi;
         fi;
 
@@ -1012,7 +1017,7 @@ while read line; do
 
 branch_components=$(echo $line | awk -F " - - - - - " '{print $2}');
 
-branch_name=$(echo $line | awk -F " - - - - - " '{print $1}'); echo $branch_components | tr " " "\n" | sort > $i"_branch_"$branch_name".tmp";
+branch_name=$(echo $line | awk -F " - - - - - " '{print $1}'); echo $branch_components | tr " " "\n" | sort > $i"_branch_"$branch_name".tmp"; &> /dev/null
 
 comm -3 $i"_sp_lst.tmp" $i"_branch_"$branch_name".tmp" 2>/dev/null > $i"_branch_"$branch_name"_opposite.tmp"; 
 
