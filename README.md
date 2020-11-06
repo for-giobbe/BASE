@@ -23,4 +23,6 @@ You can find informations on installation and usage following the relative [tuto
 
 A comprehensive list of commands is present [here](https://github.com/for-giobbe/BASE/blob/master/command_list.md).
 
+A preprint for BASE is available [here](https://doi.org/10.1101/2020.11.04.367789).
+
 For troubleshooting or any explanation on BASE functioning and usage write to forni.giobbe@gmail.com.
