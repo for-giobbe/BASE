@@ -472,6 +472,9 @@ for W in {1..9}; do
 
 		awk '{print $NF}' ../../$lab > a_tag.txt
 		awk '{$NF=""; print $0}' ../../$lab > a_species.txt
+		
+		sed -i 's/ *$//' a_tag.txt
+		sed -i 's/ *$//' a_species.txt
 
 		if [[ -z "$missing_data" ]] && [[ -a $j"missing_otus.lst" ]];
 		
@@ -550,6 +553,11 @@ for W in {1..9}; do
 else : ;
 
 fi ;
+
+sed -i 's/_\#/\#/g' "RAxML_result."$f"."$labels".tre"
+sed -i 's/_\#/\#/g' "RAxML_result."$f"."$labels2".tre"
+sed -i 's/_\$/\$/g' "RAxML_result."$f"."$labels".tre"                           
+sed -i 's/_\$/\$/g' "RAxML_result."$f"."$labels2".tre"
 
 ##############################################################################################################################################
 
@@ -1105,6 +1113,8 @@ echo -e "  extracting $ttot branches from $ltot codeml output \n"
 
   then
 
+echo singola specie $tag_number
+
   if  [ "$verbose" = 1 ]; then
 
    echo -e "species \t OG \t model \t dNdS \t t \t dN \t dS \t branch" > "branch."$tag_name".dNdS.summary.tmp";
@@ -1125,7 +1135,7 @@ echo -e "  extracting $ttot branches from $ltot codeml output \n"
 
    name=$(echo $codeml_file | awk -F "_replicate_" '{print $1}');
 
-                                model=$(echo $codeml_file | awk -F "_model_" '{print $2}' | sed 's/\.out//');
+                   model=$(echo $codeml_file | awk -F "_model_" '{print $2}' | sed 's/\.out//');
 
                   sed -n -e '/tips defined by each branch/,/conversion table between codeml and original tips/ p' $codeml_file".annotation" | sort -n | tail -n +8 > $codeml_file"_annotation_deep_branches.tmp"
 
@@ -1143,9 +1153,9 @@ echo -e "  extracting $ttot branches from $ltot codeml output \n"
 
      export t=$(grep -w "$(echo $comp_branch | sed 's/\./\\./g')" $codeml_file | tail -1 | awk '{print $2}');
 
-                          export enne=$(grep -w "$(echo $comp_branch | sed 's/\./\\./g')" $codeml_file | tail -1 | awk '{print $6}');
+     export enne=$(grep -w "$(echo $comp_branch | sed 's/\./\\./g')" $codeml_file | tail -1 | awk '{print $6}');
 
-                           export esse=$(grep -w "$(echo $comp_branch | sed 's/\./\\./g')" $codeml_file | tail -1 | awk '{print $7}');
+     export esse=$(grep -w "$(echo $comp_branch | sed 's/\./\\./g')" $codeml_file | tail -1 | awk '{print $7}');
 
     fi
 
@@ -1159,11 +1169,11 @@ echo -e "  extracting $ttot branches from $ltot codeml output \n"
 
    else
 
-                                 echo -e "$tag_name \t $name \t $dNdS \t $t \t $enne \t $esse" >> "branch."$tag_name".dNdS.summary.tmp";
+                          echo -e "$tag_name \t $name \t $dNdS \t $t \t $enne \t $esse" >> "branch."$tag_name".dNdS.summary.tmp";
 
    fi;
 
-#                               echo -e "$tag_name \t $codeml_file \t $dNdS \t $comp_branch \t $tag_hit"
+#                         echo -e "$tag_name \t $codeml_file \t $dNdS \t $comp_branch \t $tag_hit"
 
    unset dNdS comp_branch t enne esse
 
