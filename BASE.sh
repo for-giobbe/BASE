@@ -554,10 +554,10 @@ else : ;
 
 fi ;
 
-sed -i 's/_\#/\#/g' "RAxML_result."$f"."$labels".tre"
-sed -i 's/_\#/\#/g' "RAxML_result."$f"."$labels2".tre"
-sed -i 's/_\$/\$/g' "RAxML_result."$f"."$labels".tre"                           
-sed -i 's/_\$/\$/g' "RAxML_result."$f"."$labels2".tre"
+if [[ ! -z $labels ]]; then sed -i 's/_\#/\#/g' "RAxML_result."$f"."$labels".tre"; fi
+if [[ ! -z $labels2 ]]; then sed -i 's/_\#/\#/g' "RAxML_result."$f"."$labels2".tre"; fi
+if [[ ! -z $labels ]]; then sed -i 's/_\$/\$/g' "RAxML_result."$f"."$labels".tre"; fi
+if [[ ! -z $labels2 ]]; then sed -i 's/_\$/\$/g' "RAxML_result."$f"."$labels2".tre"; fi
 
 ##############################################################################################################################################
 
@@ -1006,11 +1006,14 @@ sed -i 's/_/\.\./' $i".deep.branches.tmp"
 
 cat $i | grep -A 4 "tree length =" | tail -1 | sed 's/,/\n/g' | sed 's/(//g' | tr -d " " | awk -F ":" '{print $1}'| sort > $i"_sp_lst.tmp";
 
+sed -i "/^\t - - - - - */d" $i".deep.branches.corrected.tmp"
+sed -i "/^- - - - - */d" $i".deep.branches.corrected.tmp"
+
 while read line; do 
 
 branch_components=$(echo $line | awk -F " - - - - - " '{print $2}');
 
-branch_name=$(echo $line | awk -F " - - - - - " '{print $1}'); echo $branch_components | tr " " "\n" | sort > $i"_branch_"$branch_name".tmp"; &> /dev/null
+branch_name=$(echo $line | awk -F " - - - - - " '{print $1}'); echo $branch_components | tr " " "\n" | sort > $i"_branch_"$branch_name".tmp" &> /dev/null; &> /dev/null
 
 comm -3 $i"_sp_lst.tmp" $i"_branch_"$branch_name".tmp" 2>/dev/null > $i"_branch_"$branch_name"_opposite.tmp"; 
 
@@ -1113,8 +1116,6 @@ echo -e "  extracting $ttot branches from $ltot codeml output \n"
 
   then
 
-echo singola specie $tag_number
-
   if  [ "$verbose" = 1 ]; then
 
    echo -e "species \t OG \t model \t dNdS \t t \t dN \t dS \t branch" > "branch."$tag_name".dNdS.summary.tmp";
@@ -1177,7 +1178,7 @@ echo singola specie $tag_number
 
    unset dNdS comp_branch t enne esse
 
-  perc=$(( ((prog) * 100)/ ltot ))
+   perc=$(( ((prog) * 100)/ ltot ))
 
            printf "\r  extract ${tag_name:0:8}..\t "$perc"%%"
                  done
