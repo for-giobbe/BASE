@@ -9,6 +9,7 @@ BASE is based on GNU utilities and thus will function just on linux distribution
 * EMBOSS 6.6.0 (transeq)
 * ape 5.4
 * phangorn 2.4.0
+* ete 3.1.2
 
 Each software can be either placed in the PATH or installed with conda;
 a [```.yml```](https://github.com/for-giobbe/BASE/blob/master/BASE_env.yml) is available to configure a conda environiment with all the dependencies required by BASE. 
