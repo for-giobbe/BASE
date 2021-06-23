@@ -1,4 +1,4 @@
-** replicate analyses & species-tree VS species-tree **
+**replicate analyses & species-tree VS species-tree**
 
 ---
 

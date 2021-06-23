@@ -10,4 +10,6 @@ It's subdivided into four different parts:
 
 * [implement non-ubiquitous genes OGs in the analysis](https://github.com/for-giobbe/BASE/blob/master/tutorial_3.md)
 
-* [additional models & analyses replicates](https://github.com/for-giobbe/BASE/blob/master/tutorial_4.md)
+* [additional models](https://github.com/for-giobbe/BASE/blob/master/tutorial_4.md)
+
+* [replicate analyses & species-tree VS species-tree](https://github.com/for-giobbe/BASE/blob/master/tutorial_5.md)
