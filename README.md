@@ -5,7 +5,7 @@ BASE allows to integrate ortholog groups of non-ubiquitous genes - *i.e.* genes 
 ![Image description](https://github.com/for-giobbe/BASE/blob/master/figures/BASE_fig.001.jpg)
 
 Nonetheless, BASE presents many other features which ease selection analyses, such as the automatic retrival of metrics relative to a branch/clade on the basis
-of its species. Moreover, it allows to process OGs in batches - substantially cutting down processing times.
+of its species.
 
 BASE has been designed to function in two indipendent steps:
 

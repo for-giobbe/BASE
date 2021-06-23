@@ -4,7 +4,8 @@
 | `short` | `long` | `description` | `optional` |        
 |---|---|---|---|
 |-i|--input|path to the input folder containing OGs (aligned oneliner fasta-formatted files with the .fas extension; headers must match with the spp. in the tree)|n|
-|-t|--tree|tree including all species (without branchlenth and in newick format, with the .nwk extension - species must match whith the fasta header in the OGs)|n|
+|-st|--s_tree|tree including all species (without branchlenth and in newick format, with the .nwk extension - species must match whith the fasta header in the OGs)|n|
+|-gt|--g_tree|the gene tree will be inferred and used for the analyses - using the gene tree can cause some clades to be no more present in the phylogeny|n|
 |-mg|--model_g|codeml .ctl file of the general model, configured for the analysis (i.e. with the fields seqfile, oufile and treefile left empty)|n|
 |-ma|--model_a|codeml .ctl file of the alternative model, configured for the analysis (i.e. with the fields seqfile, oufile and treefile left empty)|n|
 |-c|--cores|maximum number of cores to be used by the analysis|n|

@@ -1,6 +1,7 @@
 seqfile =
 outfile =
 treefile =
+omega =
 noisy = 0
 verbose = 0
 runmode = 0
