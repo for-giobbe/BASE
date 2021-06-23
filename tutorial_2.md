@@ -4,7 +4,7 @@
 
 In this tutorial we will compare two nested models through a Likelihood Ratio Test (LRT from now on):
 the general model allows a single omega value across all the branch of our phylogeny while the alternative model allows a specific clade to have a different omega value, for each OG; subsequently 
-we will extract omega - along with other metrics - for two specific branches. This analysis will focus only on [OGs of ubiquitus genes](https://github.com/for-giobbe/BASE/tree/master/example/_ubiquitous_OGs),
+we will extract omega - along with other metrics - for our clade of interest. This analysis will focus only on [OGs of ubiquitus genes](https://github.com/for-giobbe/BASE/tree/master/example/_ubiquitous_OGs),
 in which a single-copy gene is present for each species.
 After moving to the [toy-dataset folder](https://github.com/for-giobbe/BASE/tree/master/example) we can quickly revise what's needed to start our analysis:
 
@@ -21,6 +21,8 @@ As stated before, in this analysis we will compare two branch models:
 a [model](https://github.com/for-giobbe/BASE/blob/master/example/m0.ctl) where there is one omega shared by all branches and (branch model 0) and
 a [model](https://github.com/for-giobbe/BASE/blob/master/example/m2.ctl) where some branches have their own omega (branch model 2). 
 We can specify this two models to the workflow using the ```--model_g``` and ```--model_a``` flags, in which "g" and "a" stend respectively for general and alternative.
+The clade where we want to allow a separate omega compared to the rest of the tree can be specified using a file like this tag_clade.lst, 
+where all the species in the clade are listed on a single line, followed by the appropriate tag.
 When using your own data, remember to properly set the genetic code in the ```.ctl``` files.
 
 ---
@@ -28,7 +30,7 @@ When using your own data, remember to properly set the genetic code in the ```.c
 We can start the analysis using 4 cores - using the ```--cores``` flag - and restricting the analysis to ubiquitous OGs - using ```--ubiquitous```:
 
 ```
-	sh ../BASE.sh --analyze --input _ubiquitous_OGs/ --output _ubiquitous_OGs_clades --s_tree spp_tree.nwk 
+	sh ../BASE.sh --analyze --input _ubiquitous_OGs/ --output _ubiquitous_OGs_clade --s_tree spp_tree.nwk 
 	--model_g m0.ctl --model_a m2.ctl --cores 4 --labels tag_clade.lst --ubiquitous
 ```
 
@@ -121,7 +123,7 @@ and here goes the standard output:
 As the secon-last line tells us, perfroming this step without specifying any branch/clade will just annotate codeml outputs;
 to retrive the metrics relative to our branch/clade of interest we need to specify them using a file like [this](https://github.com/for-giobbe/BASE/blob/master/example/branch.lst) 
 which contains on each line all the species associated to our branch/clade of interested - separated by single spaces - followed by a custom identifier.
-Here ```branch_of_interest``` and ```species_of_interest``` are used but they can be changed to any name. Let's take a look to our labels file:
+Here ```clade_of_interest``` is used but it can be changed to any name. Let's take a look to our labels file:
 
 ```
 lart lubb tcan tusa clade_of_interest
