@@ -52,8 +52,8 @@ Note that when using the ```--g_tree``` flag no species-tree needs to be specifi
 The subsequent ```extract``` step to retrieve specific branch(es) or clade(s) metrics can be still carried out:
 terminal branches will be allways present despite possible differences between gene-tree and the species-tree
 but internal branches / clades may not be present ( _i.e._ be paraphyletic or polyphyletic) in the gene tree.
-BASE will check wether the clade/branch of interest can be still identified in the gene tree topology and
-- only if present - report the associated metrics. For example we can run: 
+BASE will check wether the clade/branch of interest can be still identified in the gene tree topology and - 
+only if present - report the associated metrics. For example we can run: 
 
 ```
 

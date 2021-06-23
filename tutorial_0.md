@@ -1,6 +1,6 @@
-# Tutorial
+# Tutorials
 
-This tutorial has been designed to illustrate possible uses of [BASE](https://github.com/for-giobbe/BASE) which reflect real-life scenarios.
+These tutorials has been designed to illustrate possible uses of [BASE](https://github.com/for-giobbe/BASE) which reflect real-life scenarios.
 
 It's subdivided into four different parts:
 

@@ -1,4 +1,4 @@
-**Implement non-ubiquitous genes OGs in the analysis**
+**implement non-ubiquitous genes OGs in the analysis**
 
 ---
 

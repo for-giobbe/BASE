@@ -1,4 +1,4 @@
-## Install BASE and download the toy dataset
+## install BASE and download the toy dataset
 
 BASE is based on GNU utilities and thus will function just on linux distributions, such as CentOS 8. Moreover, it leverages the following pieces of software:
 

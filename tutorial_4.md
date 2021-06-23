@@ -1,4 +1,4 @@
-**Additional models & analyses replicates**
+**additional models & analyses replicates**
 
 ---
 

@@ -1,4 +1,4 @@
-**Retrive metrics of specific branches in ubiquitous genes OGs**
+**retrive metrics of specific branches in ubiquitous genes OGs**
 
 ---
 
@@ -12,12 +12,12 @@ After moving to the [toy-dataset folder](https://github.com/for-giobbe/BASE/tree
 * a [folder](https://github.com/for-giobbe/BASE/tree/mast¬er/example/_ubiquitous_OGs) containing aligned OGs, in fasta format and with the ```.fa``` extesion.
 These alignment shouldn't have any STOP codon, yet BASE will report and exclude the OGs wehre they are found. The fasta alignment headers have to be identical to the tips names in the phylogenetic tree.
 
-* a [species tree](https://github.com/for-giobbe/BASE/blob/master/example/sp.tre) - in the newick format ```.nwk```. It has to include all the species considered and
+* a rooted [species tree](https://github.com/for-giobbe/BASE/blob/master/example/sp.tre) - in the newick format ```.nwk```. It has to include all the species considered and
 no branchlengths are needed as they will be optimized for each OG through our analysis. The tips names in the phylogenetic tree have to be identical to the headers of the fasta alignements.
 
 * two codeml ```.ctl``` files, which describe the models we want to leverage in our analysis.
 
-* a file which specifies the branch groups that can have a different omega value ( here only in the alternative model)
+* a file which specifies the branch groups that can have a different omega value - here only for the alternative model.
 
 In the ```.ctl``` files, every parameter can still be modified, but the ```seqfile =```, ```outfile =``` , ```treefile =``` , ```omega =``` fields should be left empty.
 When using your own data, remember to properly set the genetic code in the ```.ctl``` files.
@@ -196,7 +196,26 @@ clade_of_interst  OG3682  4      0.1242  0.342  0.0430  0.3461
 clade_of_interst  OG3683  4      0.0993  0.263  0.0289  0.2915
 ```
 
-This table is rather self explanatory and represent the final output of our analysis.
+This table is rather self explanatory and represent the endpoint of our analysis.
+
+---
+
+While throughout this tutorial a very simple labelling scheme has been used, BASE allows to use all the possibility of codeml, including
+
+* label multiple branches
+
+
+
+* compare a general and alternative model which both have labels
+
+
+
+* use branch (#) and clade ($) labels, also in the same model
+
+
+
+* use nested labels 
+
 
 ---
 
