@@ -200,22 +200,14 @@ This table is rather self explanatory and represent the endpoint of our analysis
 
 ---
 
-While throughout this tutorial a very simple labelling scheme has been used, BASE allows to use all the possibility of codeml, including
+While throughout this tutorial a very simplemodel has been used, BASE allows to use all the possibility of codeml, including
 
-* label multiple branches
-
-
-
+* label multiple branches and use nested labels
 * compare a general and alternative model which both have labels
-
-
-
 * use branch (#) and clade ($) labels, also in the same model
+* use branch, site and branch-site models 
 
-
-
-* use nested labels 
-
+You can find more information on additional models and labelling strategies [here](https://github.com/for-giobbe/BASE/blob/master/tutorial_4.md).
 
 ---
 

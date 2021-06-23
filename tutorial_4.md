@@ -1,4 +1,4 @@
-**additional models & analyses replicates**
+**additional models**
 
 ---
 
@@ -174,14 +174,11 @@ Now we will carry out a branch-site model, which consists of a mixture between b
 Here are the general model [```.ctl```](https://github.com/for-giobbe/BASE/blob/master/example/m_branch_site_gen.ctl)
 and the alternative model [```.ctl```](https://github.com/for-giobbe/BASE/blob/master/example/m_branch_site_alt.ctl), along
 with the [file](https://github.com/for-giobbe/BASE/blob/master/example/tag_branch_site.lst) specifiying the branch to test.
-While doing so we will also carry out 10 replicates of each codeml analysis, which can be specified using the ```-r``` flag.
-This features makes BASE carry out a certain number of replicate analysis and select the one which has the best likelihood values,
-substantially strengthening our confidence in the results.
 
 ```
 	sh ../BASE.sh --analyze --input _ubiquitous_OGs/ --output _ubiquitous_OGs_branch_site 
 	--tree spp_tree.nwk --cores 4 --model_g m_branch_site_gen.ctl --model_a m_branch_site_alt.ctl 
-	--labels tag_branch_site.lst --labels_2 tag_branch_site.lst --replicates 10 --ubiquitous
+	--labels tag_branch_site.lst --labels_2 tag_branch_site.lst --ubiquitous
 ```
 Here is the likelihood summary:
 
@@ -208,8 +205,7 @@ OG3683  2               2             4           -2780.761592  1      2        
 ```
 
 We can select the codeml outputs for which the alternative model was the best-fit and explore the sites which have been found to be under
-positive selection through the BEB test. Notably, all the 10 replicates have the same likelihood values for each OG (replicate 1 is selected 
-when they are all equal). This is quite common in small trees, but replicates can play a key role in datasets which contain a large number of species.  
+positive selection through the BEB test.
 
 ---
 

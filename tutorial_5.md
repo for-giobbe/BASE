@@ -18,16 +18,39 @@ sh ../BASE.sh --analyze --input _ubiquitous_OGs/ --output _ubiquitous_OGs_0VS1_1
 
 ```
 
-If we take a look to the likelihood summary we can appreciate that for some OGs different replicates have generated different likelihood values. 
-The ```rep_g``` and ```rep_a``` columns report which replicate analysis had the "best" likelihood: in the general model the first replicate has been allways selected -
-implying that the likelihood didn't vary among replicate analyses - while in the alternative model different analyses have been chosen for some OGs.
+If we take a look to the ```likelihood_summary.txt``` we can appreciate that for some OGs different replicates have generated different likelihood values. 
 
 ```
 
-sh ../BASE.sh --analyze --input _ubiquitous_OGs/ --output _ubiquitous_OGs_0VS1_10rep 
---s_tree spp_tree.nwk --model_g m0.ctl --model_a m1.ctl --cores 4 -v --replicates 10
+OG      branch_model_g  site_model_g  model_g_np  model_g_LnL    rep_g  branch_model_a  site_model_a  model_a_np  model_a_LnL    rep_a  nRF   LRT      df  p.value  significance
+OG3105  0               0             2           -5241.508221   1      1               0             8           -5234.516739   1      0     13.983   6   0.0298   n/s
+OG3126  0               0             2           -4132.017209   1      1               0             12          -4116.792932   1      0     30.4486  10  7e-04    **
+OG3158  0               0             2           -3818.030135   1      1               0             12          -3801.882145   1      0.25  32.296   10  4e-04    **
+OG3164  0               0             2           -5374.980383   1      1               0             12          -5358.727936   1      0     32.5049  10  3e-04    **
+OG3196  0               0             2           -3365.98055    1      1               0             12          -3355.771198   2      0     20.4187  10  0.0255   n/s
+OG3197  0               0             2           -3680.783168   1      1               0             12          -3671.481745   1      0     18.6028  10  0.0456   n/s
+OG3302  0               0             2           -9054.676043   1      1               0             12          -9028.373456   1      0     52.6052  10  0        ***
+OG3342  0               0             2           -3444.803353   1      1               0             12          -3431.378852   4      0     26.849   10  0.0028   *
+OG3347  0               0             2           -9597.616313   1      1               0             12          -9586.571177   10     0     22.0903  10  0.0147   n/s
+OG3359  0               0             2           -3147.226951   1      1               0             12          -3126.908123   2      0     40.6377  10  0        ***
+OG3362  0               0             2           -5722.861684   1      1               0             12          -5706.727937   2      0     32.2675  10  4e-04    **
+OG3372  0               0             2           -3710.675722   1      1               0             12          -3695.631697   4      0     30.0881  10  8e-04    **
+OG3387  0               0             2           -4067.125785   1      1               0             12          -4057.247711   6      0     19.7561  10  0.0316   n/s
+OG3395  0               0             2           -3901.33739    1      1               0             12          -3841.403883   1      0     119.867  10  0        ***
+OG3399  0               0             2           -3003.011552   1      1               0             12          -2990.356713   4      0     25.3097  10  0.0048   *
+OG3600  0               0             2           -2867.120583   1      1               0             12          -2844.358272   1      0     45.5246  10  0        ***
+OG3622  0               0             2           -3407.557493   1      1               0             12          -3388.589881   1      0     37.9352  10  0        ***
+OG3640  0               0             2           -3342.883393   1      1               0             12          -3317.158542   4      0     51.4497  10  0        ***
+OG3648  0               0             2           -10491.352418  1      1               0             12          -10484.242083  7      0     14.2207  10  0.1632   n/s
+OG3682  0               0             2           -3703.868866   1      1               0             12          -3690.236956   3      0     27.2638  10  0.0024   *
+OG3683  0               0             2           -2791.481942   1      1               0             12          -2774.797107   9      0     33.3697  10  2e-04    **
 
 ```
+
+The ```rep_g``` and ```rep_a``` columns report which replicate analysis had the "best" likelihood: in the general model all replicates have the same likelihood -
+replicate 1 is selected when they are all equal - while in the alternative model different analyses have been chosen for some OGs.
+
+While replicates can be unimportant in "simple" analyses, they can play a key role when there are a lot of parameters (omega classes and / or species).
 
 ---
 
@@ -41,9 +64,10 @@ The user can then decide to exclude analyses whwere there is a strong conflict b
 as this can lead to biased parameter estimation when they are inferred on a fixed species-tree.
 
 In this instance, BASE allows to carry out analyses on the gene-tree topology inferred for each OG - using the ```--g_tree``` flag - such as in:
+
 ```
 
-sh ../BASE.sh --analyze --input _ubiquitous_OGs/ --output _ubiquitous_OGs_0VS1_genetree 
+sh ../BASE.sh --analyze --input _non-ubiquitous_OGs/ --output _ubiquitous_OGs_0VS1_genetree 
 --model_g m0.ctl --model_a m1.ctl --cores 4 -v --g_tree
 
 ```
@@ -57,8 +81,9 @@ only if present - report the associated metrics. For example we can run:
 
 ```
 
-sh ../BASE.sh --annotate --input _ubiquitous_OGs_0VS1_genetree --labels clade_of_interest --min_spp x 
+sh ../BASE.sh --extract --input _ubiquitous_OGs_0VS1_genetree --labels clade_of_interest --min_spp x
 
 ```
 
-
+Then we can check the ```_non-ubiquitous_OGs_0VS1_genetree/``` file: as we can see - for some OGs - the target clade is non monophyletic
+in the gene tree and no metric will be reported.
