@@ -1276,87 +1276,76 @@ echo -e "  extracting $ttot branches from $ltot codeml output \n"
 
  then
 
-  if [[ -z $min_otu ]]; 
+	if [[ -z $min_otu ]]; 
 
-then echo -e " a minimum number of OTUs to extract $tag_name has to be specified " >> warnings_summary.txt;
+		then echo -e " a minimum number of OTUs to extract $tag_name has to be specified " >> warnings_summary.txt;
+		printf "\r  extraction: ${tag_name:0:10}... \t \t \t must specify a minimum number of OTUs"; echo  " ";
+		continue; 
+	fi
 
-printf "\r  extraction: ${tag_name:0:10}... \t \t \t must specify a minimum number of OTUs"; echo  " ";
+	if [[ $min_otu == x ]]; then min_otu=$tag_number; fi
 
-continue; 
-
-fi
-
-if [[ $min_otu == x ]]; then min_otu=$tag_number; fi
-
-  float=$(echo $min_otu | awk -F "." '{print $1}');
+  	float=$(echo $min_otu | awk -F "." '{print $1}');
                         
-  if [[ $float == 0 ]]; then perc=$( echo $min_otu | sed "s/0.//"); min=$(( tag_number * perc / 10 ));
+  	if [[ $float == 0 ]]; 
+		then 
+		perc=$( echo $min_otu | sed "s/0.//"); 
+		min=$(( tag_number * perc / 10 ));
+	else 
+		min=$(echo $min_otu);
 
-  else min=$(echo $min_otu);
+ 	fi;
 
-  fi;
+        if [[ $float != 0 ]]; then
 
-                        if [[ $float != 0 ]]; then
+        	if [[ $min_otu -gt $tag_number ]];
 
-                                if [[ $min_otu -gt $tag_number ]];
+                	then echo -e " a minimum number of OTUs ($min_otu) greater than the whole clade has been specified for $tag_name and thus it has been excluded " >> warnings_summary.txt;
+			printf "\r  extraction: ${tag_name:0:10}... \t \t \t fail - see warning summary for details"; echo  " ";
+			continue;
+		fi;
 
-                                        then echo -e " a minimum number of OTUs ($min_otu) greater than the whole clade has been specified for $tag_name and thus it has been excluded " >> warnings_summary.txt;
+  	fi;
 
-    printf "\r  extraction: ${tag_name:0:10}... \t \t \t fail - see warning summary for details"; echo  " ";
+        if  [ "$verbose" = 1 ]; then
+		echo -e "branch/clade \t OG \t model \t spp_n \t dNdS \t t \t dN \t dS \t branch \t spp" > "branch."$tag_name".min.spp."$min_otu".dNdS.summary.tmp";
+	else
+		echo -e "branch/clade \t OG \t spp_n \t dNdS \t t \t dN \t dS" > "branch."$tag_name".min.spp."$min_otu".dNdS.summary.tmp";
+	fi;
 
-                                        continue;
-
-                                fi;
-
-  fi;
-
-                        if  [ "$verbose" = 1 ]; then
-
-                                echo -e "branch/clade \t OG \t model \t spp_n \t dNdS \t t \t dN \t dS \t branch \t spp" > "branch."$tag_name".min.spp."$min_otu".dNdS.summary.tmp";
-
-                        else
-
-                                echo -e "branch/clade \t OG \t spp_n \t dNdS \t t \t dN \t dS" > "branch."$tag_name".min.spp."$min_otu".dNdS.summary.tmp";
-
-                        fi;
-
-                beginning=$(echo $tag | awk '{$NF=""; print $0}' | sed 's/ /" -e "/g');
-
-		corrected_beginning=${beginning:0:${#beginning}-4};
-
-                grep_argument=$(echo "-e \"$corrected_beginning")
+        beginning=$(echo $tag | awk '{$NF=""; print $0}' | sed 's/ /" -e "/g');
+	corrected_beginning=${beginning:0:${#beginning}-4};
+	grep_argument=$(echo "-e \"$corrected_beginning")
 
 #               echo $tag_name $grep_argument $tag_number
 
                 for codeml_file in *out; do
 
+
+                        name=$(echo $codeml_file | awk -F "_replicate_" '{print $1}');
+                        model=$(echo $codeml_file | awk -F "_model_" '{print $2}' | sed 's/\.out//');
+                        let prog=prog+1
+
 			grep -A 2 "tree with deep nodes and tips annotation (original)" $codeml_file".annotation" | tail -1 > $codeml_file".tree.tmp"
 			echo $tag | awk '{$NF=""; print $0}' > $tag_name".content.tmp"
 			printf " require(ape) \n" >> monophyly.R
-                        printf " sp <- readLines(\"$tag_name.content.tmp\") \n" >> monophyly.R
+			printf " sp <- scan(\"$tag_name.content.tmp\", character(), quote = \" \") \n" >> monophyly.R
                         printf " phy <- read.tree(\"$codeml_file.tree.tmp\") \n" >> monophyly.R
-                        printf " if (is.monophyletic(phy, sp)) { cat(\"ok\",file=\"monophyly_chk.tmp\") } \n" >> monophyly.R
+                        printf " if (is.monophyletic(phy, sp)) { cat(\"ok\",file=\"monophyly_chk.tmp\") } else { cat(\"no\",file=\"monophyly_chk.tmp\") } \n" >> monophyly.R
 
 			Rscript monophyly.R &> /dev/null;
 
 			monophyly_chk=$(cat monophyly_chk.tmp)
 			if [[ $monophyly_chk != ok ]]; then
-				echo $monophyly_chk 
 				echo -e "$tag_name \t $name \t non-monophyletic" >> "branch."$tag_name".min.spp."$min_otu".dNdS.summary.tmp";
 				continue; 
 			fi
 
 			rm monophyly.R monophyly_chk.tmp
 
-	name=$(echo $codeml_file | awk -F "_replicate_" '{print $1}');
+  			sed -n -e '/tips defined by each branch/,/conversion table between codeml and original tips/ p' $codeml_file".annotation" | sort -n | tail -n +8 > $codeml_file"_annotation_deep_branches.tmp"
 
-        model=$(echo $codeml_file | awk -F "_model_" '{print $2}' | sed 's/\.out//');
-
-	let prog=prog+1
-
-  	sed -n -e '/tips defined by each branch/,/conversion table between codeml and original tips/ p' $codeml_file".annotation" | sort -n | tail -n +8 > $codeml_file"_annotation_deep_branches.tmp"
-
-                  while read line; do
+		while read line; do
 
                         export branch=$(echo $line | awk -F " - - - - - " '{print $1}');
 
@@ -1372,13 +1361,13 @@ if [[ $min_otu == x ]]; then min_otu=$tag_number; fi
 
 #  echo $branch_element_number $tag_number $branch_hits_number $min
 
-                                if [[ "$branch_element_number" -le "$tag_number" ]] && [[ "$branch_hits_number" -ge "$min" ]];
+                        if [[ "$branch_element_number" -le "$tag_number" ]] && [[ "$branch_hits_number" -ge "$min" ]];
 
-                               then echo $branch_hits_number $branch $branch_hits >> candidate_branches.tmp;
+                        	then echo $branch_hits_number $branch $branch_hits >> candidate_branches.tmp;
 
-                                fi;
+                        fi;
 
-                 	done < $codeml_file"_annotation_deep_branches.tmp";
+                 done < $codeml_file"_annotation_deep_branches.tmp";
 
                         sort -nr candidate_branches.tmp > candidate_branches_sorted.tmp 2>/dev/null;
 
@@ -1394,35 +1383,29 @@ if [[ $min_otu == x ]]; then min_otu=$tag_number; fi
 
 #                       echo -e "$tag_name \t $codeml_file \t $dNdS \t $elementz";
 
+  			if [ -z "$dNdS" ]; then 
 
+				echo -e "$tag_name \t $name \t too few species" >> "branch."$tag_name".min.spp."$min_otu".dNdS.summary.tmp";
 
-  if [ -z "$dNdS" ]; then dNdS=$(echo "no_branch"); 
+  			else 
 
-  else 
+				export t=$(grep -w "$(echo $comp_branch | sed 's/\./\\./g')" $codeml_file | tail -1 | awk '{print $2}'); 
+				export enne=$(grep -w "$(echo $comp_branch | sed 's/\./\\./g')" $codeml_file | tail -1 | awk '{print $6}');
+				export esse=$(grep -w "$(echo $comp_branch | sed 's/\./\\./g')" $codeml_file | tail -1 | awk '{print $7}');
+			
+   				if  [ "$verbose" = 1 ]; then
+    					echo -e "$tag_name \t $name \t $model \t $comp_branch_hits_number \t $dNdS \t $t \t $enne \t $esse \t $comp_branch \t $comp_branch_hits" >> "branch."$tag_name".min.spp."$min_otu".dNdS.summary.tmp";
+				else
+					echo -e "$tag_name \t $name \t $comp_branch_hits_number \t $dNdS \t $t \t $enne \t $esse" >> "branch."$tag_name".min.spp."$min_otu".dNdS.summary.tmp";
+				fi;
 
-  export t=$(grep -w "$(echo $comp_branch | sed 's/\./\\./g')" $codeml_file | tail -1 | awk '{print $2}'); 
+			fi;
 
-                        export enne=$(grep -w "$(echo $comp_branch | sed 's/\./\\./g')" $codeml_file | tail -1 | awk '{print $6}');
+   			unset dNdS comp_branch elementz t enne esse
 
-                        export esse=$(grep -w "$(echo $comp_branch | sed 's/\./\\./g')" $codeml_file | tail -1 | awk '{print $7}');
+			perc=$(( ((prog) * 100)/ ltot ))
 
-  fi
-
-   if  [ "$verbose" = 1 ]; then
-
-    	echo -e "$tag_name \t $name \t $model \t $comp_branch_hits_number \t $dNdS \t $t \t $enne \t $esse \t $comp_branch \t $comp_branch_hits" >> "branch."$tag_name".min.spp."$min_otu".dNdS.summary.tmp";
-
-   else
-
-	echo -e "$tag_name \t $name \t $comp_branch_hits_number \t $dNdS \t $t \t $enne \t $esse" >> "branch."$tag_name".min.spp."$min_otu".dNdS.summary.tmp";
-
-   fi;
-
-   unset dNdS comp_branch elementz t enne esse
-
-   perc=$(( ((prog) * 100)/ ltot ))
-
-   printf "\r  extract ${tag_name:0:8}..\t "$perc"%%"
+			printf "\r  extract ${tag_name:0:8}..\t "$perc"%%"
 
    done
 
