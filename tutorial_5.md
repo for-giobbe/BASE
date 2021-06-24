@@ -81,9 +81,43 @@ only if present - report the associated metrics. For example we can run:
 
 ```
 
-sh ../BASE.sh --extract --input _ubiquitous_OGs_0VS1_genetree --labels clade_of_interest --min_spp x
+sh ../BASE.sh --extract --input _ubiquitous_OGs_0VS1_genetree --labels smaller_clade --min_spp x
 
 ```
 
-Then we can check the ```_non-ubiquitous_OGs_0VS1_genetree/``` file: as we can see - for some OGs - the target clade is non monophyletic
+Then we can check the ```_non-ubiquitous_OGs_0VS1_genetree/extract.smaller_clade.min.spp.2.dNdS.summary``` file.
+
+```
+
+branch/clade 	 OG 	 spp_n 	 dNdS 	 t 	 dN 	 dS
+smaller_clade 	 OG3105 	 2 	 0.0724 	 0.270 	 0.0219 	 0.3029
+smaller_clade 	 OG3126 	 2 	 0.0243 	 0.107 	 0.0035 	 0.1451
+smaller_clade 	 OG3158 	 non-monophyletic
+smaller_clade 	 OG3164 	 2 	 0.0955 	 0.112 	 0.0134 	 0.1405
+smaller_clade 	 OG3196 	 2 	 0.1364 	 0.722 	 0.0931 	 0.6826
+smaller_clade 	 OG3197 	 2 	 0.1076 	 0.290 	 0.0312 	 0.2902
+smaller_clade 	 OG3302 	 2 	 0.0973 	 0.209 	 0.0233 	 0.2399
+smaller_clade 	 OG3342 	 2 	 0.0298 	 0.222 	 0.0091 	 0.3045
+smaller_clade 	 OG3347 	 2 	 0.0697 	 0.227 	 0.0196 	 0.2806
+smaller_clade 	 OG3359 	 2 	 0.0129 	 0.149 	 0.0025 	 0.1922
+smaller_clade 	 OG3362 	 2 	 0.0899 	 0.189 	 0.0184 	 0.2046
+smaller_clade 	 OG3372 	 2 	 0.0325 	 0.143 	 0.0066 	 0.2019
+smaller_clade 	 OG3387 	 2 	 0.1054 	 0.125 	 0.0127 	 0.1202
+smaller_clade 	 OG3395 	 2 	 0.0054 	 0.109 	 0.0008 	 0.1554
+smaller_clade 	 OG3399 	 2 	 0.0772 	 0.136 	 0.0121 	 0.1573
+smaller_clade 	 OG3600 	 2 	 0.0368 	 0.108 	 0.0052 	 0.1424
+smaller_clade 	 OG3622 	 2 	 0.0440 	 0.207 	 0.0117 	 0.2652
+smaller_clade 	 OG3640 	 2 	 0.0447 	 0.112 	 0.0064 	 0.1429
+smaller_clade 	 OG3648 	 2 	 0.1708 	 0.197 	 0.0304 	 0.1778
+smaller_clade 	 OG3682 	 2 	 0.1103 	 0.135 	 0.0156 	 0.1418
+smaller_clade 	 OG3683 	 2 	 0.0608 	 0.073 	 0.0055 	 0.0899
+
+```
+
+As we can see - for some OGs - the target clade is non monophyletic
 in the gene tree and no metric will be reported.
+
+---
+
+[Back](https://github.com/for-giobbe/BASE/blob/master/tutorial_0.md) to the tutorials list.
+

@@ -37,7 +37,7 @@ sh ../BASE.sh --extract --input _non-ubiquitous_OGs_clade --labels clade_of_inte
 ```
 
 We can see that the outpur clearly states the OGs where the criteria was not met, as we can observe from the ```no_branch``` labels
-in the ```_non-ubiquitous_OGs_clade/branch.clade_of_interst.min.spp.4.dNdS.summary``` file:
+in the ```_non-ubiquitous_OGs_clade/extract.clade_of_interst.min.spp.4.dNdS.summary``` file:
 
 ```
 branch/clade      OG      spp_n  dNdS       t      dN      dS
@@ -74,7 +74,7 @@ sh ../BASE.sh --extract --input _non-ubiquitous_OGs_clade --labels clade_of_inte
 Of course this analysis will consider more OGs than the one considering only ubiquitous ones; due to the ```-v``` flag we can also visualize for each OGs
 the best-fit model, the branch and its associated species:
 
-Let's take a look to the ```_non-ubiquitous_OGs_clade/branch.clade_of_interst.min.spp.0.8.dNdS.summary``` file: 
+Let's take a look to the ```_non-ubiquitous_OGs_clade/extract.clade_of_interst.min.spp.0.8.dNdS.summary``` file: 
 
 ```
 branch/clade      OG      model        spp_n  dNdS       t      dN      dS      branch  spp
@@ -106,7 +106,7 @@ sh ../BASE.sh --extract --input _non-ubiquitous_OGs_clade --labels clade_of_inte
 ```
 
 We can notice that the our criteria have been met in a larger number of cases (all of the OGs actually)
-by checking the ```_non-ubiquitous_OGs_clade/branch.clade_of_interst.min.spp.0.6.dNdS.summary``` file:
+by checking the ```_non-ubiquitous_OGs_clade/extract.clade_of_interst.min.spp.0.6.dNdS.summary``` file:
 
 ```
 branch/clade      OG      model        spp_n  dNdS    t      dN      dS      branch  spp

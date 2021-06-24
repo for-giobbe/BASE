@@ -169,7 +169,7 @@ The warning reported is the same generated in the analyze step, so we shouldn't 
 The two separate ```--extract``` commands could have been carried out in a single step, by specifying since the beginning the labels file. 
 If one wants to extract additional branches this step will be faster,
 as the workflow will recognize the ```.annotation``` files and skip that step.
-By typing ```column -t _ubiquitous_OGs_clades/branch.clade_of_interst.min.spp.4.dNdS.summary``` we can take a look at the output; as you can see
+By typing ```column -t _ubiquitous_OGs_clades/extract.clade_of_interst.min.spp.4.dNdS.summary``` we can take a look at the output; as you can see
 each line of the label file generates a summary output - named with the identifyer and the treshold of missing species. This is the ouput for our clade:
 
 ```

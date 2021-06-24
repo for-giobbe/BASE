@@ -1308,9 +1308,9 @@ echo -e "  extracting $ttot branches from $ltot codeml output \n"
   	fi;
 
         if  [ "$verbose" = 1 ]; then
-		echo -e "branch/clade \t OG \t model \t spp_n \t dNdS \t t \t dN \t dS \t branch \t spp" > "branch."$tag_name".min.spp."$min_otu".dNdS.summary.tmp";
+		echo -e "branch/clade \t OG \t model \t spp_n \t dNdS \t t \t dN \t dS \t branch \t spp" > "extract."$tag_name".min.spp."$min_otu".dNdS.summary.tmp";
 	else
-		echo -e "branch/clade \t OG \t spp_n \t dNdS \t t \t dN \t dS" > "branch."$tag_name".min.spp."$min_otu".dNdS.summary.tmp";
+		echo -e "branch/clade \t OG \t spp_n \t dNdS \t t \t dN \t dS" > "extract."$tag_name".min.spp."$min_otu".dNdS.summary.tmp";
 	fi;
 
         beginning=$(echo $tag | awk '{$NF=""; print $0}' | sed 's/ /" -e "/g');
@@ -1320,7 +1320,6 @@ echo -e "  extracting $ttot branches from $ltot codeml output \n"
 #               echo $tag_name $grep_argument $tag_number
 
                 for codeml_file in *out; do
-
 
                         name=$(echo $codeml_file | awk -F "_replicate_" '{print $1}');
                         model=$(echo $codeml_file | awk -F "_model_" '{print $2}' | sed 's/\.out//');
@@ -1337,11 +1336,11 @@ echo -e "  extracting $ttot branches from $ltot codeml output \n"
 
 			monophyly_chk=$(cat monophyly_chk.tmp)
 			if [[ $monophyly_chk != ok ]]; then
-				echo -e "$tag_name \t $name \t non-monophyletic" >> "branch."$tag_name".min.spp."$min_otu".dNdS.summary.tmp";
+				echo -e "$tag_name \t $name \t non-monophyletic" >> "extract."$tag_name".min.spp."$min_otu".dNdS.summary.tmp";
 				continue; 
 			fi
 
-			rm monophyly.R monophyly_chk.tmp
+#			rm monophyly.R monophyly_chk.tmp
 
   			sed -n -e '/tips defined by each branch/,/conversion table between codeml and original tips/ p' $codeml_file".annotation" | sort -n | tail -n +8 > $codeml_file"_annotation_deep_branches.tmp"
 
@@ -1385,7 +1384,7 @@ echo -e "  extracting $ttot branches from $ltot codeml output \n"
 
   			if [ -z "$dNdS" ]; then 
 
-				echo -e "$tag_name \t $name \t too few species" >> "branch."$tag_name".min.spp."$min_otu".dNdS.summary.tmp";
+				echo -e "$tag_name \t $name \t too few species" >> "extract."$tag_name".min.spp."$min_otu".dNdS.summary.tmp";
 
   			else 
 
@@ -1394,9 +1393,9 @@ echo -e "  extracting $ttot branches from $ltot codeml output \n"
 				export esse=$(grep -w "$(echo $comp_branch | sed 's/\./\\./g')" $codeml_file | tail -1 | awk '{print $7}');
 			
    				if  [ "$verbose" = 1 ]; then
-    					echo -e "$tag_name \t $name \t $model \t $comp_branch_hits_number \t $dNdS \t $t \t $enne \t $esse \t $comp_branch \t $comp_branch_hits" >> "branch."$tag_name".min.spp."$min_otu".dNdS.summary.tmp";
+    					echo -e "$tag_name \t $name \t $model \t $comp_branch_hits_number \t $dNdS \t $t \t $enne \t $esse \t $comp_branch \t $comp_branch_hits" >> "extract."$tag_name".min.spp."$min_otu".dNdS.summary.tmp";
 				else
-					echo -e "$tag_name \t $name \t $comp_branch_hits_number \t $dNdS \t $t \t $enne \t $esse" >> "branch."$tag_name".min.spp."$min_otu".dNdS.summary.tmp";
+					echo -e "$tag_name \t $name \t $comp_branch_hits_number \t $dNdS \t $t \t $enne \t $esse" >> "extract."$tag_name".min.spp."$min_otu".dNdS.summary.tmp";
 				fi;
 
 			fi;
