@@ -3,8 +3,8 @@
 ---
 
 
-In this part of the tutorial we will leverage the clade (#) tagging functionalty. Let's assume that we are willing
-to find the OGs for which two clades of our phylogeny have differential selection regimes. 
+In this part of the tutorial we will implement a labelling scheme in both the general and alternative model. Let's assume that we are willing
+to find the OGs for which two clades of our phylogeny have differential selection regimes.
 For the general and alternative models, we can leverage the same [```.ctl```](https://github.com/for-giobbe/BASE/blob/master/example/m2.ctl) file - which specifies for the branch model 2 
 and assumes different omega classes for the "foreground" and "background" branches - but implement different labeling schemes using the ```--labels``` and ```--labels_2``` flags.
 When using two branch model 2 analyses ```--labels``` is applied to the general model and ```--labels_2``` to the alternative one. When 

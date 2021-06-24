@@ -77,7 +77,8 @@ The subsequent ```extract``` step to retrieve specific branch(es) or clade(s) me
 terminal branches will be allways present despite possible differences between gene-tree and the species-tree
 but internal branches / clades may not be present ( _i.e._ be paraphyletic or polyphyletic) in the gene tree.
 BASE will check wether the clade/branch of interest can be still identified in the gene tree topology and - 
-only if present - report the associated metrics. For example we can run: 
+only if present - report the associated metrics. For example we can run the extract step with this label [file](https://raw.githubusercontent.com/for-giobbe/BASE/master/example/smaller_clade) 
+to extract the metrics of the branch leading to a species pair: 
 
 ```
 
@@ -115,7 +116,7 @@ smaller_clade 	 OG3683 	 2 	 0.0608 	 0.073 	 0.0055 	 0.0899
 ```
 
 As we can see - for some OGs - the target clade is non monophyletic
-in the gene tree and no metric will be reported.
+in the gene tree and as such no metric will be reported in the output.
 
 ---
 
