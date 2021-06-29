@@ -4,24 +4,24 @@
 
 
 In this part of the tutorial we will implement a labelling scheme in both the general and alternative model. Let's assume that we are willing
-to find the OGs for which two clades of our phylogeny have differential selection regimes.
+to find the genes for which two clades of our phylogeny have differential selection regimes.
 For the general and alternative models, we can leverage the same [```.ctl```](https://github.com/for-giobbe/BASE/blob/master/example/m2.ctl) file - which specifies for the branch model 2 
 and assumes different omega classes for the "foreground" and "background" branches - but implement different labeling schemes using the ```--labels``` and ```--labels_2``` flags.
 When using two branch model 2 analyses ```--labels``` is applied to the general model and ```--labels_2``` to the alternative one. When 
-instead just the alternative model is configured with branch	model 2, the ```--labels``` flag is applied only to it.
+instead just the alternative model is configured with branchmodel 2, the ```--labels``` flag is applied only to it.
 The first labels file [```tag_same.lst```](https://github.com/for-giobbe/BASE/blob/master/example/tag_same.lst) assume that our clades of interst share the same omega class,
 wile the second [```tag_diff.lst```](https://github.com/for-giobbe/BASE/blob/master/example/tag_diff.lst) makes them have two different omega classes.
 Lets' find which of the two models fits best each OG:
 
 ```
-    sh ../BASE.sh --analyze --input _ubiquitous_OGs/ --output _ubiquitous_OGs_clades --ubiquitous
+    sh ../BASE.sh --analyze --input _ubiquitous_OGs/ --output _ubiquitous_genes_clades --ubiquitous
     --tree spp_tree.nwk --model_g m2.ctl --model_a m2.ctl --cores 4 --labels tag_same.lst --labels_2 tag_diff.lst 
 ```
 
 Here is the summary for the LRTs:
 
 ```
-OG      branch_model_g  site_model_g  model_g_np  model_g_LnL   rep_g  branch_model_a  site_model_a  model_a_np  model_a_LnL    rep_a  LRT      df  p.value  significance
+gene    branch_model_g  site_model_g  model_g_np  model_g_LnL   rep_g  branch_model_a  site_model_a  model_a_np  model_a_LnL    rep_a  LRT      df  p.value  significance
 OG3126  2               0             3           -4126.374378  1      2               0             4           -4125.951623   1      0.8455   1   0.3578   n/s
 OG3158  2               0             3           -3814.052104  1      2               0             4           -3810.216186   1      7.6718   1   0.0056   **
 OG3164  2               0             3           -5372.238755  1      2               0             4           -5372.238754   1      0        1   0.9989   n/s
@@ -47,13 +47,13 @@ OG3683  2               0             3           -2786.60211   1      2        
 We can then proceed to the ```--extract``` step, using the relative label [file](https://github.com/for-giobbe/BASE/blob/master/example/branch_clades.lst):
 
 ```	
-sh ../BASE.sh --extract --input _ubiquitous_OGs_clades --labels branch_clades.lst --min_spp x --verbose
+sh ../BASE.sh --extract --input _ubiquitous_genes_clades --labels branch_clades.lst --min_spp x --verbose
 ```
 
 This will generate the two output relative to each branch:
 
 ```
-branch/clade  OG      model        spp_n  dNdS    t      dN      dS      branch  spp
+branch/clade  gene    model        spp_n  dNdS    t      dN      dS      branch  spp
 clade_one     OG3126  general      2      0.0349  0.107  0.0049  0.1402  10..11  lart  lubb
 clade_one     OG3158  alternative  2      0.2049  0.018  0.0032  0.0157  10..11  lart  lubb
 clade_one     OG3164  general      2      0.0648  0.112  0.0100  0.1551  10..11  lart  lubb
@@ -77,7 +77,7 @@ clade_one     OG3683  general      2      0.0553  0.073  0.0050  0.0913  10..11 
 ```
 
 ```
-branch/clade  OG      model        spp_n  dNdS       t      dN      dS      branch  spp
+branch/clade  gene    model        spp_n  dNdS       t      dN      dS      branch  spp
 clade_two     OG3126  general      2      0.0349     0.204  0.0093  0.2675  10..12  tcan  tusa
 clade_two     OG3158  alternative  2      0.0356     0.212  0.0099  0.2790  10..12  tcan  tusa
 clade_two     OG3164  general      2      0.0648     0.142  0.0127  0.1968  10..12  tcan  tusa
@@ -100,9 +100,9 @@ clade_two     OG3682  general      2      0.1325     0.101  0.0133  0.1004  10..
 clade_two     OG3683  general      2      0.0553     0.243  0.0168  0.3042  10..12  tcan  tusa
 ```
 
-Omega values are identical across the two branches when the general model was the best fit for that OG,
+Omega values are identical across the two branches when the general model was the best fit for that gene,
 reflecting similar selective regimes across the two clades.
-On the contrary, some OGs have the alternative model as their best-fit, meaning that their genes
+On the contrary, some genes have the alternative model as their best-fit, meaning that they
 have undergone differential selective regimes across the two clades. This outcome can already be observed from the LRT results, 
 but to understand the actual difference between branches, one has to extract and compare the relative metrics.
 
@@ -121,6 +121,7 @@ like this:
 seqfile = 
 outfile = 
 treefile =
+omega =
 noisy = 0
 verbose = 0
 runmode = 0
@@ -136,7 +137,7 @@ fix_blength = 2
 Let's use the line:
 
 ```
-	sh ../BASE.sh --analyze --input _ubiquitous_OGs/ --output _ubiquitous_OGs_NSsites 
+	sh ../BASE.sh --analyze --input _ubiquitous_genes/ --output _ubiquitous_genes_NSsites 
 	--tree spp_tree.nwk --cores 4 --model_g m0.ctl --model_a m0_NS3.ctl
 ```
 
@@ -144,7 +145,7 @@ The likelihood summary which has been generated in the output folder shows that 
 thus that a certain variability of dN/dS among the different sites of our alignments can be observed:
 
 ```
-OG      branch_model_g  site_model_g  model_g_np  model_g_LnL    rep_g  branch_model_a  site_model_a  model_a_np  model_a_LnL    rep_a  LRT       df  p.value  significance
+gene    branch_model_g  site_model_g  model_g_np  model_g_LnL    rep_g  branch_model_a  site_model_a  model_a_np  model_a_LnL    rep_a  LRT       df  p.value  significance
 OG3105  0               0             2           -5241.508221   1      0               3             8           -5194.531414   1      93.9536   6   0        ***
 OG3126  0               0             2           -4132.017209   1      0               3             8           -4086.882015   1      90.2704   6   0        ***
 OG3158  0               0             2           -3818.030135   1      0               3             8           -3772.584619   1      90.891    6   0        ***
@@ -176,14 +177,14 @@ and the alternative model [```.ctl```](https://github.com/for-giobbe/BASE/blob/m
 with the [file](https://github.com/for-giobbe/BASE/blob/master/example/tag_branch_site.lst) specifiying the branch to test.
 
 ```
-	sh ../BASE.sh --analyze --input _ubiquitous_OGs/ --output _ubiquitous_OGs_branch_site 
+	sh ../BASE.sh --analyze --input _ubiquitous_genes/ --output _ubiquitous_genes_branch_site 
 	--tree spp_tree.nwk --cores 4 --model_g m_branch_site_gen.ctl --model_a m_branch_site_alt.ctl 
 	--labels tag_branch_site.lst --labels_2 tag_branch_site.lst --ubiquitous
 ```
 Here is the likelihood summary:
 
 ```
-OG      branch_model_g  site_model_g  model_g_np  model_g_LnL   rep_g  branch_model_a  site_model_a  model_a_np  model_a_LnL   rep_a  LRT     df  p.value  significance
+gene    branch_model_g  site_model_g  model_g_np  model_g_LnL   rep_g  branch_model_a  site_model_a  model_a_np  model_a_LnL   rep_a  LRT     df  p.value  significance
 OG3126  2               2             4           -4108.905187  1      2               2             5           -4107.471035  1      2.8683  1   0.0903   n/s
 OG3158  2               2             4           -3795.537032  1      2               2             5           -3795.537032  1      0       1   1        n/s
 OG3164  2               2             4           -5326.864502  1      2               2             5           -5326.864503  1      0       1   1        n/s
