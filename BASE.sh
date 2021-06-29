@@ -101,27 +101,24 @@ e) e=1
 h)  if [ "$x" == 1 ]
 
 then echo "
-The analyze step of the workflow carries out branchlength optimization, fits two models and subsequently compares them thourgh a LRT.
-A likelihood summary table will be produced, which will show for each OG wether the general or the alternative model fits best to the data; 
-moreover the best-fit model output file will be returned. It's possible to label branch(es) / clade(s) and branch-site, branch and site models are supported.
+The analyze step of the workflow carries out branchlength optimization on the species-tree or gene-tree inference,then fits two models and compares them thourgh a LRT.
+A likelihood summary table will be produced, which will show for each gene wether the general or the alternative model fits best to the data; 
+moreover the best-fit model output file will be returned. It's possible to label multiple branches and/or clades and branch-site, branch and site models are supported.
 
-List of non-optional arguments:
+List of arguments:
 
--i	--input		path to the input folder containing OGs (aligned oneliner fasta-formatted files with the .fas extension; headers must match with the spp. in the tree).
--st	--s_tree	tree including all species (without branchlenth and  in newick format, with the .nwk extension - species must match whith the fasta header in the OGs).
+-i	--input		path to the input folder containing coding sequence alignments in fasta format and with the .fa extension - headers must match with the spp. in the tree.
+-st	--s_tree	tree including all species, in newick format and with the .nwk extension - tips must match whith the fasta headers in the sequence alignments.
 -gt	--g_tree	the gene tree will be used for the analyses - please note: using the gene tree can cause some clades to be no more present in the phylogeny.
--mg	--model_g	codeml .ctl file of the generaly model, configured for the analysis (i.e. with the fields seqfile, oufile and treefile left empty).
--ma	--model_a	codeml .ctl file of the alternative model, configured for the analysis (i.e. with the fields seqfile, oufile and treefile left empty).
+-mg	--model_g	codeml .ctl file of the generaly model, configured for the analysis (i.e. with the fields seqfile, oufile, treefile and omega left empty).
+-ma	--model_a	codeml .ctl file of the alternative model, configured for the analysis (i.e. with the fields seqfile, oufile, treefile and omega left empty).
 -c	--cores		maximum number of cores to be used by the analysis.
 -o	--output	output folder.
-
-List of optional argument:
-
--l	--labels	file with the branch(es) / clade(s) labels: the file must contain in each line all the relative species followed by the label (either $ or #).
--l2	--labels_2	a second file with branch(es) labels, used to test two model 2 versus each other.
+-l	--labels	file with the branch / clade labels for model 2 analyses - each line must have all the relative species followed by the label ($ or #).
+-l2	--labels_2	a second file with branch / clade labels, used to test two model 2 analyses VS each other.
 -v	--verbose	verbose mode keeps the temporary folder wich contains all the intermediate files of the analyses.
 -r	--replicates	number of replicates to be performed - if not specified it will be set to 1.
--u	--ubiquitous	analyze only ubiquitous OGs.
+-u	--ubiquitous	analyze only ubiquitous genes.
 -e	--erase      	erase previous output folders with the same name as the specified output.
 -h	--help		this help page.
 "
@@ -133,17 +130,17 @@ elif [ "$j" == 1 ] ;
 then echo "
 This extract step of the workflow:
 
-	a)	annotates the internal nodes of each OG's tree to match the output of codeml and lists all species associated to each branch.
-	b)	extracts the metrics relative to each branch(es) / clade(s) of interest.
+a)	annotates the internal nodes of each tree to match the output of codeml and lists all species associated to each branch.
+b)	extracts the metrics relative to each branch / clade of interest.
 
 List of non-optional arguments:
 
--i	--input		the path to an input folder containing codeml output(s) (.out extension is required). If no label is specified it will just annotate codeml outputs.
+-i	--input		the path to an input folder containing codeml outputs (.out extension is required). If no label is specified it will just annotate codeml outputs.
 
 List of optional argument:
 
--l	--labels	the path to a file containing the branch/clade for which the metrics need to be extracted (each line all the relative species followed by the name).
--m	--min_spp	min. number of spp. associated to a branch/clade - numbers and proportions allowed. If "x" is specified, only complete branch(es) / clade(s) are considerd.
+-l	--labels	the path to a file containing the branches/clades for which the metrics have to be extracted - on each line all the relative species followed by the name.
+-m	--min_spp	min. number of spp. to be present for branches/clades to be considered - numbers and proportions allowed. If "x" is specified, only complete branches / clades are considered.
 -v	--verbose	verbose mode prints also the tree branch (matching codeml output) and the species associated to the branch.
 -h	--help		this help page.
 "
@@ -157,27 +154,23 @@ BASE - pronunced  /'baze/ - is a workflow to test Branch And Site Evolution.
 
 It has been made to: 
 
-	1)	analyze		fits a general and an alternative model to each OGs and compares them thourgh a LRT.
-        2)	extract         retrive metrics of equivalent branches and/or clades, allowing a treshold for missing species.
+1)	analyze		fits a general and an alternative model to each gene and compares them thourgh a LRT.
+2)	extract         retrive metrics of branches and/or clades, allowing a treshold for missing species.
 
 More information on each mode usage and options can be accessed by typing "--analize" or "--extract" followed by "-h".
 
 BASE relies on the following softwares:
 
-	RAxML 		8.1.21
-	PAML 		4.3
-	R 		3.2.2
-	getopt 		2.23.2
-	EMBOSS 		6.6.0
-	ape 		5.4
-	phangorn	2.4.0
+RAxML 		8.1.21
+PAML 		4.3
+R 		3.2.2
+getopt 		2.23.2
+EMBOSS 		6.6.0
+ape 		5.4
+phangorn	2.4.0
+ete		3.1.2
 
-Each software can be either 
-
-	1)	placed in the PATH.
-	2)	installed with conda.
-
-The correct installation and versions of the requirements can be checked using the --requirements option.
+Each software can be either placed in the PATH or installed with conda. The correct installation and versions of the requirements can be checked using the --requirements option.
 
 For troubleshooting or any explanation on its functioning and usage write to forni.giobbe@gmail.com.
 " 
