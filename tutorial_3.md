@@ -7,7 +7,7 @@ we are going to implement **non-ubiquitous genes** - _i.e._ genes which are not 
 As before, what's need to carry out this analysis are a ```.nwk``` rooted species tree and two codeml ```.ctl``` files, along with a folder of ```.fa``` aligned genes.
 [Here](https://github.com/for-giobbe/BASE/tree/master/example/_non-ubiquitous_genes) is the folder of the toy-dastaset which includes non-ubiquitous genes; if 
 you type ``` grep ">" *``` you can see how each gene is found in different species.
-Consider that genes found in <3 OTUs won't be processed by BASE, so you can exclude them before the analysis or make BASE discard them.
+Consider that genes found in less than 3 OTUs won't be processed by BASE, so you can exclude them before the analysis or make BASE discard them.
 
 ---
 
