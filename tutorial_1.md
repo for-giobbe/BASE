@@ -28,7 +28,7 @@ while in the second case each gene is not found in some of the species species.
 
 These kind of data can readily be obtained using tools as [OrthoFinder2](https://github.com/davidemms/OrthoFinder), subsequently retrotranslating and aligning each gene.
 
-BASE leverages CodeML the statistical and computational framework of CodeML, thus a general knowledge of its usage is necessary to use it (here is the [manual](http://abacus.gene.ucl.ac.uk/software/pamlDOC.pdf)).
+BASE relies largely on CodeML and thus a general knowledge of its usage is necessary to use it (here is the [manual](http://abacus.gene.ucl.ac.uk/software/pamlDOC.pdf)).
 
 ---
 
