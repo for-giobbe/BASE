@@ -38,13 +38,14 @@ lart lubb tcan tusa $1
 We can start the analysis using 4 cores - using the ```--cores``` flag - and restricting the analysis to ubiquitous genes - using ```--ubiquitous```:
 
 ```
-	sh ../BASE.sh --analyze --input _ubiquitous_genes/ --output _ubiquitous_genes_clade --s_tree spp_tree.nwk 
-	--model_g m0.ctl --model_a m2.ctl --cores 4 --labels clade.label --ubiquitous
+sh ../BASE.sh --analyze --input _ubiquitous_genes/ --output _ubiquitous_genes_clade --s_tree spp_tree.nwk 
+--model_g m0.ctl --model_a m2.ctl --cores 4 --labels clade.label --ubiquitous
 ```
 
 Some information are printed to the standard output, including potential errors, as can be seen from the second-last line:
 
 ```
+
   analysis started on mer 23 giu 2021, 14.44.11, CEST
 
   analyizing 1 replicate(s) of 21 genes using the species-tree: branch models 0 VS 2 & site models 0 VS 0 
