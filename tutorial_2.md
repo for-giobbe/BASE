@@ -128,7 +128,7 @@ and here goes the standard output:
 
 ```
 
-As the secon-last line tells us, perfroming this step without specifying any branch/clade will just annotate codeml outputs;
+As the second-last line tells us, perfroming this step without specifying any branch/clade will just annotate codeml outputs;
 to retrive the metrics relative to our branch/clade of interest we need to specify them using a file like [this](https://github.com/for-giobbe/BASE/blob/master/example/clade_of_interest).
 The latter is substantially similar to the file used for labelling the clade in the ```analyze``` step:
 it contains on each line all the species associated to our branch/clade of interested - separated by single spaces - followed by a custom name instead of the codeml label.
