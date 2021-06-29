@@ -9,13 +9,13 @@ For the general and alternative models, we can leverage the same [```.ctl```](ht
 and assumes different omega classes for the "foreground" and "background" branches - but implement different labeling schemes using the ```--labels``` and ```--labels_2``` flags.
 When using two branch model 2 analyses ```--labels``` is applied to the general model and ```--labels_2``` to the alternative one. When 
 instead just the alternative model is configured with branchmodel 2, the ```--labels``` flag is applied only to it.
-The first labels file [```tag_same.lst```](https://github.com/for-giobbe/BASE/blob/master/example/tag_same.lst) assume that our clades of interst share the same omega class,
-wile the second [```tag_diff.lst```](https://github.com/for-giobbe/BASE/blob/master/example/tag_diff.lst) makes them have two different omega classes.
+The first labels file [```tag_same.labels```](https://github.com/for-giobbe/BASE/blob/master/example/tag_same.labels) assume that our clades of interst share the same omega class,
+wile the second [```tag_diff.labels```](https://github.com/for-giobbe/BASE/blob/master/example/tag_diff.labels) makes them have two different omega classes.
 Lets' find which of the two models fits best each OG:
 
 ```
-    sh ../BASE.sh --analyze --input _ubiquitous_OGs/ --output _ubiquitous_genes_clades --ubiquitous
-    --tree spp_tree.nwk --model_g m2.ctl --model_a m2.ctl --cores 4 --labels tag_same.lst --labels_2 tag_diff.lst 
+sh ../BASE.sh --analyze --input _ubiquitous_OGs/ --output _ubiquitous_genes_clades --ubiquitous
+--tree spp_tree.nwk --model_g m2.ctl --model_a m2.ctl --cores 4 --labels tag_same.labels --labels_2 tag_diff.labels 
 ```
 
 Here is the summary for the LRTs:
@@ -44,10 +44,10 @@ OG3682  2               0             3           -3703.746639  1      2        
 OG3683  2               0             3           -2786.60211   1      2               0             4           -2785.837636   1      1.5289   1   0.2163   n/s
 ```
 
-We can then proceed to the ```--extract``` step, using the relative label [file](https://github.com/for-giobbe/BASE/blob/master/example/branch_clades.lst):
+We can then proceed to the ```--extract``` step, using the relative [file](https://github.com/for-giobbe/BASE/blob/master/example/clades_of_interest):
 
 ```	
-sh ../BASE.sh --extract --input _ubiquitous_genes_clades --labels branch_clades.lst --min_spp x --verbose
+sh ../BASE.sh --extract --input _ubiquitous_genes_clades --labels clades_of_interest --min_spp x --verbose
 ```
 
 This will generate the two output relative to each branch:
@@ -174,12 +174,12 @@ OG3683  0               0             2           -2791.481942   1      0       
 Now we will carry out a branch-site model, which consists of a mixture between branch-specific and site-specific models.
 Here are the general model [```.ctl```](https://github.com/for-giobbe/BASE/blob/master/example/m_branch_site_gen.ctl)
 and the alternative model [```.ctl```](https://github.com/for-giobbe/BASE/blob/master/example/m_branch_site_alt.ctl), along
-with the [file](https://github.com/for-giobbe/BASE/blob/master/example/tag_branch_site.lst) specifiying the branch to test.
+with the [file](https://github.com/for-giobbe/BASE/blob/master/example/tag_branch_site.label) specifiying the branch to test.
 
 ```
 	sh ../BASE.sh --analyze --input _ubiquitous_genes/ --output _ubiquitous_genes_branch_site 
 	--tree spp_tree.nwk --cores 4 --model_g m_branch_site_gen.ctl --model_a m_branch_site_alt.ctl 
-	--labels tag_branch_site.lst --labels_2 tag_branch_site.lst --ubiquitous
+	--labels tag_branch_site.label --labels_2 tag_branch_site.label --ubiquitous
 ```
 Here is the likelihood summary:
 
