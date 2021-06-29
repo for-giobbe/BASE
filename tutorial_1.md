@@ -21,8 +21,8 @@ The correct installation and versions of the requirements can be checked using t
 During the tutorial we are gonna leverage a toy datasets which can be found [here](https://github.com/for-giobbe/BASE/tree/master/example/):
 
 We are going to use some 
-[ubiquitous](https://github.com/for-giobbe/BASE/tree/master/example/example/_ubiquitous_genes) and 
-[non-ubiquitous](https://github.com/for-giobbe/BASE/tree/master/example/_non-ubiquitous_genes)
+[ubiquitous](https://github.com/for-giobbe/BASE/tree/master/example/example/ubiquitous_genes) and 
+[non-ubiquitous](https://github.com/for-giobbe/BASE/tree/master/example/_ubiquitous_genes)
 single-copy genes: in the first case each gene is present in all the species considered, 
 while in the second case each gene is not found in some of the species species.
 
