@@ -177,9 +177,9 @@ and the alternative model [```.ctl```](https://github.com/for-giobbe/BASE/blob/m
 with the [file](https://github.com/for-giobbe/BASE/blob/master/example/tag_branch_site.label) specifiying the branch to test.
 
 ```
-	sh ../BASE.sh --analyze --input _ubiquitous_genes/ --output _ubiquitous_genes_branch_site 
-	--tree spp_tree.nwk --cores 4 --model_g m_branch_site_gen.ctl --model_a m_branch_site_alt.ctl 
-	--labels tag_branch_site.label --labels_2 tag_branch_site.label --ubiquitous
+sh ../BASE.sh --analyze --input _ubiquitous_genes/ --output _ubiquitous_genes_branch_site 
+--tree spp_tree.nwk --cores 4 --model_g m_branch_site_gen.ctl --model_a m_branch_site_alt.ctl 
+--labels tag_branch_site.label --labels_2 tag_branch_site.label --ubiquitous
 ```
 Here is the likelihood summary:
 

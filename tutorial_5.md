@@ -7,21 +7,18 @@ and it's good practice to run analyses multiple times with varying starting valu
 Through the ```--replicates``` flag, BASE allows to carry out a user-specified number of replicate analyses incorporating random - from 0.0 to 3.2 - omega starting values.
 The replicate analysis which has the best likelihood values will be then selected, substantially strengthening our confidence in the result.
 
-Let's run an analysis using as an alternative mode the parameter-rich model 1, wich allows each branch of the phylogeny to have its own omega.
+Let's run an analysis using as an alternative mode the parameter-rich model1, wich allows each branch of the phylogeny to have its own omega.
 Please note that - despite beeing frequently used - this "free ratio" model is discouraged by PAML authors themselves; nonetheless in this context it
 provides a good example of a parameter-rich model.
 
 ```
-
 sh ../BASE.sh --analyze --input _ubiquitous_genes/ --output _ubiquitous_genes_0VS1_10rep 
 --s_tree spp_tree.nwk --model_g m0.ctl --model_a m1.ctl --cores 4 -v --replicates 10
-
 ```
 
 If we take a look to the ```likelihood_summary.txt``` we can appreciate that for some genes different replicates have generated different likelihood values. 
 
 ```
-
 gene    branch_model_g  site_model_g  model_g_np  model_g_LnL    rep_g  branch_model_a  site_model_a  model_a_np  model_a_LnL    rep_a  nRF   LRT      df  p.value  significance
 OG3105  0               0             2           -5241.508221   1      1               0             8           -5234.516739   1      0     13.983   6   0.0298   n/s
 OG3126  0               0             2           -4132.017209   1      1               0             12          -4116.792932   1      0     30.4486  10  7e-04    **
@@ -44,7 +41,6 @@ OG3640  0               0             2           -3342.883393   1      1       
 OG3648  0               0             2           -10491.352418  1      1               0             12          -10484.242083  7      0     14.2207  10  0.1632   n/s
 OG3682  0               0             2           -3703.868866   1      1               0             12          -3690.236956   3      0     27.2638  10  0.0024   *
 OG3683  0               0             2           -2791.481942   1      1               0             12          -2774.797107   9      0     33.3697  10  2e-04    **
-
 ```
 
 The ```rep_g``` and ```rep_a``` columns report which replicate analysis had the "best" likelihood: in the general model all replicates have the same likelihood -
@@ -66,10 +62,8 @@ as this can lead to biased parameter estimation when they are inferred on a fixe
 In this instance, BASE allows to carry out analyses on the gene-tree topology inferred for each gene - using the ```--g_tree``` flag - such as in:
 
 ```
-
 sh ../BASE.sh --analyze --input _non-ubiquitous_genes/ --output _ubiquitous_genes_0VS1_genetree 
 --model_g m0.ctl --model_a m1.ctl --cores 4 -v --g_tree
-
 ```
 
 Note that when using the ```--g_tree``` flag no species-tree needs to be specified.
@@ -81,15 +75,12 @@ only if present - report the associated metrics. For example we can run the extr
 to extract the metrics of the branch leading to a species pair: 
 
 ```
-
 sh ../BASE.sh --extract --input _ubiquitous_genes_0VS1_genetree --labels smaller_clade --min_spp x
-
 ```
 
 Then we can check the ```_non-ubiquitous_genes_0VS1_genetree/extract.smaller_clade.min.spp.2.dNdS.summary``` file.
 
 ```
-
 branch/clade 	 gene   	 spp_n 	 dNdS 	 t 	 dN 	 dS
 smaller_clade 	 OG3105 	 2 	 0.0724 	 0.270 	 0.0219 	 0.3029
 smaller_clade 	 OG3126 	 2 	 0.0243 	 0.107 	 0.0035 	 0.1451
@@ -112,7 +103,6 @@ smaller_clade 	 OG3640 	 2 	 0.0447 	 0.112 	 0.0064 	 0.1429
 smaller_clade 	 OG3648 	 2 	 0.1708 	 0.197 	 0.0304 	 0.1778
 smaller_clade 	 OG3682 	 2 	 0.1103 	 0.135 	 0.0156 	 0.1418
 smaller_clade 	 OG3683 	 2 	 0.0608 	 0.073 	 0.0055 	 0.0899
-
 ```
 
 As we can see - for some genes - the target clade is non monophyletic
