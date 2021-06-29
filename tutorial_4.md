@@ -106,8 +106,10 @@ On the contrary, some genes have the alternative model as their best-fit, meanin
 have undergone differential selective regimes across the two clades. This outcome can already be observed from the LRT results, 
 but to understand the actual difference between branches, one has to extract and compare the relative metrics.
 
-All this example has been carried out using the clade tagging functionality, but all this can be done using the  branch tagging:
-we just need to substitute the symbol for tagging clades (#) with the one for tagging branches ($) in the ```.ctl``` files.
+This example has been carried out using a rather straightforward labelling scheme, but all the possibiities of CodeML are preserved in BASE.
+Here is a quick overlook on some branches and/or clades labelling schemes in both CodeML and BASE:
+
+![Image description](https://github.com/for-giobbe/BASE/blob/master/figures/BASE_fig.002.jpg)
 
 ---
 
