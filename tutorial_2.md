@@ -9,7 +9,7 @@ we will extract omega - along with other metrics - for a clade of interest. This
 in which a single-copy gene is present for each species.
 After moving to the [toy-dataset folder](https://github.com/for-giobbe/BASE/tree/master/example) we can quickly revise what's needed to start our analysis:
 
-* a [folder](https://github.com/for-giobbe/BASE/tree/mast¬er/example/_ubiquitous_OGs) containing aligned genes, in fasta format and with the ```.fa``` extesion.
+* a [folder](https://github.com/for-giobbe/BASE/tree/master/example/_ubiquitous_OGs) containing aligned genes, in fasta format and with the ```.fa``` extesion.
 These alignment shouldn't have any STOP codon, yet BASE will report and exclude the genes wehre they are found. The fasta alignment headers have to be identical to the tips names in the species-tree,
 if provided.
 
@@ -35,7 +35,7 @@ lart lubb tcan tusa $1
 
 ---
 
-We can start the analysis using 4 cores - using the ```--cores``` flag - and restricting the analysis to ubiquitous OGs - using ```--ubiquitous```:
+We can start the analysis using 4 cores - using the ```--cores``` flag - and restricting the analysis to ubiquitous genes - using ```--ubiquitous```:
 
 ```
 	sh ../BASE.sh --analyze --input _ubiquitous_genes/ --output _ubiquitous_genes_clade --s_tree spp_tree.nwk 
@@ -129,7 +129,7 @@ and here goes the standard output:
 ```
 
 As the secon-last line tells us, perfroming this step without specifying any branch/clade will just annotate codeml outputs;
-to retrive the metrics relative to our branch/clade of interest we need to specify them using a file like [this](https://github.com/for-giobbe/BASE/blob/master/example/branch.lst).
+to retrive the metrics relative to our branch/clade of interest we need to specify them using a file like [this](https://github.com/for-giobbe/BASE/blob/master/example/clade_of_interest).
 The latter is substantially similar to the file used for labelling the clade in the ```analyze``` step:
 it contains on each line all the species associated to our branch/clade of interested - separated by single spaces - followed by a custom name instead of the codeml label.
 Here ```clade_of_interest``` is used but it can be changed to any name. Let's take a look to our labels file:
@@ -170,7 +170,7 @@ The warning reported is the same generated in the analyze step, so we shouldn't 
 The two separate ```--extract``` commands could have been carried out in a single step, by specifying since the beginning the labels file. 
 If one wants to extract additional branches this step will be faster,
 as the workflow will recognize the ```.annotation``` files and skip that step.
-By typing ```column -t _ubiquitous_OGs_clades/extract.clade_of_interst.min.spp.4.dNdS.summary``` we can take a look at the output; as you can see
+By typing ```column -t _ubiquitous_OGs_clades/extract.clade_of_interest.min.spp.4.dNdS.summary``` we can take a look at the output; as you can see
 each line of the label file generates a summary output - named with the identifyer and the treshold of missing species. This is the ouput for our clade:
 
 ```
