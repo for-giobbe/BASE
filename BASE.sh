@@ -796,11 +796,11 @@ done
 
 		then 
 
-             	printf 'likelihood.summary <- read.table(file="./likelihood_summary.txt",sep="\t",header=FALSE,col.names=c("OG","branch_model_g","site_model_g","model_g_np","model_g_LnL","rep_g","branch_model_a","site_model_a","model_a_np","model_a_LnL","rep_a","nRF"),as.is=c(1:2,5)) \n' > LRT.R
+             	printf 'likelihood.summary <- read.table(file="./likelihood_summary.txt",sep="\t",header=FALSE,col.names=c("gene","branch_model_g","site_model_g","model_g_np","model_g_LnL","rep_g","branch_model_a","site_model_a","model_a_np","model_a_LnL","rep_a","nRF"),as.is=c(1:2,5)) \n' > LRT.R
 
 	else
 
-		printf 'likelihood.summary <- read.table(file="./likelihood_summary.txt",sep="\t",header=FALSE,col.names=c("OG","branch_model_g","site_model_g","model_g_np","model_g_LnL","rep_g","branch_model_a","site_model_a","model_a_np","model_a_LnL","rep_a"),as.is=c(1:2,5)) \n' > LRT.R
+		printf 'likelihood.summary <- read.table(file="./likelihood_summary.txt",sep="\t",header=FALSE,col.names=c("gene","branch_model_g","site_model_g","model_g_np","model_g_LnL","rep_g","branch_model_a","site_model_a","model_a_np","model_a_LnL","rep_a"),as.is=c(1:2,5)) \n' > LRT.R
 
 	fi
 
@@ -1203,11 +1203,11 @@ echo -e "  extracting $ttot branches from $ltot codeml output \n"
 
   if  [ "$verbose" = 1 ]; then
 
-   echo -e "species \t OG \t model \t dNdS \t t \t dN \t dS \t branch" > "branch."$tag_name".dNdS.summary.tmp";
+   echo -e "species \t gene \t model \t dNdS \t t \t dN \t dS \t branch" > "branch."$tag_name".dNdS.summary.tmp";
 
   else
 
-   echo -e "species \t OG \t dNdS \t t \t dN \t dS" > "branch."$tag_name".dNdS.summary.tmp";
+   echo -e "species \t gene \t dNdS \t t \t dN \t dS" > "branch."$tag_name".dNdS.summary.tmp";
 
   fi;  
 
@@ -1308,9 +1308,9 @@ echo -e "  extracting $ttot branches from $ltot codeml output \n"
   	fi;
 
         if  [ "$verbose" = 1 ]; then
-		echo -e "branch/clade \t OG \t model \t spp_n \t dNdS \t t \t dN \t dS \t branch \t spp" > "extract."$tag_name".min.spp."$min_otu".dNdS.summary.tmp";
+		echo -e "branch/clade \t gene \t model \t spp_n \t dNdS \t t \t dN \t dS \t branch \t spp" > "extract."$tag_name".min.spp."$min_otu".dNdS.summary.tmp";
 	else
-		echo -e "branch/clade \t OG \t spp_n \t dNdS \t t \t dN \t dS" > "extract."$tag_name".min.spp."$min_otu".dNdS.summary.tmp";
+		echo -e "branch/clade \t gene \t spp_n \t dNdS \t t \t dN \t dS" > "extract."$tag_name".min.spp."$min_otu".dNdS.summary.tmp";
 	fi;
 
         beginning=$(echo $tag | awk '{$NF=""; print $0}' | sed 's/ /" -e "/g');
