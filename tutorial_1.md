@@ -21,12 +21,12 @@ The correct installation and versions of the requirements can be checked using t
 During the tutorial we are gonna leverage a toy datasets which can be found [here](https://github.com/for-giobbe/BASE/tree/master/example/):
 
 We are going to use some 
-[ubiquitous](https://github.com/for-giobbe/BASE/tree/master/example/example/_ubiquitous_OGs) and 
-[non-ubiquitous](https://github.com/for-giobbe/BASE/tree/master/example/_non-ubiquitous_OGs)
-single-copy genes OGs: in the first case each OG is made up by genes present in all the species considered, 
-while in the second case each OG lacks a certain number of species.
+[ubiquitous](https://github.com/for-giobbe/BASE/tree/master/example/example/_ubiquitous_genes) and 
+[non-ubiquitous](https://github.com/for-giobbe/BASE/tree/master/example/_non-ubiquitous_genes)
+single-copy genes: in the first case each gene is present in all the species considered, 
+while in the second case each gene is not found in some of the species species.
 
-These kind of data can readily be obtained using tools as [OrthoFinder2](https://github.com/davidemms/OrthoFinder), subsequently retrotranslating and aligning each OG.
+These kind of data can readily be obtained using tools as [OrthoFinder2](https://github.com/davidemms/OrthoFinder), subsequently retrotranslating and aligning each gene.
 
 BASE leverages CodeML the statistical and computational framework of CodeML, thus a general knowledge of its usage is necessary to use it (here is the [manual](http://abacus.gene.ucl.ac.uk/software/pamlDOC.pdf)).
 
