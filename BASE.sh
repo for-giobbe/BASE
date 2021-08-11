@@ -837,7 +837,7 @@ done
 
         printf '} \n' >> LRT.R
 
-        printf 'if (selected == TRUE) selected.cluster <- c(selected.cluster,likelihood.summary$OG[c]) \n' >> LRT.R
+        printf 'if (selected == TRUE) selected.cluster <- c(selected.cluster,likelihood.summary$gene[c]) \n' >> LRT.R
 
         printf '} \n' >> LRT.R
 
