@@ -845,7 +845,7 @@ done
 
 	printf 'likelihood.summary$df <- degrees.of.freedom \n' >> LRT.R
 
-	printf 'likelihood.summary$p.value <- round(p.value,digits=4) \n' >> LRT.R
+	printf 'likelihood.summary$adj.p.value <- round(adj.p.value,digits=4) \n' >> LRT.R
 
 	printf 'likelihood.summary$significance <- significance \n' >> LRT.R
 
